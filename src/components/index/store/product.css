@@ -1,0 +1,31 @@
+.products {
+    display: flex;
+    flex-wrap: wrap;
+}
+.product-card {
+    padding: 2%;
+    flex-grow: 1;
+    flex-basis: 25%;
+
+    display: flex; 
+}
+.product-image img {
+    max-width: 100%;
+}
+.product-info {
+    margin-top: auto;
+}
+/* @media (max-width: 920px) {
+    .product-card {
+      flex: 1 21%;
+    }
+} */
+/* .products .product-card:first-child, 
+.products .product-card:nth-child(2) {
+  flex: 2 46%;
+} */
+@media (max-width: 600px) {
+    .product-card {
+      flex: 1 46%;
+    }
+  }

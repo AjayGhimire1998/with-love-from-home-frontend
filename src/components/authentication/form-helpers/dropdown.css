@@ -1,0 +1,6 @@
+.multi-select {
+    --input-width: 250px;
+    margin-top: 10px;
+    font-weight: bolder;
+    font-size: smaller;
+  }
