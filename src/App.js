@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import { Counter } from './features/counter/Counter';
 import "./App.css";
 import { Routes, Route, Navigate, Link } from "react-router-dom";
 import StaticPages from "./components/static_pages/StaticPages";
@@ -30,9 +29,13 @@ import Dashboard from "./components/index/store/Dashboard";
 import {
   isCustomerLoggedInChanger,
   setCustomerId,
+  getAllCustomers
 } from "./features/auth/customerSlice";
 
 import Navbar from "./components/nav/Navbar";
+import { getProductsImages } from "./features/static/staticSlice";
+import StoreDetails from "./components/index/customer/home/StoreDetails";
+import ProductView from "./components/index/customer/home/ProductView";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -40,18 +43,21 @@ function App() {
 
   const dispatch = useDispatch();
   const { isLoading } = useSelector((store) => store.loader);
-  const { logo } = useSelector((store) => store.store);
+  const { isHomeLoading } = useSelector((store) => store.home);
 
-  const checkLoader = () => {
+  const checkLoader = (time) => {
     dispatch(activateLoader());
     setTimeout(() => {
       dispatch(deactivateLoader());
-    }, 1000);
+    }, time);
   };
 
   useEffect(() => {
+    dispatch(getProductsImages());
+  }, []);
+
+  useEffect(() => {
     const user = getCurrentUser();
-    console.log(user);
     if (user) {
       setCurrentUser(user);
       dispatch(isCustomerLoggedInChanger());
@@ -61,7 +67,6 @@ function App() {
 
   useEffect(() => {
     const store = getCurrentStore();
-    console.log(store);
     if (store) {
       setCurrentStore(store);
       dispatch(isStoreLoggedInChanger());
@@ -71,48 +76,62 @@ function App() {
 
   useEffect(() => {
     dispatch(getCategories());
-  }, []);
 
-  // console.log(logo)
+  }, []);
+  useEffect(() => {
+    dispatch(getAllCustomers())
+  }, [])
 
   return (
-    <div className="App">
-      <nav>
-        <Navbar />
-        {isLoading ? <Loader /> : null}
-      </nav>
-      <Routes>
-        <Route path="/" element={<StaticPages />} />
-        <Route path="/login" element={<Login checkLoader={checkLoader} />} />
-        <Route
-          path="/store/login"
-          element={<StoreLogin checkLoader={checkLoader} />}
-        />
-        <Route path="/signup" element={<SignUp checkLoader={checkLoader} />} />
-        <Route
-          path="/store/signup"
-          element={<RegisterStore checkLoader={checkLoader} />}
-        />
+    <>
+      <div className="App">
+        {currentUser && currentStore ? null : <Navbar />}
+        {isLoading || isHomeLoading ? <Loader /> : null}
 
-        <Route
-          exact
-          path="/"
-          element={currentUser ? <Home /> : <Login checkLoader={checkLoader} />}
-        />
-
-        <Route
-          exact
-          path="/dashboard"
-          element={
-            currentStore ? (
-              <Dashboard />
-            ) : (
-              <StoreLogin checkLoader={checkLoader} />
-            )
-          }
-        />
-      </Routes>
-    </div>
+        <Routes>
+          <Route path="/with-love-from-home" element={<StaticPages />} />
+          <Route
+            exact
+            path="/"
+            element={
+              currentStore ? (
+                <Dashboard checkLoader={checkLoader} />
+              ) : currentUser ? (
+                <Home checkLoader={checkLoader} />
+              ) : (
+                <Login checkLoader={checkLoader} />
+              )
+              // currentStore && currentUser ? (
+              //   <Login checkLoader={checkLoader} />
+              // ) : (
+              //   <StaticPages checkLoader={checkLoader} />
+              // )
+            }
+          />
+          <Route path="/login" element={<Login checkLoader={checkLoader} />} />
+          <Route
+            path="/store/login"
+            element={<StoreLogin checkLoader={checkLoader} />}
+          />
+          <Route
+            path="/signup"
+            element={<SignUp checkLoader={checkLoader} />}
+          />
+          <Route
+            path="/store/signup"
+            element={<RegisterStore checkLoader={checkLoader} />}
+          />
+          <Route
+            path="/stores/:id"
+            element={currentUser ? <StoreDetails checkLoader={checkLoader} /> : <h2>401 | Please Login to View Page</h2>}
+          />
+          <Route
+            path="/products/:id"
+            element={currentUser ? <ProductView checkLoader={checkLoader} /> :<h2>401 | Please Login to View Page</h2>}
+          />
+        </Routes>
+      </div>
+    </>
   );
 }
 

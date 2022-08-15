@@ -4,16 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { emailChange, passwordChange } from "../../features/auth/customerSlice";
 import { useNavigate } from "react-router";
 import { customerLogin } from "../../app/services/auth-services/auth-service";
+import Navbar from "../nav/Navbar";
 
 function Login({ checkLoader }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { email, password } = useSelector((store) => store.customer);
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    checkLoader();
+    checkLoader(3000);
     customerLogin(email, password);
-    navigate("/home");
+    navigate("/");
   };
   return (
     <>
@@ -29,6 +31,8 @@ function Login({ checkLoader }) {
             textAlign: "center",
           }}
         >
+          <h3>Login as a customer</h3>
+          <br/>
           <form className="ui form" onSubmit={handleSubmit}>
             <div className="field ">
               <label style={{ textAlign: "left" }}>Email</label>
@@ -52,6 +56,7 @@ function Login({ checkLoader }) {
               Login
             </button>
             <br />
+            <br/>
             <br />
           </form>
           <Omniauth />

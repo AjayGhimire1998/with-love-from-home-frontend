@@ -24,7 +24,7 @@ export const customerSignUp = (
       if (data.accessToken) {
         localStorage.clear();
         localStorage.setItem("user", JSON.stringify(data.accessToken));
-        localStorage.setItem("id", data.store.data.id);
+        localStorage.setItem("id", data.user.data.id);
         window.location.reload();
       }
       return data;
@@ -46,8 +46,9 @@ export const customerLogin = (email, password) => {
       console.log(data);
       if (data?.accessToken) {
         localStorage.clear();
+
         localStorage.setItem("user", JSON.stringify(data.accessToken));
-        localStorage.setItem("id", data.store.data.id);
+        localStorage.setItem("id", data.user.data.id);
         window.location.reload();
       }
       return data;
@@ -117,15 +118,15 @@ export const storeLogin = (email, password) => {
     .catch((error) => console.log("error", error));
 };
 
-export const customerLogOut = () => {
+export const logOut = () => {
   localStorage.clear();
   window.location.reload();
 };
 
-export const storeLogOut = () => {
-  localStorage.clear();
-  window.location.reload();
-};
+// export const storeLogOut = () => {
+//   localStorage.clear();
+//   window.location.reload();
+// };
 
 export const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem("user"));

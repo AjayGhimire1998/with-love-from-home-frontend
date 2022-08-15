@@ -1,12 +1,10 @@
 import React from "react";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { logoChanger } from "../../../features/auth/storeSlice";
 import S3FileUpload from "react-s3";
-// import dotenv from  'dotenv'
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
-function StoreLogo() {
+function StoreLogo({ checkLoader }) {
   const dispatch = useDispatch();
 
   const config = {
@@ -29,6 +27,7 @@ function StoreLogo() {
         dispatch(logoChanger(data.location));
       })
       .catch((error) => console.log(error));
+    
   };
 
   return (
@@ -50,6 +49,7 @@ function StoreLogo() {
           onChange={(event) => {
             showLogoPreview(event);
             uploadToS3(event);
+            checkLoader(3000);
           }}
         />
 
@@ -66,7 +66,7 @@ function StoreLogo() {
           <img
             className="image-preview"
             alt="logo"
-            style={{ display: "none", height: "120px", width: "150px" }}
+            style={{ display: "none", height: "140px", width: "160px" }}
           />
         </div>
       </div>

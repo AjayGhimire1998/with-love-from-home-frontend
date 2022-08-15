@@ -10,7 +10,7 @@ import {
 import { customerSignUp } from "../../app/services/auth-services/auth-service";
 import { useNavigate } from "react-router-dom";
 
-function SignUp({checkLoader}) {
+function SignUp({ checkLoader }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { fullName, email, password, passwordConfirmation } = useSelector(
@@ -19,9 +19,9 @@ function SignUp({checkLoader}) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    checkLoader();
+    checkLoader(2000);
     customerSignUp(fullName, email, password, passwordConfirmation);
-    navigate('/home')
+    navigate("/");
   };
   return (
     <>
@@ -55,9 +55,7 @@ function SignUp({checkLoader}) {
                 type="email"
                 name="email"
                 placeholder="Enter Email"
-                onChange={(event) =>
-                  dispatch(emailChange(event.target.value))
-                }
+                onChange={(event) => dispatch(emailChange(event.target.value))}
               />
             </div>
             <div className="field">
@@ -86,9 +84,20 @@ function SignUp({checkLoader}) {
               Sign Up
             </button>
             <br />
-            <br />
           </form>
+          <br/>
+          <br/>
           <Omniauth />
+          <br />
+          <br />
+          <br />
+          <br />
+          <button
+            className="ui blue button"
+            onClick={() => navigate("/store/signup")}
+          >
+            Register Your Store
+          </button>
         </div>
       </div>
     </>

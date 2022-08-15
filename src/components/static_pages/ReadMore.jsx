@@ -7,6 +7,7 @@ function ReadMore() {
       <div className="ui text container">
         <br />
         <br />
+        <hr />
 
         <h1 className="ui header" style={{ textAlign: "center" }}>
           Breaking The Grid, Grabbing Your Attention

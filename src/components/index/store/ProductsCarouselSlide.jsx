@@ -1,10 +1,10 @@
 import { useState } from "react";
-import ReactSimplyCarousel from "react-simply-carousel";
-import { First, Second, Third, Fourth, Fifth, Sixth, Seventh, Eighth, Ninth} from '../static_pages/carousel_images/images'
 
-function ReactSimplyCarouselExample() {
+import ReactSimplyCarousel from "react-simply-carousel";
+import { v4 as uuid } from "uuid";
+
+function ProductsCarouselSlide({ imagesToPreview }) {
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
-  const imageList = [First, Second, Third, Fourth, Fifth, Sixth, Seventh, Eighth, Ninth]
 
   return (
     <div>
@@ -19,11 +19,11 @@ function ReactSimplyCarouselExample() {
             color: "black",
             cursor: "pointer",
             fontSize: "20px",
-            border: 'none',
+            border: "none",
             height: 30,
             lineHeight: 1,
             textAlign: "center",
-            width: 30
+            width: 30,
           },
           children: <span>{`>`}</span>,
         }}
@@ -33,11 +33,11 @@ function ReactSimplyCarouselExample() {
             color: "black",
             cursor: "pointer",
             fontSize: "20px",
-            border: 'none',
+            border: "none",
             height: 30,
             lineHeight: 1,
             textAlign: "center",
-            width: 30
+            width: 30,
           },
           children: <span>{`<`}</span>,
         }}
@@ -51,16 +51,22 @@ function ReactSimplyCarouselExample() {
         speed={400}
         easing="linear"
       >
-        {imageList.map((image) => {
-            return (
-                <div key={`${image}`} style={{ width: 300, height: 300, backgroundImage: `url(${image})`, backgroundSize: 'cover' }}>
-                 </div>
-            )
+        {imagesToPreview.map((image) => {
+          return (
+            <div
+              key={uuid()}
+              style={{
+                width: 300,
+                height: 300,
+                backgroundImage: `url(${image})`,
+                backgroundSize: "cover",
+              }}
+            ></div>
+          );
         })}
-    
       </ReactSimplyCarousel>
     </div>
   );
 }
 
-export default ReactSimplyCarouselExample;
+export default ProductsCarouselSlide;

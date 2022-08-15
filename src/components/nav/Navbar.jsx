@@ -1,23 +1,48 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { storeLogOut } from "../../app/services/auth-services/auth-service";
+import { NavLink, useNavigate } from "react-router-dom";
+import { logOut } from "../../app/services/auth-services/auth-service";
 import { useSelector } from "react-redux";
 function Navbar() {
   const { isStoreLoggedIn } = useSelector((store) => store.store);
+  const { isCustomerLoggedIn } = useSelector((store) => store.customer);
+  // const navigate = useNavigate();
   return (
     <>
       <div className="pusher">
-        <div className="ui inverted vertical masthead center aligned segment">
-          <div className="ui container">
-            {isStoreLoggedIn ? (
+        <div className="ui inverted vertical masthead center aligned segment ">
+          <div className="ui sticky container ">
+            {isStoreLoggedIn || isCustomerLoggedIn ? (
               <div className="ui large secondary inverted pointing menu">
-                <NavLink className=" item ui label massive" to="/dashboard">
-                  WITH LOVE FROM HOME
-                </NavLink>
+                {isStoreLoggedIn ? (
+                  <NavLink className=" item ui label massive" to="/">
+                    WITH LOVE FROM HOME
+                  </NavLink>
+                ) : null}
+                {isCustomerLoggedIn ? (
+                  <NavLink className=" item ui label massive" to="/">
+                    WITH LOVE FROM HOME
+                  </NavLink>
+                ) : null}
                 <div className="right item">
+                  {isCustomerLoggedIn ? (
+                    <button
+                      className="ui inverted button"
+                      // onClick={() => logOut()}
+                    >
+                      View Cart
+                    </button>
+                  ) : null}
+                  {isStoreLoggedIn ? (
+                    <button
+                      className="ui inverted button"
+                      // onClick={() => logOut()}
+                    >
+                      View Orders
+                    </button>
+                  ) : null}
                   <button
                     className="ui inverted button"
-                    onClick={() => storeLogOut()}
+                    onClick={() => logOut()}
                   >
                     Logout
                   </button>
@@ -25,7 +50,7 @@ function Navbar() {
               </div>
             ) : (
               <div className="ui large secondary inverted pointing menu">
-                <NavLink className=" item ui label massive" to="/">
+                <NavLink className=" item ui label massive" to="/with-love-from-home">
                   WITH LOVE FROM HOME
                 </NavLink>
 

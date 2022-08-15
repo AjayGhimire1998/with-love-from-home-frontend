@@ -13,6 +13,7 @@ import {
 import { storeSignUp } from "../../app/services/auth-services/auth-service";
 import { useNavigate } from "react-router-dom";
 import { setStoreId } from "../../features/dashboard/dashboardSlice";
+import Navbar from "../nav/Navbar";
 
 function RegisterStore({ checkLoader }) {
   const navigate = useNavigate();
@@ -29,12 +30,12 @@ function RegisterStore({ checkLoader }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    checkLoader();
-    console.log("after click:", logo)
+    checkLoader(2000);
+    // console.log("after click:", logo)
     storeSignUp(name, logo, categoryId, email, password, passwordConfirmation);
-    navigate("/dashboard");
+    navigate("/");
   };
-  console.log(logo)
+  console.log(logo);
   return (
     <>
       <br />
@@ -49,11 +50,7 @@ function RegisterStore({ checkLoader }) {
             textAlign: "center",
           }}
         >
-          <form
-            className="ui form "
-            onSubmit={handleSubmit}
-            encType="multipart/form-data"
-          >
+          <form className="ui form " onSubmit={handleSubmit}>
             <div className="field ">
               <label style={{ textAlign: "left" }}>Store Name</label>
               <input
@@ -62,8 +59,14 @@ function RegisterStore({ checkLoader }) {
                 onChange={(event) => dispatch(nameChanger(event.target.value))}
               />
             </div>
-            <Dropdown categoryItems={categoryItems} categoryId={categoryId} />
-            <StoreLogo />
+            <div className="field">
+              <label style={{ textAlign: "left" }}>
+                Select Store's category
+              </label>
+              <Dropdown categoryItems={categoryItems} categoryId={categoryId} />
+              <br />
+            </div>
+            <StoreLogo checkLoader={checkLoader} />
 
             <br />
             <div className="field ">
@@ -99,6 +102,14 @@ function RegisterStore({ checkLoader }) {
             </button>
             <br />
             <br />
+            <br />
+            <br />
+            <button
+              className="ui blue button"
+              onClick={() => navigate("/signup")}
+            >
+              SignUp as a Customer
+            </button>
           </form>
         </div>
       </div>

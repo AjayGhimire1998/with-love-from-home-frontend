@@ -367,36 +367,20 @@ $.fn.search = function(parameters) {
                 urlData           : {
                   query : searchTerm
                 },
-              },
-              apiCallbacks = {
-                onSuccess         : function(response, $module, xhr) {
+                onSuccess         : function(response) {
                   module.parse.response.call(element, response, searchTerm);
                   callback();
-                  if(settings.apiSettings && typeof settings.apiSettings.onSuccess === 'function') {
-                    settings.apiSettings.onSuccess.call(this, response, $module, xhr);
-                  }
                 },
-                onFailure         : function(response, $module, xhr) {
+                onFailure         : function() {
                   module.displayMessage(error.serverError);
                   callback();
-                  if(settings.apiSettings && typeof settings.apiSettings.onFailure === 'function') {
-                    settings.apiSettings.onFailure.call(this, response, $module, xhr);
-                  }
                 },
-                onAbort : function(status, $module, xhr) {
-                  if(settings.apiSettings && typeof settings.apiSettings.onAbort === 'function') {
-                    settings.apiSettings.onAbort.call(this, status, $module, xhr);
-                  }
+                onAbort : function(response) {
                 },
-                onError           : function(errorMessage, $module, xhr){
-                  module.error();
-                  if(settings.apiSettings && typeof settings.apiSettings.onError === 'function') {
-                    settings.apiSettings.onError.call(this, errorMessage, $module, xhr);
-                  }
-                }
+                onError           : module.error
               }
             ;
-            $.extend(true, apiSettings, settings.apiSettings, apiCallbacks);
+            $.extend(true, apiSettings, settings.apiSettings);
             module.verbose('Setting up API request', apiSettings);
             $module.api(apiSettings);
           }
@@ -419,7 +403,7 @@ $.fn.search = function(parameters) {
             return $results.hasClass(className.animating);
           },
           chrome: function() {
-            return !!window.chrome && !window.StyleMedia;
+            return !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
           },
           hidden: function() {
             return $results.hasClass(className.hidden);

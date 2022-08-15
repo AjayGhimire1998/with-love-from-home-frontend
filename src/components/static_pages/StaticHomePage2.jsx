@@ -1,10 +1,12 @@
 import React from "react";
 // import Carousel from 'react-responsive-carousel'
-import CarouselSlide from "./CarouselSlide";
+import StaticCarouselSlide from "./StaticCarouselSlide";
 import { useNavigate } from "react-router";
+
 
 function StaticHomePage2() {
   const navigate = useNavigate();
+
   return (
     <div className="ui vertical stripe segment">
       <br />
@@ -64,7 +66,7 @@ function StaticHomePage2() {
             </p>
           </div>
           <div className="six wide right floated column">
-            <CarouselSlide />
+            <StaticCarouselSlide />
           </div>
         </div>
         <div className="row">

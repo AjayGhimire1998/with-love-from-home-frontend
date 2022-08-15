@@ -1,0 +1,27 @@
+.scrollable{
+    display: flex;
+  flex-wrap: no-wrap;
+  overflow-x: auto;
+  margin: 20px;
+}
+#scrollable-cards{
+    flex: 0 0 auto;
+    width: auto;
+    margin-right: 10px;
+}
+
+#show-products{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    /* background-color:yellow; */
+    color: black;
+    font-size: 15px;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px; 
+    z-index: 9999;
+}

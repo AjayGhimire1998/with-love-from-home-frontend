@@ -30,6 +30,11 @@ $.fn.dropdown = function(parameters) {
 
     moduleSelector = $allModules.selector || '',
 
+    hasTouch       = ('ontouchstart' in document.documentElement),
+    clickEvent      = hasTouch
+        ? 'touchstart'
+        : 'click',
+
     time           = new Date().getTime(),
     performance    = [],
 
@@ -61,7 +66,7 @@ $.fn.dropdown = function(parameters) {
         moduleNamespace = 'module-' + namespace,
 
         $module         = $(this),
-        $context        = [window,document].indexOf(settings.context) < 0 ? $(document).find(settings.context) : $(settings.context),
+        $context        = $(settings.context),
         $text           = $module.find(selector.text),
         $search         = $module.find(selector.search),
         $sizer          = $module.find(selector.sizer),
@@ -195,7 +200,6 @@ $.fn.dropdown = function(parameters) {
           select: function() {
             if(module.has.input() && selectObserver) {
               selectObserver.observe($module[0], {
-                attributes: true,
                 childList : true,
                 subtree   : true
               });
@@ -220,7 +224,7 @@ $.fn.dropdown = function(parameters) {
 
         create: {
           id: function() {
-            id = (Math.random().toString(16) + '000000000').slice(2, 10);
+            id = (Math.random().toString(16) + '000000000').substr(2, 8);
             elementNamespace = '.' + id;
             module.verbose('Creating unique id for element', id);
           },
@@ -417,9 +421,6 @@ $.fn.dropdown = function(parameters) {
                 module.debug('Disabling dropdown');
                 $module.addClass(className.disabled);
               }
-              if($input.is('[required]')) {
-                settings.forceSelection = true;
-              }
               $input
                 .removeAttr('required')
                 .removeAttr('class')
@@ -536,7 +537,9 @@ $.fn.dropdown = function(parameters) {
             }
             if(settings.onShow.call(element) !== false) {
               module.animate.show(function() {
-                module.bind.intent();
+                if( module.can.click() ) {
+                  module.bind.intent();
+                }
                 if(module.has.search() && !preventFocus) {
                   module.focusSearch();
                 }
@@ -557,23 +560,14 @@ $.fn.dropdown = function(parameters) {
             if(settings.onHide.call(element) !== false) {
               module.animate.hide(function() {
                 module.remove.visible();
-                // hiding search focus
+                // hidding search focus
                 if ( module.is.focusedOnSearch() && preventBlur !== true ) {
                   $search.blur();
                 }
                 callback.call(element);
               });
-              // Hide submenus explicitly. On some browsers (esp. mobile), they will not automatically receive a
-              // mouseleave event
-              var $subMenu = $module.find(selector.menu);
-              if($subMenu.length > 0) {
-                module.verbose('Hiding sub-menu', $subMenu);
-                $subMenu.each(function() {
-                  module.animate.hide(false, $(this));
-                });
-              }
             }
-          } else {
+          } else if( module.can.click() ) {
               module.unbind.intent();
           }
           iconClicked = false;
@@ -631,18 +625,13 @@ $.fn.dropdown = function(parameters) {
             $module
               .on('change' + eventNamespace, selector.input, module.event.change)
             ;
-            if(module.is.multiple() && module.is.searchSelection()) {
-              $module
-                  .on('paste' + eventNamespace, selector.search, module.event.paste)
-              ;
-            }
           },
           mouseEvents: function() {
             module.verbose('Binding mouse events');
             if(module.is.multiple()) {
               $module
-                .on('click'   + eventNamespace, selector.label,  module.event.label.click)
-                .on('click'   + eventNamespace, selector.remove, module.event.remove.click)
+                .on(clickEvent   + eventNamespace, selector.label,  module.event.label.click)
+                .on(clickEvent   + eventNamespace, selector.remove, module.event.remove.click)
               ;
             }
             if( module.is.searchSelection() ) {
@@ -651,33 +640,31 @@ $.fn.dropdown = function(parameters) {
                 .on('mouseup'   + eventNamespace, module.event.mouseup)
                 .on('mousedown' + eventNamespace, selector.menu,   module.event.menu.mousedown)
                 .on('mouseup'   + eventNamespace, selector.menu,   module.event.menu.mouseup)
-                .on('click'     + eventNamespace, selector.icon,   module.event.icon.click)
-                .on('click'     + eventNamespace, selector.clearIcon, module.event.clearIcon.click)
+                .on(clickEvent  + eventNamespace, selector.icon,   module.event.icon.click)
+                .on(clickEvent  + eventNamespace, selector.clearIcon, module.event.clearIcon.click)
                 .on('focus'     + eventNamespace, selector.search, module.event.search.focus)
-                .on('click'     + eventNamespace, selector.search, module.event.search.focus)
+                .on(clickEvent  + eventNamespace, selector.search, module.event.search.focus)
                 .on('blur'      + eventNamespace, selector.search, module.event.search.blur)
-                .on('click'     + eventNamespace, selector.text,   module.event.text.focus)
+                .on(clickEvent  + eventNamespace, selector.text,   module.event.text.focus)
               ;
               if(module.is.multiple()) {
                 $module
-                  .on('click' + eventNamespace, module.event.click)
-                  .on('click' + eventNamespace, module.event.search.focus)
+                  .on(clickEvent + eventNamespace, module.event.click)
+                  .on(clickEvent + eventNamespace, module.event.search.focus)
                 ;
               }
             }
             else {
               if(settings.on == 'click') {
                 $module
-                  .on('click' + eventNamespace, selector.icon, module.event.icon.click)
-                  .on('click' + eventNamespace, module.event.test.toggle)
+                  .on(clickEvent + eventNamespace, selector.icon, module.event.icon.click)
+                  .on(clickEvent + eventNamespace, module.event.test.toggle)
                 ;
               }
               else if(settings.on == 'hover') {
                 $module
                   .on('mouseenter' + eventNamespace, module.delay.show)
                   .on('mouseleave' + eventNamespace, module.delay.hide)
-                  .on('touchstart' + eventNamespace, module.event.test.toggle)
-                  .on('touchstart' + eventNamespace, selector.icon, module.event.icon.click)
                 ;
               }
               else {
@@ -689,7 +676,7 @@ $.fn.dropdown = function(parameters) {
                 .on('mousedown' + eventNamespace, module.event.mousedown)
                 .on('mouseup'   + eventNamespace, module.event.mouseup)
                 .on('focus'     + eventNamespace, module.event.focus)
-                .on('click'     + eventNamespace, selector.clearIcon, module.event.clearIcon.click)
+                .on(clickEvent  + eventNamespace, selector.clearIcon, module.event.clearIcon.click)
               ;
               if(module.has.menuSearch() ) {
                 $module
@@ -703,16 +690,21 @@ $.fn.dropdown = function(parameters) {
               }
             }
             $menu
-              .on('mouseenter' + eventNamespace, selector.item, module.event.item.mouseenter)
-              .on('touchstart' + eventNamespace, selector.item, module.event.item.mouseenter)
+              .on((hasTouch ? 'touchstart' : 'mouseenter') + eventNamespace, selector.item, module.event.item.mouseenter)
               .on('mouseleave' + eventNamespace, selector.item, module.event.item.mouseleave)
               .on('click'      + eventNamespace, selector.item, module.event.item.click)
             ;
           },
           intent: function() {
             module.verbose('Binding hide intent event to document');
+            if(hasTouch) {
+              $document
+                .on('touchstart' + elementNamespace, module.event.test.touch)
+                .on('touchmove'  + elementNamespace, module.event.test.touch)
+              ;
+            }
             $document
-              .on('click' + elementNamespace, module.event.test.hide)
+              .on(clickEvent + elementNamespace, module.event.test.hide)
             ;
           }
         },
@@ -720,8 +712,14 @@ $.fn.dropdown = function(parameters) {
         unbind: {
           intent: function() {
             module.verbose('Removing hide intent event from document');
+            if(hasTouch) {
+              $document
+                .off('touchstart' + elementNamespace)
+                .off('touchmove' + elementNamespace)
+              ;
+            }
             $document
-              .off('click' + elementNamespace)
+              .off(clickEvent + elementNamespace)
             ;
           }
         },
@@ -814,28 +812,20 @@ $.fn.dropdown = function(parameters) {
               throttle      : settings.throttle,
               urlData       : {
                 query: query
-              }
-            },
-            apiCallbacks = {
-              onError: function(errorMessage, $module, xhr) {
+              },
+              onError: function() {
                 module.add.message(message.serverError);
                 iconClicked = false;
                 focused = false;
                 callback.apply(null, callbackParameters);
-                if(typeof settings.apiSettings.onError === 'function') {
-                  settings.apiSettings.onError.call(this, errorMessage, $module, xhr);
-                }
               },
-              onFailure: function(response, $module, xhr) {
+              onFailure: function() {
                 module.add.message(message.serverError);
                 iconClicked = false;
                 focused = false;
                 callback.apply(null, callbackParameters);
-                if(typeof settings.apiSettings.onFailure === 'function') {
-                  settings.apiSettings.onFailure.call(this, response, $module, xhr);
-                }
               },
-              onSuccess : function(response, $module, xhr) {
+              onSuccess : function(response) {
                 var
                   values          = response[fields.remoteValues]
                 ;
@@ -854,22 +844,19 @@ $.fn.dropdown = function(parameters) {
                   var value = module.is.multiple() ? module.get.values() : module.get.value();
                   if (value !== '') {
                     module.verbose('Value(s) present after click icon, select value(s) in items');
-                    module.set.selected(value, null, true, true);
+                    module.set.selected(value, null, null, true);
                   }
                 }
                 iconClicked = false;
                 focused = false;
                 callback.apply(null, callbackParameters);
-                if(typeof settings.apiSettings.onSuccess === 'function') {
-                  settings.apiSettings.onSuccess.call(this, response, $module, xhr);
-                }
               }
             }
           ;
           if( !$module.api('get request') ) {
             module.setup.api();
           }
-          apiSettings = $.extend(true, {}, apiSettings, settings.apiSettings, apiCallbacks);
+          apiSettings = $.extend(true, {}, apiSettings, settings.apiSettings);
           $module
             .api('setting', apiSettings)
             .api('query')
@@ -1057,7 +1044,7 @@ $.fn.dropdown = function(parameters) {
             menuConfig[fields.values] = values;
             module.setup.menu(menuConfig);
             $.each(values, function(index, item) {
-              if(item.selected === true) {
+              if(item.selected == true) {
                 module.debug('Setting initial selection to', item[fields.value]);
                 module.set.selected(item[fields.value]);
                 if(!module.is.multiple()) {
@@ -1078,7 +1065,7 @@ $.fn.dropdown = function(parameters) {
                     settings.preserveHTML
                   )
                 ;
-                $input.append('<option value="' + value + '"' + (item.selected === true ? ' selected' : '') + '>' + name + '</option>');
+                $input.append('<option value="' + value + '">' + name + '</option>');
               });
               module.observe.select();
             }
@@ -1086,15 +1073,6 @@ $.fn.dropdown = function(parameters) {
         },
 
         event: {
-          paste: function(event) {
-            var pasteValue = (event.originalEvent.clipboardData || window.clipboardData).getData('text'),
-                tokens = pasteValue.split(settings.delimiter)
-            ;
-            tokens.forEach(function(value){
-              module.set.selected(module.escape.htmlEntities(value.trim()), null, true, true);
-            });
-            event.preventDefault();
-          },
           change: function() {
             if(!internalChange) {
               module.debug('Input changed, updating selection');
@@ -1271,11 +1249,22 @@ $.fn.dropdown = function(parameters) {
               if (!module.is.multiple() || (module.is.multiple() && !module.is.active())) {
                 focused = true;
               }
-              if( module.determine.eventOnElement(event, toggleBehavior) && event.type !== 'touchstart') {
-                // do not preventDefault of touchstart; so emulated mouseenter is triggered on first touch and not later
-                // (when selecting an item). The double-showing of the dropdown through both events does not hurt.
+              if( module.determine.eventOnElement(event, toggleBehavior) ) {
                 event.preventDefault();
               }
+            },
+            touch: function(event) {
+              module.determine.eventOnElement(event, function() {
+                if(event.type == 'touchstart') {
+                  module.timer = setTimeout(function() {
+                    module.hide();
+                  }, settings.delay.touch);
+                }
+                else if(event.type == 'touchmove') {
+                  clearTimeout(module.timer);
+                }
+              });
+              event.stopPropagation();
             },
             hide: function(event) {
               if(module.determine.eventInModule(event, module.hide)){
@@ -1296,8 +1285,8 @@ $.fn.dropdown = function(parameters) {
           },
           select: {
             mutation: function(mutations) {
+              module.debug('<select> modified, recreating menu');
               if(module.is.selectMutation(mutations)) {
-                module.debug('<select> modified, recreating menu');
                 module.disconnect.selectObserver();
                 module.refresh();
                 module.setup.select();
@@ -1360,15 +1349,13 @@ $.fn.dropdown = function(parameters) {
             },
             mouseleave: function(event) {
               var
-                $subMenu = $(this).find(selector.menu)
+                $subMenu = $(this).children(selector.menu)
               ;
               if($subMenu.length > 0) {
                 clearTimeout(module.itemTimer);
                 module.itemTimer = setTimeout(function() {
                   module.verbose('Hiding sub-menu', $subMenu);
-                  $subMenu.each(function() {
-                    module.animate.hide(false, $(this));
-                  });
+                  module.animate.hide(false, $subMenu);
                 }, settings.delay.hide);
               }
             },
@@ -1394,7 +1381,7 @@ $.fn.dropdown = function(parameters) {
                     module.remove.userAddition();
                   }
                   module.remove.searchTerm();
-                  if(!module.is.focusedOnSearch() && skipRefocus !== true) {
+                  if(!module.is.focusedOnSearch() && !(skipRefocus == true)) {
                     module.focusSearch(true);
                   }
                 }
@@ -1526,7 +1513,7 @@ $.fn.dropdown = function(parameters) {
           keydown: function(event) {
             var
               pressedKey    = event.which,
-              isShortcutKey = module.is.inObject(pressedKey, keys) || event.key === settings.delimiter
+              isShortcutKey = module.is.inObject(pressedKey, keys)
             ;
             if(isShortcutKey) {
               var
@@ -1544,7 +1531,7 @@ $.fn.dropdown = function(parameters) {
                 hasSubMenu            = ($subMenu.length> 0),
                 hasSelectedItem       = ($selectedItem.length > 0),
                 selectedIsSelectable  = ($selectedItem.not(selector.unselectable).length > 0),
-                delimiterPressed      = (event.key === settings.delimiter && module.is.multiple()),
+                delimiterPressed      = (pressedKey == keys.delimiter && settings.allowAdditions && module.is.multiple()),
                 isAdditionWithoutMenu = (settings.allowAdditions && settings.hideAdditions && (pressedKey == keys.enter || delimiterPressed) && selectedIsSelectable),
                 $nextItem,
                 isSubMenuItem,
@@ -1642,7 +1629,7 @@ $.fn.dropdown = function(parameters) {
                       .addClass(className.selected)
                     ;
                     module.set.scrollPosition($nextItem);
-                    if(settings.selectOnKeydown && module.is.single() && !$nextItem.hasClass(className.actionable)) {
+                    if(settings.selectOnKeydown && module.is.single()) {
                       module.set.selectedItem($nextItem);
                     }
                   }
@@ -1669,7 +1656,7 @@ $.fn.dropdown = function(parameters) {
                       .addClass(className.selected)
                     ;
                     module.set.scrollPosition($nextItem);
-                    if(settings.selectOnKeydown && module.is.single() && !$nextItem.hasClass(className.actionable)) {
+                    if(settings.selectOnKeydown && module.is.single()) {
                       module.set.selectedItem($nextItem);
                     }
                   }
@@ -1800,7 +1787,7 @@ $.fn.dropdown = function(parameters) {
             ;
             if( module.can.activate( $(element) ) ) {
               module.set.selected(value, $(element));
-              if(!module.is.multiple() && !(!settings.collapseOnActionable && $(element).hasClass(className.actionable))) {
+              if(!module.is.multiple()) {
                 module.hideAndClear();
               }
             }
@@ -1813,7 +1800,7 @@ $.fn.dropdown = function(parameters) {
             ;
             if( module.can.activate( $(element) ) ) {
               module.set.value(value, text, $(element));
-              if(!module.is.multiple() && !(!settings.collapseOnActionable && $(element).hasClass(className.actionable))) {
+              if(!module.is.multiple()) {
                 module.hideAndClear();
               }
             }
@@ -1864,7 +1851,7 @@ $.fn.dropdown = function(parameters) {
             ;
             $sizer.text(value);
             // prevent rounding issues
-            return Math.ceil( $sizer.width() + (module.is.edge() ? 3 : 1));
+            return Math.ceil( $sizer.width() + 1);
           },
           selectionCount: function() {
             var
@@ -2333,7 +2320,7 @@ $.fn.dropdown = function(parameters) {
               module.error(error.noStorage);
               return;
             }
-            name = sessionStorage.getItem(value + elementNamespace);
+            name = sessionStorage.getItem(value);
             return (name !== undefined)
               ? name
               : false
@@ -2377,7 +2364,7 @@ $.fn.dropdown = function(parameters) {
               return;
             }
             module.verbose('Saving remote data to session storage', value, name);
-            sessionStorage.setItem(value + elementNamespace, name);
+            sessionStorage.setItem(value, name);
           }
         },
 
@@ -2437,7 +2424,7 @@ $.fn.dropdown = function(parameters) {
             $nextSelectedItem
               .addClass(className.selected)
             ;
-            if(settings.selectOnKeydown && module.is.single() && !$nextItem.hasClass(className.actionable)) {
+            if(settings.selectOnKeydown && module.is.single()) {
               module.set.selectedItem($nextSelectedItem);
             }
             $menu
@@ -2523,7 +2510,7 @@ $.fn.dropdown = function(parameters) {
             var
               length = module.get.query().length
             ;
-            $search.val( text.slice(0, length));
+            $search.val( text.substr(0, length));
           },
           scrollPosition: function($item, forceScroll) {
             var
@@ -2640,13 +2627,13 @@ $.fn.dropdown = function(parameters) {
               module.set.scrollPosition($nextValue);
               $selectedItem.removeClass(className.selected);
               $nextValue.addClass(className.selected);
-              if(settings.selectOnKeydown && module.is.single() && !$nextItem.hasClass(className.actionable)) {
+              if(settings.selectOnKeydown && module.is.single()) {
                 module.set.selectedItem($nextValue);
               }
             }
           },
           direction: function($menu) {
-            if(settings.direction === 'auto') {
+            if(settings.direction == 'auto') {
               // reset position, remove upward if it's base menu
               if (!$menu) {
                 module.remove.upward();
@@ -2665,7 +2652,7 @@ $.fn.dropdown = function(parameters) {
                 module.set.leftward($menu);
               }
             }
-            else if(settings.direction === 'upward') {
+            else if(settings.direction == 'upward') {
               module.set.upward($menu);
             }
           },
@@ -2678,11 +2665,6 @@ $.fn.dropdown = function(parameters) {
             $element.addClass(className.leftward);
           },
           value: function(value, text, $selected, preventChangeTrigger) {
-            if(typeof text === 'boolean') {
-              preventChangeTrigger = text;
-              $selected = undefined;
-              text   = undefined;
-            }
             if(value !== undefined && value !== '' && !(Array.isArray(value) && value.length === 0)) {
               $input.removeClass(className.noselection);
             } else {
@@ -2746,21 +2728,12 @@ $.fn.dropdown = function(parameters) {
           visible: function() {
             $module.addClass(className.visible);
           },
-          exactly: function(value, $selectedItem, preventChangeTrigger) {
-            if(typeof $selectedItem === 'boolean') {
-              preventChangeTrigger = $selectedItem;
-              $selectedItem   = undefined;
-            }
+          exactly: function(value, $selectedItem) {
             module.debug('Setting selected to exact values');
             module.clear();
-            module.set.selected(value, $selectedItem, preventChangeTrigger);
+            module.set.selected(value, $selectedItem);
           },
           selected: function(value, $selectedItem, preventChangeTrigger, keepSearchTerm) {
-            if(typeof $selectedItem === 'boolean') {
-              keepSearchTerm = preventChangeTrigger;
-              preventChangeTrigger = $selectedItem;
-              $selectedItem   = undefined;
-            }
             var
               isMultiple = module.is.multiple()
             ;
@@ -2792,30 +2765,23 @@ $.fn.dropdown = function(parameters) {
 
                   isFiltered     = $selected.hasClass(className.filtered),
                   isActive       = $selected.hasClass(className.active),
-                  isActionable   = $selected.hasClass(className.actionable),
                   isUserValue    = $selected.hasClass(className.addition),
-                  shouldAnimate  = (isMultiple && $selectedItem && $selectedItem.length === 1)
+                  shouldAnimate  = (isMultiple && $selectedItem.length == 1)
                 ;
-                if(isActionable){
-                  if((!isMultiple || (!isActive || isUserValue)) && settings.apiSettings && settings.saveRemoteData) {
-                    module.save.remoteData(selectedText, selectedValue);
-                  }
-                  settings.onActionable.call(element, selectedValue, selectedText, $selected);
-                }
-                else if(isMultiple) {
+                if(isMultiple) {
                   if(!isActive || isUserValue) {
                     if(settings.apiSettings && settings.saveRemoteData) {
                       module.save.remoteData(selectedText, selectedValue);
                     }
                     if(settings.useLabels) {
-                      module.add.value(selectedValue, selectedText, $selected, preventChangeTrigger);
                       module.add.label(selectedValue, selectedText, shouldAnimate);
+                      module.add.value(selectedValue, selectedText, $selected);
                       module.set.activeItem($selected);
                       module.filterActive();
                       module.select.nextAvailable($selectedItem);
                     }
                     else {
-                      module.add.value(selectedValue, selectedText, $selected, preventChangeTrigger);
+                      module.add.value(selectedValue, selectedText, $selected);
                       module.set.text(module.add.variables(message.count));
                       module.set.activeItem($selected);
                     }
@@ -2829,7 +2795,7 @@ $.fn.dropdown = function(parameters) {
                   if(settings.apiSettings && settings.saveRemoteData) {
                     module.save.remoteData(selectedText, selectedValue);
                   }
-                  if (!keepSearchTerm && !$selected.hasClass(className.actionable)) {
+                  if (!keepSearchTerm) {
                     module.set.text(selectedText);
                   }
                   module.set.value(selectedValue, selectedText, $selected, preventChangeTrigger);
@@ -2928,7 +2894,7 @@ $.fn.dropdown = function(parameters) {
             $('<option/>')
               .prop('value', escapedValue)
               .addClass(className.addition)
-              .text(value)
+              .html(value)
               .appendTo($input)
             ;
             module.verbose('Adding user addition as an <option>', value);
@@ -3004,12 +2970,7 @@ $.fn.dropdown = function(parameters) {
             }
             return message;
           },
-          value: function(addedValue, addedText, $selectedItem, preventChangeTrigger) {
-            if(typeof addedText === 'boolean') {
-              preventChangeTrigger = addedText;
-              $selectedItem = undefined;
-              addedText   = undefined;
-            }
+          value: function(addedValue, addedText, $selectedItem) {
             var
               currentValue = module.get.values(true),
               newValue
@@ -3024,7 +2985,7 @@ $.fn.dropdown = function(parameters) {
             }
             // extend current array
             if(Array.isArray(currentValue)) {
-              newValue = $selectedItem && $selectedItem.hasClass(className.actionable) ? currentValue : currentValue.concat([addedValue]);
+              newValue = currentValue.concat([addedValue]);
               newValue = module.get.uniqueArray(newValue);
             }
             else {
@@ -3048,7 +3009,7 @@ $.fn.dropdown = function(parameters) {
             else {
               settings.onAdd.call(element, addedValue, addedText, $selectedItem);
             }
-            module.set.value(newValue, addedText, $selectedItem, preventChangeTrigger);
+            module.set.value(newValue, addedText, $selectedItem);
             module.check.maxSelections();
           },
         },
@@ -3108,10 +3069,18 @@ $.fn.dropdown = function(parameters) {
               return;
             }
             // temporarily disconnect observer
-            module.disconnect.selectObserver();
+            if(selectObserver) {
+              selectObserver.disconnect();
+              module.verbose('Temporarily disconnecting mutation observer');
+            }
             $option.remove();
             module.verbose('Removing user addition as an <option>', escapedValue);
-            module.observe.select();
+            if(selectObserver) {
+              selectObserver.observe($input[0], {
+                childList : true,
+                subtree   : true
+              });
+            }
           },
           message: function() {
             $menu.children(selector.message).remove();
@@ -3410,11 +3379,8 @@ $.fn.dropdown = function(parameters) {
           bubbledIconClick: function(event) {
             return $(event.target).closest($icon).length > 0;
           },
-          edge: function() {
-            return !!window.chrome && !!window.StyleMedia;
-          },
           chrome: function() {
-            return !!window.chrome && !window.StyleMedia;
+            return !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
           },
           alreadySetup: function() {
             return ($module.is('select') && $module.parent(selector.dropdown).data(moduleNamespace) !== undefined && $module.prev().length === 0);
@@ -3479,7 +3445,7 @@ $.fn.dropdown = function(parameters) {
               selectChanged = false
             ;
             $.each(mutations, function(index, mutation) {
-              if($(mutation.target).is('select, option, optgroup') || $(mutation.addedNodes).is('select')) {
+              if($(mutation.target).is('select') || $(mutation.addedNodes).is('select')) {
                 selectChanged = true;
                 return false;
               }
@@ -3621,6 +3587,9 @@ $.fn.dropdown = function(parameters) {
             $currentMenu.removeClass(className.loading);
             return canOpenRightward;
           },
+          click: function() {
+            return (hasTouch || settings.on == 'click');
+          },
           extendSelect: function() {
             return settings.allowAdditions || settings.apiSettings;
           },
@@ -3690,7 +3659,9 @@ $.fn.dropdown = function(parameters) {
               start = ($subMenu)
                 ? function() {}
                 : function() {
-                  module.unbind.intent();
+                  if( module.can.click() ) {
+                    module.unbind.intent();
+                  }
                   module.remove.active();
                 },
               transition = settings.transition.hideMethod || module.get.transition($subMenu)
@@ -4019,7 +3990,7 @@ $.fn.dropdown.settings = {
   keepOnScreen           : true,       // Whether dropdown should check whether it is on screen before showing
 
   match                  : 'both',     // what to match against with search selection (both, text, or label)
-  fullTextSearch         : 'exact',    // search anywhere in value (set to 'exact' to require exact matches)
+  fullTextSearch         : false,      // search anywhere in value (set to 'exact' to require exact matches)
   ignoreDiacritics       : false,      // match results also if they contain diacritics of the same base character (for example searching for "a" will also match "á" or "â" or "à", etc...)
   hideDividers           : false,      // Whether to hide any divider elements (specified in selector.divider) that are sibling to any items when searched (set to true will hide all dividers, set to 'empty' will hide them when they are not followed by a visible item)
 
@@ -4027,7 +3998,7 @@ $.fn.dropdown.settings = {
   preserveHTML           : true,       // preserve html when selecting value
   sortSelect             : false,      // sort selection on init
 
-  forceSelection         : false,       // force a choice on blur with search selection
+  forceSelection         : true,       // force a choice on blur with search selection
 
   allowAdditions         : false,      // whether multiple select should allow user added values
   ignoreCase             : false,      // whether to consider case sensitivity when creating labels
@@ -4038,7 +4009,7 @@ $.fn.dropdown.settings = {
   useLabels              : true,       // whether multiple select should filter currently active selections from choices
   delimiter              : ',',        // when multiselect uses normal <input> the values will be delimited with this character
 
-  showOnFocus            : false,      // show menu on focus
+  showOnFocus            : true,       // show menu on focus
   allowReselection       : false,      // whether current value should trigger callbacks when reselected
   allowTab               : true,       // add tabindex to element
   allowCategorySelection : false,      // allow elements with sub-menus to be selected
@@ -4053,8 +4024,6 @@ $.fn.dropdown.settings = {
 
   headerDivider          : true,       // whether option headers should have an additional divider line underneath when converted from <select> <optgroup>
 
-  collapseOnActionable   : true,      // whether the dropdown should collapse upon selection of an actionable item
-
   // label settings on multi-select
   label: {
     transition : 'scale',
@@ -4067,13 +4036,13 @@ $.fn.dropdown.settings = {
     hide   : 300,
     show   : 200,
     search : 20,
+    touch  : 50
   },
 
   /* Callbacks */
   onChange      : function(value, text, $selected){},
   onAdd         : function(value, text, $selected){},
   onRemove      : function(value, text, $selected){},
-  onActionable  : function(value, text, $selected){},
   onSearch      : function(searchTerm){},
 
   onLabelSelect : function($selectedLabels){},
@@ -4136,12 +4105,12 @@ $.fn.dropdown.settings = {
     icon                 : 'icon',     // optional icon name
     iconClass            : 'iconClass', // optional individual class for icon (for example to use flag instead)
     class                : 'class',    // optional individual class for item/header
-    divider              : 'divider',   // optional divider append for group headers
-    actionable           : 'actionable' // optional actionable item
+    divider              : 'divider'   // optional divider append for group headers
   },
 
   keys : {
     backspace  : 8,
+    delimiter  : 188, // comma
     deleteKey  : 46,
     enter      : 13,
     escape     : 27,
@@ -4208,8 +4177,7 @@ $.fn.dropdown.settings = {
     header              : 'header',
     divider             : 'divider',
     groupIcon           : '',
-    unfilterable        : 'unfilterable',
-    actionable          : 'actionable'
+    unfilterable        : 'unfilterable'
   }
 
 };
@@ -4284,9 +4252,6 @@ $.fn.dropdown.settings.templates = {
           maybeText = (option[fields.text])
             ? ' data-text="' + deQuote(option[fields.text],true) + '"'
             : '',
-          maybeActionable = (option[fields.actionable])
-            ? className.actionable+' '
-            : '',
           maybeDisabled = (option[fields.disabled])
             ? className.disabled+' '
             : '',
@@ -4295,7 +4260,7 @@ $.fn.dropdown.settings.templates = {
             : '',
           hasDescription = (escape(option[fields.description] || '', preserveHTML) != '')
         ;
-        html += '<div class="'+ maybeActionable + maybeDisabled + maybeDescriptionVertical + (option[fields.class] ? deQuote(option[fields.class]) : className.item)+'" data-value="' + deQuote(option[fields.value],true) + '"' + maybeText + '>';
+        html += '<div class="'+ maybeDisabled + maybeDescriptionVertical + (option[fields.class] ? deQuote(option[fields.class]) : className.item)+'" data-value="' + deQuote(option[fields.value],true) + '"' + maybeText + '>';
         if (isMenu) {
           html += '<i class="'+ (itemType.indexOf('left') !== -1 ? 'left' : '') + ' dropdown icon"></i>';
         }

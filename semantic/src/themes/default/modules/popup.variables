@@ -88,6 +88,8 @@
 @tooltipInvertedColor: @invertedColor;
 @tooltipInvertedBorder: @invertedBorder;
 @tooltipInvertedBoxShadow: @invertedBoxShadow;
+@tooltipInvertedHeaderBackground: @invertedHeaderBackground;
+@tooltipInvertedHeaderColor: @invertedHeaderColor;
 
 /* Arrow */
 @tooltipArrowVerticalOffset: -@2px;

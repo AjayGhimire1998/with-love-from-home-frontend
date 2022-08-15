@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { authHeader } from "../../app/services/auth-services/auth-header";
-import { getStore } from "../../app/services/auth-services/auth-service";
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { useDispatch } from "react-redux";
+// import { authHeader } from "../../app/services/auth-services/auth-header";
+// import { getStore } from "../../app/services/auth-services/auth-service";
+// import { createAsyncThunk } from "@reduxjs/toolkit";
+// import axios from "axios";
+// import { useDispatch } from "react-redux";
 
 const initialState = {
-  store: [],
+  store: null,
 };
 
 const dashboardSlice = createSlice({

@@ -16,9 +16,9 @@ function Login({ checkLoader }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    checkLoader();
+    checkLoader(2000);
     storeLogin(email, password);
-    navigate("/dashboard");
+    navigate("/");
   };
   return (
     <>
@@ -34,7 +34,12 @@ function Login({ checkLoader }) {
             textAlign: "center",
           }}
         >
-          <form className="ui form" onSubmit={handleSubmit}>
+          <h3>Login As a Store</h3>
+          <br />
+          <form
+            className="ui form"
+            onSubmit={handleSubmit}
+          >
             <div className="field ">
               <label style={{ textAlign: "left" }}>Email</label>
               <input
@@ -58,6 +63,14 @@ function Login({ checkLoader }) {
             </button>
             <br />
             <br />
+            <br />
+            <br />
+            <button
+              className="ui blue button"
+              onClick={() => navigate("/login")}
+            >
+              Login as a Customer
+            </button>
           </form>
         </div>
       </div>

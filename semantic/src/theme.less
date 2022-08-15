@@ -60,19 +60,8 @@
        Fonts
 -------------------*/
 
-.loadFonts() {
-  & when (@importGoogleFonts) {
-    @import (css) url('@{googleProtocol}fonts.googleapis.com/css2?family=@{googleFontRequest}');
-  }
-  & when (@importFonts) and not (@fontName = ''){
-    each(@fonts, {
-      @font-face {
-        each(@value,{
-            @{key}: @value;
-        });
-      }
-    })
-  }
+.loadFonts() when (@importGoogleFonts) {
+  @import (css) url('@{googleProtocol}fonts.googleapis.com/css2?family=@{googleFontRequest}');
 }
 
 /*------------------
