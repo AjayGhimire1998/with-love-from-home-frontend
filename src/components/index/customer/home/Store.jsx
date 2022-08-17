@@ -47,9 +47,7 @@ function Store({ store, checkLoader }) {
               id="show-products"
               className="ui tiny yellow button"
               onClick={() => {
-                checkLoader(1000);
                 navigate(`/stores/${store.id}`);
-                window.location.reload();
               }}
             >
               See Products

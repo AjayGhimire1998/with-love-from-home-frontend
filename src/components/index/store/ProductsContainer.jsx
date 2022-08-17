@@ -34,6 +34,7 @@ function ProductsContainer({ checkLoader }) {
           </span>
         </button>
         <br />
+        <br />
         <div className="ui internally celled equal width grid">
           <br />
           <br />

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
 import {
   setSelectedStore,
-  setSelectedStoreProducts
+  setSelectedStoreProducts,
 } from "../../../../features/home/homeSlice";
 import Footer from "../../../static_pages/Footer";
 import Loader from "../../../static_pages/Loader";
@@ -19,6 +19,8 @@ import {
   setReviewContent,
 } from "../../../../features/home/ratingSlice";
 import ReviewsContainer from "./ReviewsContainer";
+import { calculateAverageRating } from "../../../../app/services/other-services/service";
+import { v4 as uuidv4 } from "uuid";
 
 function StoreDetails() {
   const { id } = useParams();
@@ -35,7 +37,9 @@ function StoreDetails() {
     (store) => store.home
   );
 
-  const { rating, reviewContent } = useSelector((store) => store.rating);
+  const { rating, reviewContent, storeReviews } = useSelector(
+    (store) => store.rating
+  );
   const { customerId } = useSelector((store) => store.customer);
   const headers = authHeader(getCurrentUser());
 
@@ -47,6 +51,7 @@ function StoreDetails() {
       user_id: customerId,
     },
   };
+
   const handleReviewSubmit = (e) => {
     e.preventDefault();
     axios
@@ -56,18 +61,16 @@ function StoreDetails() {
       });
   };
 
-  // const 
-
   return (
     <>
-      {selectedStore === null || selectedStoreProducts === null ? (
+      {selectedStore.length === 0 ? (
         <Loader />
       ) : (
         <div className=" ui container">
           <br />
           <button
             className="ui labeled primary icon button"
-            onClick={() => navigate("/")}
+            onClick={() => navigate(-1)}
           >
             <i className="left arrow icon"></i>
             Go Back
@@ -110,11 +113,13 @@ function StoreDetails() {
 
               <div className="extra content">
                 <span>Ratings: </span>
-                {/* <section>
-                {Array.from({ length: review.rating }, (_, i) => (
-                  <i key={uuidv4()} className="star yellow icon"></i>
-                ))}
-              </section> */}
+
+                {Array.from(
+                  { length: calculateAverageRating(storeReviews) },
+                  (_, i) => (
+                    <i key={uuidv4()} className="star yellow icon"></i>
+                  )
+                )}
               </div>
               <br />
               <div className="ui column card">
@@ -154,12 +159,12 @@ function StoreDetails() {
           <br />
           <br />
           <StoreProductsContainer />
-          <br />
-          <hr />
-          <br />
-          <ReviewsContainer />
         </div>
       )}
+      <br />
+      <hr />
+      <br />
+      <ReviewsContainer />
       <Footer />
     </>
   );

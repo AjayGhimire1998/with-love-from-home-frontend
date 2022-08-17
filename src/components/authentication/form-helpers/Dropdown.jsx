@@ -27,7 +27,7 @@ function Dropdown({ categoryItems }) {
     <Select
       className="basic-single"
       classNamePrefix="select"
-      defaultValue="options[7].name"
+      defaultValue=""
       options={options}
       onChange={handleChange}
     />

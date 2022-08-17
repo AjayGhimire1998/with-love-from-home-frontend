@@ -4,6 +4,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   getSelectedProduct,
   setImagePreviewIndex,
+  increase,
+  decrease,
+  addToCart,
+  calculateTotal,
 } from "../../../../features/home/homeproductSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../static_pages/Loader";
@@ -19,6 +23,11 @@ import { getCurrentUser } from "../../../../app/services/auth-services/auth-serv
 import axios from "axios";
 import ProductReviewsContainer from "./ProductReviewsContainer";
 import Footer from "../../../static_pages/Footer";
+import { ChevronDown, ChevronUp } from "../../../../app/services/icons";
+import { v4 as uuidv4 } from "uuid";
+import {calculateAverageRating} from "../../../../app/services/other-services/service"
+
+
 
 function ProductView() {
   const { id } = useParams();
@@ -30,7 +39,7 @@ function ProductView() {
     dispatch(getSelectedProductReviews(parseInt(id)));
   }, []);
 
-  const { selectedProduct, imagePreviewIndex } = useSelector(
+  const { selectedProduct, imagePreviewIndex, amount } = useSelector(
     (store) => store.homeproduct
   );
 
@@ -44,8 +53,11 @@ function ProductView() {
     );
   });
 
-  const { rating, reviewContent } = useSelector((store) => store.rating);
+  const { rating, reviewContent, productReviews } = useSelector(
+    (store) => store.rating
+  );
   const { customerId } = useSelector((store) => store.customer);
+
   const headers = authHeader(getCurrentUser());
 
   const data = {
@@ -75,7 +87,7 @@ function ProductView() {
           <div className="ui container">
             <button
               className="ui labeled primary icon button"
-              onClick={() => navigate("/")}
+              onClick={() => navigate(-1)}
             >
               <i className="left arrow icon"></i>
               Go Back
@@ -99,25 +111,52 @@ function ProductView() {
                 <br />
                 <div className="product__info">
                   <div className="title">
-                    <h2>{selectedProduct.name}</h2>
+                    <h2>{selectedProduct.name.toUpperCase()}</h2>
                     <span>ID: {selectedProduct.id}</span>
                   </div>
-                  <br />
+
                   <div className="price">
                     AU$ <span>{selectedProduct.price}</span>
                   </div>
-
                   <div className="description">
-                    <h3>DESCRIPTION</h3>
                     <p>{selectedProduct.description}</p>
                   </div>
                   <br />
-                  <button className="buy--btn">ADD TO CART</button>
+                  <div>
+                    <button
+                      className="amount-btn"
+                      onClick={() => {
+                        dispatch(increase());
+                      }}
+                    >
+                      <ChevronUp />
+                    </button>
+                    <p className="amount">{amount}</p>
+                    <button
+                      className="amount-btn"
+                      onClick={() => {
+                        dispatch(decrease());
+                      }}
+                    >
+                      <ChevronDown />
+                    </button>
+                  </div>
+                  <br />
+                  <button
+                    className="buy--btn"
+                    disabled={amount === 0}
+                    onClick={() => {
+                      dispatch(addToCart());
+
+                      navigate(-1);
+                    }}
+                  >
+                    ADD TO CART
+                  </button>
                   <button
                     className="buy--btn--2"
                     onClick={() => {
                       navigate(`/stores/${selectedProduct.store_id}`);
-                      window.location.reload();
                     }}
                   >
                     VIEW STORE
@@ -127,6 +166,12 @@ function ProductView() {
                   <br />
                   <div className="extra content">
                     <span>Ratings: </span>
+                    {Array.from(
+                      { length: calculateAverageRating(productReviews) },
+                      (_, i) => (
+                        <i key={uuidv4()} className="star yellow icon"></i>
+                      )
+                    )}
                     <i className="star yellow icon"></i>
                   </div>
                   <br />

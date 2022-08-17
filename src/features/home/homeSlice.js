@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { activateLoader } from "../loader/loaderSlice";
 
 export const getAllStores = createAsyncThunk(
   "home/getAllStores",
@@ -60,13 +59,16 @@ const initialState = {
   allProducts: [],
   filteredProducts: null,
   filteredStores: null,
+  searchQuery: "",
   searchedProducts: [],
+  searchedStores: [],
+  isSearchLoading: false,
   isHomeLoading: false,
   isDimmerOnHover: false,
   pageCounter: 0,
-  selectedStore: null,
+  selectedStore: [],
   hoveredStore: [],
-  selectedStoreProducts: null,
+  selectedStoreProducts: [],
 };
 
 const homeSlice = createSlice({
@@ -110,8 +112,36 @@ const homeSlice = createSlice({
       state.filteredProducts = filteredProducts
         .flat(Infinity)
         .filter((p) => p !== undefined);
-      
-      
+    },
+    setSearch: (state, action) => {
+      state.searchQuery = action.payload;
+      state.isSearchLoading = true;
+      state.searchedProducts = state.allProducts.products.filter((product) => {
+        if (
+          product.name.toLowerCase().includes(state.searchQuery.toLowerCase())
+        ) {
+          return product;
+        }
+      });
+
+      state.searchedStores = state.allStores.filter((store) => {
+        if (
+          store.name.toLowerCase().includes(state.searchQuery.toLowerCase())
+        ) {
+          return store;
+        }
+      });
+
+      if (state.searchQuery === "") {
+        state.searchedProducts = [];
+        state.searchedStores = [];
+        state.isSearchLoading = false;
+      }
+    },
+    clearSearch: (state) => {
+      state.searchedProducts = [];
+      state.searchedStores = [];
+      state.isSearchLoading = false;
     },
   },
   extraReducers: {
@@ -158,5 +188,7 @@ export const {
   setHoveredStore,
   eraseSelectedStore,
   setFilteredProducts,
+  setSearch,
+  clearSearch
 } = homeSlice.actions;
 export default homeSlice.reducer;

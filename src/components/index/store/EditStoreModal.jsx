@@ -28,7 +28,7 @@ function EditStoreModal({ checkLoader }) {
       .then((response) => {
         const data = response.data;
         console.log(data);
-        checkLoader();
+        checkLoader(1000);
         dispatch(setStore(data));
       });
   };

@@ -9,14 +9,7 @@ function HomeProduct({ product }) {
   const dispatch = useDispatch();
   return (
     <>
-      <div
-        className="card"
-        style={{ margin: "25px" }}
-        onClick={() => {
-          navigate(`/products/${product.id}`);
-          dispatch(setImagePreviewIndex(0));
-        }}
-      >
+      <div className="card" style={{ margin: "25px" }}>
         <div className="image">
           <ProductsCarouselSlide imagesToPreview={product.images} />
         </div>
@@ -45,16 +38,22 @@ function HomeProduct({ product }) {
               <i>AUD</i>
             </small>
           </div>
-          <br />
-          <div className="description">{product.description}</div>
+          <div className="description">
+            {product.description.slice(0, 20, 1)}...
+          </div>
         </div>
         <div className="extra content ">
-          <button className="ui yellow button fluid">
-            <span style={{ color: "black" }}>Add To Cart</span>
+          <button
+            className="ui yellow button fluid"
+            onClick={() => {
+              navigate(`/products/${product.id}`);
+              dispatch(setImagePreviewIndex(0));
+            }}
+          >
+            <span style={{ color: "black" }}>View Details</span>
           </button>
         </div>
       </div>
-      
     </>
   );
 }

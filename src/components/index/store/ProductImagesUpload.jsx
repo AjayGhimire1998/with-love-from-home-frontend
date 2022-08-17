@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import "react-dropzone-uploader/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import S3FileUpload from "react-s3";
-import { v4 as uuid } from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import {
   pushToProductImages,
   getEachImage,
@@ -70,9 +70,8 @@ const ProductImagesUpload = ({ checkLoader }) => {
         <div className="ui horizontal segments">
           {productImages.slice(1).map((image) => {
             return (
-              <div className="ui segment">
+              <div className="ui segment" key={uuidv4()}>
                 <img
-                  id={uuid()}
                   className="image-preview"
                   alt="logo"
                   src={`${image}`}

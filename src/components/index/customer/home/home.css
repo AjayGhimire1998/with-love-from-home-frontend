@@ -25,3 +25,12 @@
     border-radius: 5px; 
     z-index: 9999;
 }
+.search-results:hover{
+    background-color: rgba(230, 228, 228, 0.5);
+    /* color: white; */
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in
+}
+
+

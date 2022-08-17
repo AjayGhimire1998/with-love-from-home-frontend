@@ -29,13 +29,16 @@ import Dashboard from "./components/index/store/Dashboard";
 import {
   isCustomerLoggedInChanger,
   setCustomerId,
-  getAllCustomers
+  getAllCustomers,
 } from "./features/auth/customerSlice";
 
 import Navbar from "./components/nav/Navbar";
-import { getProductsImages } from "./features/static/staticSlice";
+import { getProductsImages, getReviews } from "./features/static/staticSlice";
 import StoreDetails from "./components/index/customer/home/StoreDetails";
 import ProductView from "./components/index/customer/home/ProductView";
+import CartContainer from "./components/index/customer/cart/CartContainer";
+import ThankYou from "./components/index/customer/cart/ThankYou";
+import ViewOrdersContainer from "./components/index/store/ViewOrdersContainer";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -52,8 +55,13 @@ function App() {
     }, time);
   };
 
+  // window.onbeforeunload = function () {
+  //   return "Data will be lost if you leave the page, are you sure?";
+  // };
+
   useEffect(() => {
     dispatch(getProductsImages());
+    dispatch(getReviews());
   }, []);
 
   useEffect(() => {
@@ -76,11 +84,11 @@ function App() {
 
   useEffect(() => {
     dispatch(getCategories());
-
   }, []);
+
   useEffect(() => {
-    dispatch(getAllCustomers())
-  }, [])
+    dispatch(getAllCustomers());
+  }, []);
 
   return (
     <>
@@ -123,11 +131,53 @@ function App() {
           />
           <Route
             path="/stores/:id"
-            element={currentUser ? <StoreDetails checkLoader={checkLoader} /> : <h2>401 | Please Login to View Page</h2>}
+            element={
+              currentUser ? (
+                <StoreDetails checkLoader={checkLoader} />
+              ) : (
+                <h2>401 | Please Login to View Page</h2>
+              )
+            }
           />
           <Route
             path="/products/:id"
-            element={currentUser ? <ProductView checkLoader={checkLoader} /> :<h2>401 | Please Login to View Page</h2>}
+            element={
+              currentUser ? (
+                <ProductView checkLoader={checkLoader} />
+              ) : (
+                <h2>401 | Please Login to View Page</h2>
+              )
+            }
+          />
+          <Route
+            path="/cart"
+            element={
+              currentUser ? (
+                <CartContainer checkLoader={checkLoader} />
+              ) : (
+                <h2>Cannot View Cart</h2>
+              )
+            }
+          />
+          <Route
+            path="/thank-you"
+            element={
+              currentUser ? (
+                <ThankYou checkLoader={checkLoader} />
+              ) : (
+                <Login checkLoader={checkLoader} />
+              )
+            }
+          />
+          <Route
+            path="/stores/:id/orders"
+            element={
+              currentStore ? (
+                <ViewOrdersContainer checkLoader={checkLoader} />
+              ) : (
+                <StoreLogin checkLoader={checkLoader} />
+              )
+            }
           />
         </Routes>
       </div>

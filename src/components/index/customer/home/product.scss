@@ -1,4 +1,16 @@
 
+:root {
+  --clr-primary: #09fa61;
+  --clr-primary-dark: #013b00bd;
+  --clr-primary-light: #02c436;
+  --clr-grey-1: #102a42;
+  --clr-grey-5: #617d98;
+  --clr-grey-10: #f1f5f8;
+  --clr-white: #fff;
+  --clr-red-dark: hsl(360, 67%, 44%);
+  --clr-red-light: hsl(360, 71%, 66%);
+  --transition: all 0.3s linear;
+}
 
 img {
       max-width: 100%;
@@ -102,6 +114,7 @@ img {
   background-color: rgb(255, 157, 0);
   box-shadow: 2px 2px 25px -7px black;
   cursor: pointer;
+  margin-right: 5px;
 
   &:active {
     transform: scale(0.97);
@@ -122,5 +135,67 @@ img {
   &:active {
     transform: scale(0.97);
   }
+}
+.buy--btn:disabled{
+  background: rgb(255, 220, 162);
+  color: black;
+}
+
+
+.cart-item {
+  display: grid;
+  align-items: center;
+  grid-template-columns: auto 1fr auto;
+  grid-column-gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+.cart-item img {
+  width: 5rem;
+  height: 5rem;
+  object-fit: cover;
+}
+.cart-item h4 {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+.item-price {
+  color: rgba(0, 130, 89);
+  font-size: 18px;
+  font-weight: 900;
+}
+.remove-btn {
+  color: var(--clr-red-light);
+  cursor: pointer;
+  font-size: 0.85rem;
+  background: transparent;
+  border: none;
+  margin-top: 0.375rem;
+  transition: var(--transition);
+}
+.remove-btn:hover {
+  color:var(--clr-red-dark);
+}
+.amount-btn {
+  width: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+.amount-btn svg {
+  color: var(--clr-primary-dark);
+}
+.amount-btn:hover svg {
+  color: var(--clr-primary-light);
+}
+.amount {
+  text-align: center;
+  margin-bottom: 0;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+hr {
+  background: var(--clr-grey-5);
+  border-color: transparent;
+  border-width: 0.25px;
 }
 

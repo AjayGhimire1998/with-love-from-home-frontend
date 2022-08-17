@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+import "../../../static_pages/review.css";
 
 function Review({ review }) {
   const { allCustomers } = useSelector((store) => store.customer);
@@ -9,23 +10,31 @@ function Review({ review }) {
   )).fullname;
 
   return (
-    <div className="pusher">
-      <div className="ui vertical stripe quote segment">
-        <div className="ui equal width stackable internally celled grid">
-          <div className="center aligned row">
-            <div className="column" style={{borderRight: "1px solid black"}}>
-              <h3>"{review.content || `${review.rating} stars`}"</h3>
-              <p>{customerName === undefined ? "Customer" : customerName}</p>
-              <section>
-                {Array.from({ length: review.rating }, (_, i) => (
-                  <i key={uuidv4()} className="star yellow icon"></i>
-                ))}
-              </section>
+    <>
+      <div className="testimonial-box-container">
+        <div className="testimonial-box">
+          <div className="box-top">
+            <div className="profile">
+              <div className="name-user">
+                <strong>
+                  {customerName === undefined ? "Customer" : customerName}
+                </strong>
+              </div>
             </div>
+
+            <div className="reviews">
+              {Array.from({ length: review.rating }, (_, i) => (
+                <i key={uuidv4()} className="star yellow icon"></i>
+              ))}
+            </div>
+          </div>
+
+          <div className="client-comment">
+            <p>"{review.content || `${review.rating} stars`}"</p>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

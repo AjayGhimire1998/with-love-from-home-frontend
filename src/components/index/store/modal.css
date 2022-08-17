@@ -1,13 +1,13 @@
 :root {
 
-    --clr-grey-1: #102a42;
+    --clr-grey-1: #00264a;
     --clr-grey-5: #617d98;
     --clr-grey-10: #f1f5f8;
     --clr-white: #fff;
     --clr-red-dark: hsl(360, 67%, 44%);
     --clr-red-light: hsl(360, 71%, 66%);
     --transition: all 0.3s linear;
-    --spacing: 0.25rem;
+    /* --spacing: 0.25rem; */
     --radius: 0.25rem;
     --large-screen-width: 1170px;
     --small-screen-width: 90vw;
@@ -172,7 +172,7 @@
   }
   .empty-cart {
     text-transform: lowercase;
-    color: var(--clr-grey-5);
+    color: var(--clr-grey-1);
     margin-top: 1rem;
     text-align: center;
   }
@@ -185,6 +185,8 @@
     display: flex;
     justify-content: space-between;
     margin-top: 1rem;
+    font-size: larger;
+    color: var(--clr-grey-1)
   }
   /* .clear-btn,
   .confirm-btn {
@@ -209,7 +211,7 @@
   Cart Item
   ===============
   */
-  .cart-item {
+  /* .cart-item {
     display: grid;
     align-items: center;
     grid-template-columns: auto 1fr auto;
@@ -224,22 +226,22 @@
   .cart-item h4 {
     margin-bottom: 0.5rem;
     font-weight: 500;
-    letter-spacing: 2px;
-  }
+    /* letter-spacing: 2px; */
+  /* }
   .item-price {
     color: var(--clr-grey-5);
-  }
-  .remove-btn {
-    color: var(--clr-primary);
-    letter-spacing: var(--spacing);
-    cursor: pointer;
+  }  */
+  /* .remove-btn {
+    color: var(--clr-primary); */
+    /* letter-spacing: var(--spacing); */
+    /* cursor: pointer;
     font-size: 0.85rem;
     background: transparent;
     border: none;
     margin-top: 0.375rem;
     transition: var(--transition);
-  }
-  .remove-btn:hover {
+  } */
+  /* .remove-btn:hover {
     color: var(--clr-primary-light);
   }
   .amount-btn {
@@ -253,8 +255,8 @@
   }
   .amount-btn:hover svg {
     color: var(--clr-primary-light);
-  }
-  .amount {
+  } */
+  /* .amount {
     text-align: center;
     margin-bottom: 0;
     font-size: 1.25rem;
@@ -264,7 +266,7 @@
     background: var(--clr-grey-5);
     border-color: transparent;
     border-width: 0.25px;
-  }
+  } */
 .modal-container {
     position: fixed;
     top: 0;

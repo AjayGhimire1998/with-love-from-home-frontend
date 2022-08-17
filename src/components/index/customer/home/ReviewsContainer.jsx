@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import Review from "./Review";
 import "./home.css";
+import "../../../static_pages/review.css";
 
 function ReviewsContainer() {
   const { storeReviews } = useSelector((store) => store.rating);
@@ -13,12 +14,8 @@ function ReviewsContainer() {
   return (
     <>
       <h2 style={{ textAlign: "center" }}>Reviews</h2>
-      <br/>
-      <div className="scrollable">
-        <div id="scrollable-cards" className="ui link cards">
-          {eachReview}
-        </div>
-      </div>
+      <br />
+      <section id="testimonials">{eachReview}</section>
     </>
   );
 }

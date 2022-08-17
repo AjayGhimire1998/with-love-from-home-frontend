@@ -1,92 +1,68 @@
 import React from "react";
-import { First, Second } from "./carousel_images/images";
-import { v4 as uuidv4 } from 'uuid';
-function Reviews() {
-  const reviews = [
-    {
-      username: "supertramp98",
-      role: "customer",
-      review: "Best home shopping experience !!🤩",
-      stars: 5,
-      image: First,
-    },
-    {
-      username: "blackieBOIIIII",
-      role: "store",
-      review: "I can sell home-made cookies to lovely people around.🥰 ",
-      stars: 4,
-      image: Second,
-    },
-    {
-      username: "blackieBOIIIII",
-      role: "store",
-      review: "I can sell home-made cookies to lovely people around.🥰 ",
-      stars: 5,
-      image: Second,
-    },
-    {
-      username: "blackieBOIIIII",
-      role: "store",
-      review: "I can sell home-made cookies to lovely people around.🥰 ",
-      stars: 5,
-      image: Second,
-    },
-    {
-      username: "blackieBOIIIII",
-      role: "store",
-      review: "I can sell home-made cookies to lovely people around.🥰 ",
-      stars: 5,
-      image: Second,
-    },
-  ];
-  return (
-    <div className="pusher">
-      <div className="ui vertical stripe quote segment">
-        <br />
-        <h1
-          className="ui header"
-          style={{
-            textAlign: "center",
-            color: "whitesmoke",
-            fontFamily: "monospace",
-            fontSize: "30px",
-            textShadow: "2px 2px black",
-            fontWeight: "bolder",
-            WebkitTextStroke: "1px black",
-          }}
-        >
-          Reviews
-        </h1>
-        <div className="ui equal width stackable internally celled grid">
-          <div className="center aligned row">
-            <br />
+import { v4 as uuidv4 } from "uuid";
+import { useDispatch, useSelector } from "react-redux";
+import "./review.css";
+import Loader from "./Loader";
+import { calculateAverageRating } from "../../app/services/other-services/service";
 
-            {reviews.map((review) => {
-              return (
-                <div key={uuidv4()}className="column">
-                  <h3>"{`${review.review}`}"</h3>
-                  <p>
-                    <img
-                      src={`${review.image}`}
-                      className="ui avatar image"
-                      alt="hehe"
-                    />
-                    {`${review.username}`}
-                  </p>
-                  <section>
-                    {Array.from({ length: review.stars }, (_, i) => (
+function Reviews() {
+  const dispatch = useDispatch();
+
+  const { staticReviews } = useSelector((store) => store.static);
+  const { allCustomers } = useSelector((store) => store.customer);
+
+  return (
+    <>
+      <h1
+        className="ui header"
+        style={{
+          textAlign: "center",
+          color: "whitesmoke",
+          fontFamily: "monospace",
+          fontSize: "30px",
+          textShadow: "2px 2px black",
+          fontWeight: "bolder",
+          WebkitTextStroke: "1px black",
+        }}
+      >
+        Reviews
+      </h1>
+      <section id="testimonials">
+        {staticReviews?.map((review) => {
+          return (
+            <div className="testimonial-box-container" key={review.id}>
+              <div className="testimonial-box">
+                <div className="box-top">
+                  <div className="profile">
+                    <div className="name-user">
+                      <strong>
+                        {allCustomers.length !== 0 ? (
+                          allCustomers?.find(
+                            (customer) => customer.id === review.user_id
+                          ).fullname
+                        ) : (
+                          <Loader />
+                        )}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div className="reviews">
+                    {Array.from({ length: review.rating }, (_, i) => (
                       <i key={uuidv4()} className="star yellow icon"></i>
                     ))}
-                  </section>
+                  </div>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-      
-    </div>
-            
+
+                <div className="client-comment">
+                  <p>{review.content}</p>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </section>
+    </>
   );
 }
 

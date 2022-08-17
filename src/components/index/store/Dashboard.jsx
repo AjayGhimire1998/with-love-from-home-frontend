@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authHeader } from "../../../app/services/auth-services/auth-header";
-import { setStore } from "../../../features/dashboard/dashboardSlice";
+import { getStoreOrders, setStore } from "../../../features/dashboard/dashboardSlice";
 import axios from "axios";
 import ProductsContainer from "./ProductsContainer";
 import EditStoreModal from "./EditStoreModal";
@@ -45,6 +45,10 @@ function Dashboard({ checkLoader }) {
         dispatch(setAllStoreProducts(response.data));
       });
   }, []);
+
+  useEffect(() => {
+    dispatch(getStoreOrders(storeId))
+  },[])
 
   return (
     <>
@@ -119,7 +123,7 @@ function Dashboard({ checkLoader }) {
       <ProductsContainer checkLoader={checkLoader} />
       <br />
       <br />
-      <br/>
+      <br />
       <Footer />
     </>
   );
