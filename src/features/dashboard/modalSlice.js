@@ -7,6 +7,9 @@ const initialState = {
   isConfirmDeleteOpen: false,
   isEditImagesOpen: false,
   isViewOrderOpen: false,
+  isApproveMessageBoxOpen: false,
+  isRejectMessageBoxOpen: false,
+  isDeleteStoreOpen: false,
 };
 
 const modalSlice = createSlice({
@@ -20,6 +23,9 @@ const modalSlice = createSlice({
       state.isConfirmDeleteOpen = false;
       state.isEditImagesOpen = false;
       state.isViewOrderOpen = false;
+      state.isApproveMessageBoxOpen = false;
+      state.isRejectMessageBoxOpen = false;
+      state.isDeleteStoreOpen = false;
     },
     closeEditStoreModal: (state, action) => {
       state.isEditStoreOpen = false;
@@ -28,6 +34,9 @@ const modalSlice = createSlice({
       state.isEditProductOpen = false;
       state.isEditImagesOpen = false;
       state.isViewOrderOpen = false;
+      state.isApproveMessageBoxOpen = false;
+      state.isRejectMessageBoxOpen = false;
+      state.isDeleteStoreOpen = false;
     },
     openNewProductModal: (state, action) => {
       state.isNewProductOpen = true;
@@ -36,6 +45,9 @@ const modalSlice = createSlice({
       state.isEditProductOpen = false;
       state.isEditImagesOpen = false;
       state.isViewOrderOpen = false;
+      state.isApproveMessageBoxOpen = false;
+      state.isRejectMessageBoxOpen = false;
+      state.isDeleteStoreOpen = false;
     },
     closeNewProductModal: (state, action) => {
       state.isNewProductOpen = false;
@@ -44,6 +56,9 @@ const modalSlice = createSlice({
       state.isEditProductOpen = false;
       state.isEditImagesOpen = false;
       state.isViewOrderOpen = false;
+      state.isApproveMessageBoxOpen = false;
+      state.isRejectMessageBoxOpen = false;
+      state.isDeleteStoreOpen = false;
     },
     openEditProductModal: (state) => {
       state.isEditProductOpen = true;
@@ -52,6 +67,9 @@ const modalSlice = createSlice({
       state.isNewProductOpen = false;
       state.isEditImagesOpen = false;
       state.isViewOrderOpen = false;
+      state.isApproveMessageBoxOpen = false;
+      state.isRejectMessageBoxOpen = false;
+      state.isDeleteStoreOpen = false;
     },
     closeEditProductModal: (state) => {
       state.isEditProductOpen = false;
@@ -60,6 +78,9 @@ const modalSlice = createSlice({
       state.isConfirmDeleteOpen = false;
       state.isEditImagesOpen = false;
       state.isViewOrderOpen = false;
+      state.isApproveMessageBoxOpen = false;
+      state.isRejectMessageBoxOpen = false;
+      state.isDeleteStoreOpen = false;
     },
     openEditImagesModal: (state) => {
       state.isEditImagesOpen = true;
@@ -68,6 +89,9 @@ const modalSlice = createSlice({
       state.isEditStoreOpen = false;
       state.isConfirmDeleteOpen = false;
       state.isViewOrderOpen = false;
+      state.isApproveMessageBoxOpen = false;
+      state.isRejectMessageBoxOpen = false;
+      state.isDeleteStoreOpen = false;
     },
     closeEditImageModal: (state) => {
       state.isEditImagesOpen = false;
@@ -76,6 +100,9 @@ const modalSlice = createSlice({
       state.isEditStoreOpen = false;
       state.isConfirmDeleteOpen = false;
       state.isViewOrderOpen = false;
+      state.isApproveMessageBoxOpen = false;
+      state.isRejectMessageBoxOpen = false;
+      state.isDeleteStoreOpen = false;
     },
     openConfirmDeleteModal: (state) => {
       state.isConfirmDeleteOpen = true;
@@ -84,6 +111,9 @@ const modalSlice = createSlice({
       state.isNewProductOpen = false;
       state.isEditImagesOpen = false;
       state.isViewOrderOpen = false;
+      state.isApproveMessageBoxOpen = false;
+      state.isRejectMessageBoxOpen = false;
+      state.isDeleteStoreOpen = false;
     },
     closeConfirmDeleteModal: (state) => {
       state.isConfirmDeleteOpen = false;
@@ -92,6 +122,9 @@ const modalSlice = createSlice({
       state.isEditStoreOpen = false;
       state.isEditImagesOpen = false;
       state.isViewOrderOpen = false;
+      state.isApproveMessageBoxOpen = false;
+      state.isRejectMessageBoxOpen = false;
+      state.isDeleteStoreOpen = false;
     },
     openViewOrder: (state) => {
       state.isViewOrderOpen = true;
@@ -100,8 +133,80 @@ const modalSlice = createSlice({
       state.isNewProductOpen = false;
       state.isEditStoreOpen = false;
       state.isEditImagesOpen = false;
+      state.isApproveMessageBoxOpen = false;
+      state.isRejectMessageBoxOpen = false;
+      state.isDeleteStoreOpen = false;
     },
     closeViewOrder: (state) => {
+      state.isViewOrderOpen = false;
+      state.isConfirmDeleteOpen = false;
+      state.isEditProductOpen = false;
+      state.isNewProductOpen = false;
+      state.isEditStoreOpen = false;
+      state.isEditImagesOpen = false;
+      state.isApproveMessageBoxOpen = false;
+      state.isRejectMessageBoxOpen = false;
+      state.isDeleteStoreOpen = false;
+    },
+    openApproveMesssageBox: (state) => {
+      state.isApproveMessageBoxOpen = true;
+      state.isViewOrderOpen = false;
+      state.isConfirmDeleteOpen = false;
+      state.isEditProductOpen = false;
+      state.isNewProductOpen = false;
+      state.isEditStoreOpen = false;
+      state.isEditImagesOpen = false;
+      state.isRejectMessageBoxOpen = false;
+      state.isDeleteStoreOpen = false;
+    },
+    closeApproveMessageBox: (state) => {
+      state.isApproveMessageBoxOpen = false;
+      state.isViewOrderOpen = false;
+      state.isConfirmDeleteOpen = false;
+      state.isEditProductOpen = false;
+      state.isNewProductOpen = false;
+      state.isEditStoreOpen = false;
+      state.isEditImagesOpen = false;
+      state.isRejectMessageBoxOpen = false;
+      state.isDeleteStoreOpen = false;
+    },
+    openRejectMessageBox: (state) => {
+      state.isRejectMessageBoxOpen = true;
+      state.isApproveMessageBoxOpen = false;
+      state.isViewOrderOpen = false;
+      state.isConfirmDeleteOpen = false;
+      state.isEditProductOpen = false;
+      state.isNewProductOpen = false;
+      state.isEditStoreOpen = false;
+      state.isEditImagesOpen = false;
+      state.isDeleteStoreOpen = false;
+    },
+    closeRejectMessageBox: (state) => {
+      state.isRejectMessageBoxOpen = false;
+      state.isApproveMessageBoxOpen = false;
+      state.isViewOrderOpen = false;
+      state.isConfirmDeleteOpen = false;
+      state.isEditProductOpen = false;
+      state.isNewProductOpen = false;
+      state.isEditStoreOpen = false;
+      state.isEditImagesOpen = false;
+      state.isDeleteStoreOpen = false;
+    },
+    openConfirmDeleteStore: (state) => {
+      state.isDeleteStoreOpen = true;
+      state.isRejectMessageBoxOpen = false;
+      state.isApproveMessageBoxOpen = false;
+      state.isViewOrderOpen = false;
+      state.isConfirmDeleteOpen = false;
+      state.isEditProductOpen = false;
+      state.isNewProductOpen = false;
+      state.isEditStoreOpen = false;
+      state.isEditImagesOpen = false;
+    },
+    closeConfirmDeleteStore: (state) => {
+      state.isDeleteStoreOpen = false;
+      state.isRejectMessageBoxOpen = false;
+      state.isApproveMessageBoxOpen = false;
       state.isViewOrderOpen = false;
       state.isConfirmDeleteOpen = false;
       state.isEditProductOpen = false;
@@ -124,8 +229,13 @@ export const {
   openConfirmDeleteModal,
   closeConfirmDeleteModal,
   openViewOrder,
-  closeViewOrder
-  // forceRender
+  closeViewOrder,
+  openApproveMesssageBox,
+  closeApproveMessageBox,
+  openRejectMessageBox,
+  closeRejectMessageBox,
+  openConfirmDeleteStore,
+  closeConfirmDeleteStore,
 } = modalSlice.actions;
 
 export default modalSlice.reducer;

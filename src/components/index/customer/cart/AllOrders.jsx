@@ -1,26 +1,24 @@
 import React from "react";
-import { useNavigate } from "react-router";
-import ViewOrder from "./ViewOrder";
 import { useDispatch, useSelector } from "react-redux";
-
+import { useNavigate } from "react-router";
 import {
-  setViewOrderStatusToApproved,
   setViewOrderStatusToPending,
+  setViewOrderStatusToApproved,
   setViewOrderStatusToRejected,
-} from "../../../features/dashboard/dashboardSlice";
+} from "../../../../features/dashboard/dashboardSlice";
+import EachOrder from "./EachOrder";
 
-function ViewOrdersContainer() {
+function AllOrders() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { storeOrders, viewOrderStatus } = useSelector(
-    (store) => store.dashboard
-  );
+  const { userOrders } = useSelector((store) => store.home);
+  const { viewOrderStatus } = useSelector((store) => store.dashboard);
 
   return (
     <>
       <br />
-      {storeOrders.length !== 0 ? (
+      {userOrders.length !== 0 ? (
         <div className="ui container">
           <button
             className="ui labeled primary icon button"
@@ -72,10 +70,10 @@ function ViewOrdersContainer() {
             <br />
             <br />
             <div style={{ textAlign: "center" }}>
-              {storeOrders.cart_items ? (
-                storeOrders.cart_items.flat(Infinity)?.map((item) => {
+              {userOrders.cart_items ? (
+                userOrders.cart_items.flat(Infinity)?.map((item) => {
                   if (item.status === viewOrderStatus) {
-                    return <ViewOrder key={item.id} item={item} />;
+                    return <EachOrder key={item.id} item={item} />;
                   }
                 })
               ) : (
@@ -106,4 +104,4 @@ function ViewOrdersContainer() {
   );
 }
 
-export default ViewOrdersContainer;
+export default AllOrders;

@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3001/api/v1";
+const API_URL = "http://localhost:3004/api/v1";
 
 export const customerSignUp = (
   fullName,
@@ -26,6 +26,10 @@ export const customerSignUp = (
         localStorage.setItem("user", JSON.stringify(data.accessToken));
         localStorage.setItem("id", data.user.data.id);
         window.location.reload();
+      } else if (data?.error) {
+        localStorage.clear();
+        localStorage.setItem("signup_error", JSON.stringify(data.error));
+        window.location.reload();
       }
       return data;
     })
@@ -49,6 +53,10 @@ export const customerLogin = (email, password) => {
 
         localStorage.setItem("user", JSON.stringify(data.accessToken));
         localStorage.setItem("id", data.user.data.id);
+        window.location.reload();
+      } else if (data?.error) {
+        localStorage.clear();
+        localStorage.setItem("login_error", JSON.stringify(data.error));
         window.location.reload();
       }
       return data;
@@ -89,6 +97,10 @@ export const storeSignUp = (
         localStorage.setItem("store", JSON.stringify(data.accessToken));
         localStorage.setItem("id", data.store.data.id);
         window.location.reload();
+      } else if (data?.error) {
+        localStorage.clear();
+        localStorage.setItem("store_signup_error", JSON.stringify(data.error));
+        window.location.reload();
       }
       return data;
     })
@@ -112,6 +124,10 @@ export const storeLogin = (email, password) => {
         localStorage.setItem("store", JSON.stringify(data.accessToken));
         localStorage.setItem("id", data.store.data.id);
         window.location.reload();
+      } else if (data?.error) {
+        localStorage.clear();
+        localStorage.setItem("store_login_error", JSON.stringify(data.error));
+        window.location.reload();
       }
       return data;
     })
@@ -123,11 +139,6 @@ export const logOut = () => {
   window.location.reload();
 };
 
-// export const storeLogOut = () => {
-//   localStorage.clear();
-//   window.location.reload();
-// };
-
 export const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem("user"));
 };
@@ -135,16 +146,3 @@ export const getCurrentStore = () => {
   return JSON.parse(localStorage.getItem("store"));
 };
 
-// export const getStore = (id, authHeader) => {
-//   fetch(API_URL + `/stores/${id}`, {
-//     method: "GET",
-//     headers: authHeader,
-//   })
-//     .then((response) => {
-//       response.json();
-//     })
-//     .then((data) => {
-//       return data;
-//     })
-//     .catch((error) => console.log("error", error));
-// };

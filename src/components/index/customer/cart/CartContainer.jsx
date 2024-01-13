@@ -6,6 +6,7 @@ import "../home/product.scss";
 import { useEffect } from "react";
 import {
   calculateTotal,
+  clearCart,
   closeCheckOutForm,
   openCheckOutForm,
   openClearCartModal,
@@ -16,12 +17,18 @@ import Footer from "../../../static_pages/Footer";
 import axios from "axios";
 import { authHeader } from "../../../../app/services/auth-services/auth-header";
 import { getCurrentUser } from "../../../../app/services/auth-services/auth-service";
+import ErrorMessage from "../../../errors/ErrorMessage";
+// import PaymentForm from "./PaymentForm";
+// import { loadStripe } from "@stripe/stripe-js";
+// import { Elements } from "@stripe/react-stripe-js";
 
 function CartContainer({ checkLoader }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  //   const { cartItems, total, amount } = useSelector((store) => store.homeproduct);
+  // const stripePromise = loadStripe("pk_test_51Lc01gDqIGzAt87BxaT4T9WGHwQ4PDIluMgOxV1GKdiaw86RnvvTKbjxhrehioTZ3tboQoLGa8aHIEHHOQS4MnLH00gcutMqFN");
+
+  const { isErrorMessage } = useSelector((store) => store.rating);
   const {
     cartAmount,
     cartItems,
@@ -30,6 +37,7 @@ function CartContainer({ checkLoader }) {
     isCheckOutFormOpen,
     isFinalCheckOutButtonOpen,
     createdCarts,
+    isStartPaymentFormOpen,
   } = useSelector((store) => store.homeproduct);
 
   useEffect(() => {
@@ -37,35 +45,47 @@ function CartContainer({ checkLoader }) {
   }, [cartItems]);
 
   const headers = authHeader(getCurrentUser());
-  const handlePlaceOrder = (e) => {
-    e.preventDefault();
-    cartItems?.forEach((item) => {
+
+  const handlePlaceOrder = () => {
+    return new Promise((resolve, reject) => {
+      cartItems?.forEach((item) => {
+        axios
+          .post(
+            "http://localhost:3001/api/v1/cart_items",
+            {
+              cart_item: {
+                product_id: item.product.id,
+                amount: item.amount,
+                total: item.totalPrice,
+                status: "pending",
+                cart_id: createdCarts?.find(
+                  (cart) => cart.store_id === item.product.store_id
+                ).id,
+              },
+            },
+            { headers }
+          )
+          .then((response) => resolve(response.data));
+      });
+    })
+      .catch((error) => console.log(error))
+      .finally(() => {
+        checkLoader(3000);
+        sendEmails();
+        navigate("/thank-you");
+      });
+  };
+
+  const sendEmails = async () => {
+    createdCarts?.forEach((cart) => {
       axios
         .post(
-          "http://localhost:3001/api/v1/cart_items",
-          {
-            cart_item: {
-              product_id: item.product.id,
-              amount: item.amount,
-              total: item.totalPrice,
-              status: "pending",
-              cart_id: createdCarts?.find(
-                (cart) => cart.store_id === item.product.store_id
-              ).id,
-            },
-          },
-          { headers }
+          `http://localhost:3001/api/v1/orders/${cart.id}/mail_to_user_and_store`
         )
         .then((response) => {
-          console.log(response.data);
-          if (response.status === 201) {
-            navigate("/thank-you");
-            window.location.reload();
-          }
-        })
-        .catch((error) => console.log(error));
+          console.log(response);
+        });
     });
-    checkLoader(2000);
   };
 
   if (cartAmount < 1) {
@@ -87,6 +107,8 @@ function CartContainer({ checkLoader }) {
               <h2>Your Cart</h2>
               <h4 className="empty-cart">is currently empty</h4>
             </header>
+            <br />
+            <br />
           </section>
         </div>
       </>
@@ -96,6 +118,7 @@ function CartContainer({ checkLoader }) {
   return (
     <>
       <br />
+      {isErrorMessage && <ErrorMessage />}
       <div className="ui container">
         <button
           className="ui labeled primary icon button"
@@ -131,14 +154,14 @@ function CartContainer({ checkLoader }) {
             <br />
             <button
               className="ui red button"
-              disabled={isCheckOutFormOpen || isFinalCheckOutButtonOpen}
+              disabled={isCheckOutFormOpen || isFinalCheckOutButtonOpen || isStartPaymentFormOpen}
               onClick={() => dispatch(openClearCartModal())}
             >
               Clear Cart
             </button>
             <button
               className="ui green button"
-              disabled={isCheckOutFormOpen || isFinalCheckOutButtonOpen}
+              disabled={isCheckOutFormOpen || isFinalCheckOutButtonOpen || isStartPaymentFormOpen}
               onClick={() => dispatch(openCheckOutForm())}
             >
               Check Out
@@ -149,11 +172,19 @@ function CartContainer({ checkLoader }) {
           <br />
           <br />
           {isCheckOutFormOpen && <CheckOutForm />}
+          {/* {isStartPaymentFormOpen && (
+            <Elements stripe={stripePromise}>
+              <PaymentForm />
+            </Elements>
+          )} */}
           {isFinalCheckOutButtonOpen && (
             <button
               className="ui huge green button"
               style={{ width: "100%" }}
-              onClick={handlePlaceOrder}
+              onClick={() => {
+                handlePlaceOrder();
+                dispatch(clearCart());
+              }}
             >
               PLACE ORDER
             </button>

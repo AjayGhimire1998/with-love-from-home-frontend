@@ -7,7 +7,6 @@ import {
   increase,
   decrease,
   addToCart,
-  calculateTotal,
 } from "../../../../features/home/homeproductSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../static_pages/Loader";
@@ -17,6 +16,7 @@ import {
   setReviewContent,
   setNewProductReview,
   getSelectedProductReviews,
+  setSuccessfulMessage,
 } from "../../../../features/home/ratingSlice";
 import { authHeader } from "../../../../app/services/auth-services/auth-header";
 import { getCurrentUser } from "../../../../app/services/auth-services/auth-service";
@@ -25,9 +25,8 @@ import ProductReviewsContainer from "./ProductReviewsContainer";
 import Footer from "../../../static_pages/Footer";
 import { ChevronDown, ChevronUp } from "../../../../app/services/icons";
 import { v4 as uuidv4 } from "uuid";
-import {calculateAverageRating} from "../../../../app/services/other-services/service"
-
-
+import { calculateAverageRating } from "../../../../app/services/other-services/service";
+import ErrorMessage from "../../../errors/ErrorMessage";
 
 function ProductView() {
   const { id } = useParams();
@@ -43,6 +42,19 @@ function ProductView() {
     (store) => store.homeproduct
   );
 
+  const {
+    rating,
+    reviewContent,
+    productReviews,
+    successfulMessage,
+    errorMessage,
+  } = useSelector((store) => store.rating);
+  const { customerId } = useSelector((store) => store.customer);
+
+  const outOfStock = () => {
+    return selectedProduct.in_stock === 0 
+  };
+
   const miniImages = selectedProduct?.images.map((image, index) => {
     return (
       <div
@@ -53,10 +65,9 @@ function ProductView() {
     );
   });
 
-  const { rating, reviewContent, productReviews } = useSelector(
-    (store) => store.rating
+  const hasUserReviewedProduct = productReviews?.find(
+    (review) => review.user_id === customerId
   );
-  const { customerId } = useSelector((store) => store.customer);
 
   const headers = authHeader(getCurrentUser());
 
@@ -74,6 +85,9 @@ function ProductView() {
       .post("http://localhost:3001/api/v1/product_reviews", data, { headers })
       .then((response) => {
         dispatch(setNewProductReview(response.data));
+        dispatch(
+          setSuccessfulMessage(`You have just reviewed ${selectedProduct.name}`)
+        );
       });
   };
 
@@ -84,6 +98,7 @@ function ProductView() {
       ) : (
         <>
           <br />
+
           <div className="ui container">
             <button
               className="ui labeled primary icon button"
@@ -93,6 +108,9 @@ function ProductView() {
               Go Back
             </button>
             <br />
+            <br />
+            {successfulMessage && <ErrorMessage success={successfulMessage} />}
+            {errorMessage && <ErrorMessage error={errorMessage} />}
             <br />
             <div className="ui stackable two column grid">
               <div className="column">
@@ -113,6 +131,17 @@ function ProductView() {
                   <div className="title">
                     <h2>{selectedProduct.name.toUpperCase()}</h2>
                     <span>ID: {selectedProduct.id}</span>
+                    {selectedProduct.in_stock === 0 ? (
+                      <h4>
+                        (
+                        <span style={{ color: "red", fontSize: "15px" }}>
+                          Out of Stock
+                        </span>
+                        )
+                      </h4>
+                    ) : (
+                      <h4>In-Stock: {selectedProduct.in_stock}</h4>
+                    )}
                   </div>
 
                   <div className="price">
@@ -125,6 +154,7 @@ function ProductView() {
                   <div>
                     <button
                       className="amount-btn"
+                      disabled={outOfStock() || amount === selectedProduct.in_stock}
                       onClick={() => {
                         dispatch(increase());
                       }}
@@ -134,6 +164,7 @@ function ProductView() {
                     <p className="amount">{amount}</p>
                     <button
                       className="amount-btn"
+                      disabled={outOfStock()}
                       onClick={() => {
                         dispatch(decrease());
                       }}
@@ -144,11 +175,14 @@ function ProductView() {
                   <br />
                   <button
                     className="buy--btn"
-                    disabled={amount === 0}
+                    disabled={amount === 0 || outOfStock()}
                     onClick={() => {
                       dispatch(addToCart());
-
-                      navigate(-1);
+                      dispatch(
+                        setSuccessfulMessage(
+                          `You've added ${selectedProduct.name} to your cart`
+                        )
+                      );
                     }}
                   >
                     ADD TO CART
@@ -172,40 +206,43 @@ function ProductView() {
                         <i key={uuidv4()} className="star yellow icon"></i>
                       )
                     )}
-                    <i className="star yellow icon"></i>
                   </div>
                   <br />
-                  <div className="ui centered column card">
-                    <div className="content">
-                      <div className=" header" style={{ float: "left" }}>
-                        Rate&nbsp;
-                        {selectedProduct && selectedProduct?.name}?
-                      </div>
-                      <br />
-                      <div className="description" style={{ float: "left" }}>
-                        <Rate />
+                  {hasUserReviewedProduct ? null : (
+                    <div className="ui centered column card">
+                      <div className="content">
+                        <div className=" header" style={{ float: "left" }}>
+                          Rate&nbsp;
+                          {selectedProduct && selectedProduct?.name}?
+                        </div>
                         <br />
-                        <textarea
-                          placeholder="Give Review"
-                          rows={5}
-                          value={reviewContent}
-                          onChange={(e) =>
-                            dispatch(setReviewContent(e.target.value))
-                          }
-                        />
-                        <br />
-                        <button
-                          className="ui mini green left floated button"
-                          disabled={
-                            rating === 0 && reviewContent === "" ? true : false
-                          }
-                          onClick={handleReviewSubmit}
-                        >
-                          Rate
-                        </button>
+                        <div className="description" style={{ float: "left" }}>
+                          <Rate />
+                          <br />
+                          <textarea
+                            placeholder="Give Review"
+                            rows={5}
+                            value={reviewContent}
+                            onChange={(e) =>
+                              dispatch(setReviewContent(e.target.value))
+                            }
+                          />
+                          <br />
+                          <button
+                            className="ui mini green left floated button"
+                            disabled={
+                              rating === 0 && reviewContent === ""
+                                ? true
+                                : false
+                            }
+                            onClick={handleReviewSubmit}
+                          >
+                            Rate
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>

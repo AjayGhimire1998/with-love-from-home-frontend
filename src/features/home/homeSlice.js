@@ -5,7 +5,7 @@ export const getAllStores = createAsyncThunk(
   "home/getAllStores",
   async (name, thunkAPI) => {
     try {
-      const response = await axios("http://localhost:3001/api/v1/stores");
+      const response = await axios("http://localhost:3004/api/v1/stores");
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong.");
@@ -17,7 +17,7 @@ export const getAllProducts = createAsyncThunk(
   "home/getAllProducts",
   async (name, thunkAPI) => {
     try {
-      const response = await axios("http://localhost:3001/api/v1/products");
+      const response = await axios("http://localhost:3004/api/v1/products");
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong.");
@@ -30,7 +30,7 @@ export const setSelectedStore = createAsyncThunk(
   async (storeId, thunkAPI) => {
     try {
       const response = await axios(
-        `http://localhost:3001/api/v1/stores/${storeId}`
+        `http://localhost:3004/api/v1/stores/${storeId}`
       );
       return response.data;
     } catch (error) {
@@ -44,11 +44,25 @@ export const setSelectedStoreProducts = createAsyncThunk(
   async (storeId, thunkAPI) => {
     try {
       const response = await axios(
-        `http://localhost:3001/api/v1/stores/${storeId}/products`
+        `http://localhost:3004/api/v1/stores/${storeId}/products`
       );
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong");
+    }
+  }
+);
+
+export const getUserOrders = createAsyncThunk(
+  "cart/getUserOrders",
+  async (id, thunkAPI) => {
+    try {
+      const response = await axios(
+        `http://localhost:3004/api/v1/users/${id}/orders`
+      );
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Something went wrong.");
     }
   }
 );
@@ -66,9 +80,11 @@ const initialState = {
   isHomeLoading: false,
   isDimmerOnHover: false,
   pageCounter: 0,
+  filteredPageCounter: 0,
   selectedStore: [],
   hoveredStore: [],
   selectedStoreProducts: [],
+  userOrders: [],
 };
 
 const homeSlice = createSlice({
@@ -86,6 +102,12 @@ const homeSlice = createSlice({
     },
     decreasePageCounter: (state) => {
       state.pageCounter = state.pageCounter - 6;
+    },
+    increaseFilteredPageCounter: (state) => {
+      state.filteredPageCounter = state.filteredPageCounter + 6;
+    },
+    decreaseFilteredPageCounter: (state) => {
+      state.filteredPageCounter = state.filteredPageCounter - 6;
     },
     setHoveredStore: (state, action) => {
       const hoveredStore = state.allStores.find(
@@ -177,6 +199,17 @@ const homeSlice = createSlice({
       state.selectedStoreProducts = action.payload;
       state.isHomeLoading = false;
     },
+    [getUserOrders.pending]: (state) => {
+      state.isHomeLoading = true;
+    },
+    [getUserOrders.fulfilled]: (state, action) => {
+      state.userOrders = action.payload;
+      state.isHomeLoadingß = false;
+    },
+    [getUserOrders.rejected]: (state) => {
+      state.isHomeLoadingß = false;
+
+    },
   },
 });
 
@@ -185,10 +218,12 @@ export const {
   setIsDimmerOnHover,
   increasePageCounter,
   decreasePageCounter,
+  increaseFilteredPageCounter,
+  decreaseFilteredPageCounter,
   setHoveredStore,
   eraseSelectedStore,
   setFilteredProducts,
   setSearch,
-  clearSearch
+  clearSearch,
 } = homeSlice.actions;
 export default homeSlice.reducer;

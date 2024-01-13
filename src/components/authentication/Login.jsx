@@ -1,17 +1,26 @@
 import React from "react";
 import Omniauth from "./form-helpers/Omniauth";
 import { useDispatch, useSelector } from "react-redux";
-import { emailChange, passwordChange } from "../../features/auth/customerSlice";
+import {
+  emailChange,
+  passwordChange,
+  setError,
+} from "../../features/auth/customerSlice";
 import { useNavigate } from "react-router";
 import { customerLogin } from "../../app/services/auth-services/auth-service";
-import Navbar from "../nav/Navbar";
+import { useEffect } from "react";
+import ErrorMessage from "../errors/ErrorMessage";
 
 function Login({ checkLoader }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { email, password } = useSelector((store) => store.customer);
+  const { email, password, error } = useSelector((store) => store.customer);
 
-  const handleSubmit = (event) => {
+  useEffect(() => {
+    dispatch(setError(JSON.parse(localStorage.getItem("login_error"))));
+  }, []);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     checkLoader(3000);
     customerLogin(email, password);
@@ -21,9 +30,14 @@ function Login({ checkLoader }) {
     <>
       <br />
       <br />
+      {error && <ErrorMessage error={error} />}
+      {/* {error && <ErrorMessage warning={error} />} */}
+      <br />
+      <br />
       <br />
       <div style={{ display: "table", height: "100%", margin: "0 auto" }}>
         <br />
+
         <div
           style={{
             display: "table-cell",
@@ -32,9 +46,9 @@ function Login({ checkLoader }) {
           }}
         >
           <h3>Login as a customer</h3>
-          <br/>
+          <br />
           <form className="ui form" onSubmit={handleSubmit}>
-            <div className="field ">
+            <div className="required field">
               <label style={{ textAlign: "left" }}>Email</label>
               <input
                 type="email"
@@ -42,7 +56,7 @@ function Login({ checkLoader }) {
                 onChange={(event) => dispatch(emailChange(event.target.value))}
               />
             </div>
-            <div className="field">
+            <div className="required field">
               <label style={{ textAlign: "left" }}>Password</label>
               <input
                 type="password"
@@ -56,15 +70,20 @@ function Login({ checkLoader }) {
               Login
             </button>
             <br />
-            <br/>
+            <br />
             <br />
           </form>
-          <Omniauth />
+          {/* <Omniauth />
+          <br />
+          <br /> */}
+          <a href="/reset_user">Forgot Your Password?</a>
           <br />
           <br />
           <br />
-          <br />
-          <button className="ui blue button" onClick={() => navigate("/store/login")}>
+          <button
+            className="ui blue button"
+            onClick={() => navigate("/store/login")}
+          >
             Login as a Store
           </button>
         </div>

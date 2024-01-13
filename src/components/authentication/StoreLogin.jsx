@@ -1,18 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { emailChanger, passwordChanger } from "../../features/auth/storeSlice";
-import { useNavigate } from "react-router";
 import {
-  getStore,
-  storeLogin,
-} from "../../app/services/auth-services/auth-service";
-import { setStore } from "../../features/dashboard/dashboardSlice";
+  emailChanger,
+  passwordChanger,
+  setError,
+} from "../../features/auth/storeSlice";
+import { useNavigate } from "react-router";
+import { storeLogin } from "../../app/services/auth-services/auth-service";
+import ErrorMessage from "../errors/ErrorMessage";
 
 function Login({ checkLoader }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { email, password } = useSelector((store) => store.store);
+  const { email, password, error } = useSelector((store) => store.store);
+
+  useEffect(() => {
+    dispatch(setError(JSON.parse(localStorage.getItem("store_login_error"))));
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -22,6 +27,9 @@ function Login({ checkLoader }) {
   };
   return (
     <>
+      <br />
+      <br />
+      {error && <ErrorMessage error={error} />}
       <br />
       <br />
       <br />
@@ -36,11 +44,8 @@ function Login({ checkLoader }) {
         >
           <h3>Login As a Store</h3>
           <br />
-          <form
-            className="ui form"
-            onSubmit={handleSubmit}
-          >
-            <div className="field ">
+          <form className="ui form" onSubmit={handleSubmit}>
+            <div className=" required field ">
               <label style={{ textAlign: "left" }}>Email</label>
               <input
                 type="email"
@@ -48,7 +53,7 @@ function Login({ checkLoader }) {
                 onChange={(event) => dispatch(emailChanger(event.target.value))}
               />
             </div>
-            <div className="field">
+            <div className="required field">
               <label style={{ textAlign: "left" }}>Password</label>
               <input
                 type="password"
@@ -62,9 +67,11 @@ function Login({ checkLoader }) {
               Login
             </button>
             <br />
-            <br />
-            <br />
-            <br />
+          <br />
+          <a href="/reset_store">Forgot Your Password?</a>
+          <br />
+          <br />
+          <br />
             <button
               className="ui blue button"
               onClick={() => navigate("/login")}

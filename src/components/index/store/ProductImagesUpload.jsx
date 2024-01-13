@@ -8,6 +8,7 @@ import {
   pushToProductImages,
   getEachImage,
 } from "../../../features/dashboard/productSlice";
+import Loader from "../../static_pages/Loader";
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
 const ProductImagesUpload = ({ checkLoader }) => {
@@ -57,7 +58,7 @@ const ProductImagesUpload = ({ checkLoader }) => {
           style={{ display: "none" }}
           onChange={(event) => {
             uploadToS3(event);
-            checkLoader(2000);
+            checkLoader(3000);
           }}
         />
 
@@ -67,20 +68,24 @@ const ProductImagesUpload = ({ checkLoader }) => {
         </label>
         <br />
         <br />
-        <div className="ui horizontal segments">
-          {productImages.slice(1).map((image) => {
-            return (
-              <div className="ui segment" key={uuidv4()}>
-                <img
-                  className="image-preview"
-                  alt="logo"
-                  src={`${image}`}
-                  style={{ height: "150px", width: "160px" }}
-                />
-              </div>
-            );
-          })}
-        </div>
+        {/* {eachImage !== "" ? ( */}
+          <div className="ui horizontal segments">
+            {productImages.slice(1).map((image) => {
+              return (
+                <div className="ui segment" key={uuidv4()}>
+                  <img
+                    className="image-preview"
+                    alt="logo"
+                    src={`${image}`}
+                    style={{ height: "150px", width: "160px" }}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        {/* ) : (
+          <Loader />
+        )} */}
       </div>
       <br />
       <br />

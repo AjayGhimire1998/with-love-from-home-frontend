@@ -3,15 +3,15 @@ import { useSelector } from "react-redux";
 import HomeProduct from "./HomeProduct";
 import Store from "./Store";
 import {
-  increasePageCounter,
-  decreasePageCounter,
+  increaseFilteredPageCounter,
+  decreaseFilteredPageCounter,
 } from "../../../../features/home/homeSlice";
 import { useDispatch } from "react-redux";
 
 function FilteredResults({ checkLoader }) {
   const dispatch = useDispatch();
 
-  const { filteredProducts, filteredStores, categoryId, pageCounter } =
+  const { filteredProducts, filteredStores, categoryId, filteredPageCounter } =
     useSelector((store) => store.home);
   const { categoryItems } = useSelector((store) => store.store);
 
@@ -39,7 +39,10 @@ function FilteredResults({ checkLoader }) {
             <br />
             <div className="ui internally celled equal width grid">
               <div className="ui link cards centered row">
-                {eachFilteredProduct?.slice(pageCounter, pageCounter + 6)}
+                {eachFilteredProduct?.slice(
+                  filteredPageCounter,
+                  filteredPageCounter + 6
+                )}
               </div>
             </div>
             <br />
@@ -48,14 +51,14 @@ function FilteredResults({ checkLoader }) {
               <button
                 className="ui labeled red icon button"
                 onClick={() => {
-                  dispatch(decreasePageCounter());
+                  dispatch(decreaseFilteredPageCounter());
                   window.scroll({
                     top: 0,
                     left: 0,
                     behavior: "smooth",
                   });
                 }}
-                disabled={pageCounter === 0}
+                disabled={filteredPageCounter === 0}
               >
                 <i className="left arrow icon"></i>
                 Previous
@@ -63,14 +66,16 @@ function FilteredResults({ checkLoader }) {
               <button
                 className="ui right labeled red icon button"
                 onClick={() => {
-                  dispatch(increasePageCounter());
+                  dispatch(increaseFilteredPageCounter());
                   window.scroll({
                     top: 0,
                     left: 0,
                     behavior: "smooth",
                   });
                 }}
-                disabled={pageCounter + 6 >= eachFilteredProduct?.length}
+                disabled={
+                  filteredPageCounter + 6 >= eachFilteredProduct?.length
+                }
               >
                 <i className="right arrow icon"></i>
                 Next

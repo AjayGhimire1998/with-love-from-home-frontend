@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
-import { Routes, Route, Navigate, Link } from "react-router-dom";
+import { Routes, Route, Navigate, Link, useNavigate } from "react-router-dom";
 import StaticPages from "./components/static_pages/StaticPages";
 import Login from "./components/authentication/Login";
 import StoreLogin from "./components/authentication/StoreLogin";
@@ -37,16 +37,24 @@ import { getProductsImages, getReviews } from "./features/static/staticSlice";
 import StoreDetails from "./components/index/customer/home/StoreDetails";
 import ProductView from "./components/index/customer/home/ProductView";
 import CartContainer from "./components/index/customer/cart/CartContainer";
+import AllOrders from "./components/index/customer/cart/AllOrders";
 import ThankYou from "./components/index/customer/cart/ThankYou";
 import ViewOrdersContainer from "./components/index/store/ViewOrdersContainer";
+import ResetUserEmail from "./components/authentication/ResetUserEmail";
+import ResetUserPasswordForm from "./components/authentication/ResetUserPasswordForm";
+import ResetStoreEmail from "./components/authentication/ResetStoreEmail";
+import ResetStorePasswordForm from "./components/authentication/ResetStorePasswordForm";
 
 function App() {
+  const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(undefined);
   const [currentStore, setCurrentStore] = useState(undefined);
 
   const dispatch = useDispatch();
   const { isLoading } = useSelector((store) => store.loader);
   const { isHomeLoading } = useSelector((store) => store.home);
+  const { isCustomerLoggedIn } = useSelector((store) => store.customer);
+  const { isStoreLoggedIn } = useSelector((store) => store.store);
 
   const checkLoader = (time) => {
     dispatch(activateLoader());
@@ -71,7 +79,7 @@ function App() {
       dispatch(isCustomerLoggedInChanger());
       dispatch(setCustomerId(JSON.parse(localStorage.getItem("id"))));
     }
-  }, []);
+  }, [isCustomerLoggedIn]);
 
   useEffect(() => {
     const store = getCurrentStore();
@@ -80,7 +88,7 @@ function App() {
       dispatch(isStoreLoggedInChanger());
       dispatch(setStoreId(JSON.parse(localStorage.getItem("id"))));
     }
-  }, []);
+  }, [isStoreLoggedIn]);
 
   useEffect(() => {
     dispatch(getCategories());
@@ -90,10 +98,27 @@ function App() {
     dispatch(getAllCustomers());
   }, []);
 
+  const notAuthorized = () => {
+    return (
+      <div className="ui container" style={{ textAlign: "center" }}>
+        <br />
+        <br />
+        <h2>Not Authorized To View Page</h2>
+        <br />
+        <br />
+        <button className="ui primary button" onClick={() => navigate(-1)}>
+          Go Back
+        </button>
+      </div>
+    );
+  };
+
   return (
     <>
       <div className="App">
-        {currentUser && currentStore ? null : <Navbar />}
+        {currentUser && currentStore ? null : (
+          <Navbar checkLoader={checkLoader} />
+        )}
         {isLoading || isHomeLoading ? <Loader /> : null}
 
         <Routes>
@@ -106,28 +131,56 @@ function App() {
                 <Dashboard checkLoader={checkLoader} />
               ) : currentUser ? (
                 <Home checkLoader={checkLoader} />
+              ) : JSON.parse(localStorage.getItem("signup_error")) ? (
+                <SignUp checkLoader={checkLoader} />
+              ) : JSON.parse(localStorage.getItem("store_signup_error")) ? (
+                <RegisterStore checkLoader={checkLoader} />
+              ) : JSON.parse(localStorage.getItem("store_login_error")) ? (
+                <StoreLogin checkLoader={checkLoader} />
               ) : (
                 <Login checkLoader={checkLoader} />
               )
-              // currentStore && currentUser ? (
-              //   <Login checkLoader={checkLoader} />
-              // ) : (
-              //   <StaticPages checkLoader={checkLoader} />
-              // )
             }
           />
-          <Route path="/login" element={<Login checkLoader={checkLoader} />} />
+          <Route
+            path="/login"
+            element={
+              currentUser ? (
+                <Navigate replace to="/" />
+              ) : (
+                <Login checkLoader={checkLoader} />
+              )
+            }
+          />
           <Route
             path="/store/login"
-            element={<StoreLogin checkLoader={checkLoader} />}
+            element={
+              currentStore ? (
+                <Navigate replace to="/" />
+              ) : (
+                <StoreLogin checkLoader={checkLoader} />
+              )
+            }
           />
           <Route
             path="/signup"
-            element={<SignUp checkLoader={checkLoader} />}
+            element={
+              currentUser ? (
+                <Navigate replace to="/" />
+              ) : (
+                <SignUp checkLoader={checkLoader} />
+              )
+            }
           />
           <Route
             path="/store/signup"
-            element={<RegisterStore checkLoader={checkLoader} />}
+            element={
+              currentStore ? (
+                <Navigate replace to="/" />
+              ) : (
+                <RegisterStore checkLoader={checkLoader} />
+              )
+            }
           />
           <Route
             path="/stores/:id"
@@ -135,7 +188,7 @@ function App() {
               currentUser ? (
                 <StoreDetails checkLoader={checkLoader} />
               ) : (
-                <h2>401 | Please Login to View Page</h2>
+                <Login checkLoader={checkLoader} />
               )
             }
           />
@@ -145,7 +198,7 @@ function App() {
               currentUser ? (
                 <ProductView checkLoader={checkLoader} />
               ) : (
-                <h2>401 | Please Login to View Page</h2>
+                <Login checkLoader={checkLoader} />
               )
             }
           />
@@ -155,7 +208,7 @@ function App() {
               currentUser ? (
                 <CartContainer checkLoader={checkLoader} />
               ) : (
-                <h2>Cannot View Cart</h2>
+                notAuthorized()
               )
             }
           />
@@ -165,7 +218,7 @@ function App() {
               currentUser ? (
                 <ThankYou checkLoader={checkLoader} />
               ) : (
-                <Login checkLoader={checkLoader} />
+                notAuthorized()
               )
             }
           />
@@ -175,9 +228,35 @@ function App() {
               currentStore ? (
                 <ViewOrdersContainer checkLoader={checkLoader} />
               ) : (
-                <StoreLogin checkLoader={checkLoader} />
+                notAuthorized()
               )
             }
+          />
+          <Route
+            path="/users/:id/orders"
+            element={
+              currentUser ? (
+                <AllOrders checkLoader={checkLoader} />
+              ) : (
+                notAuthorized()
+              )
+            }
+          />
+          <Route
+            path="/reset_user"
+            element={<ResetUserEmail checkLoader={checkLoader} />}
+          />
+          <Route
+            path="/reset_user_password"
+            element={<ResetUserPasswordForm checkLoader={checkLoader} />}
+          />
+          <Route
+            path="/reset_store"
+            element={<ResetStoreEmail checkLoader={checkLoader} />}
+          />
+          <Route
+            path="/reset_store_password"
+            element={<ResetStorePasswordForm checkLoader={checkLoader} />}
           />
         </Routes>
       </div>

@@ -6,7 +6,7 @@ export const getSelectedProduct = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const response = await axios(
-        `http://localhost:3001/api/v1/products/${id}`
+        `http://localhost:3004/api/v1/products/${id}`
       );
       // console.log(response.data)
       return response.data;
@@ -26,13 +26,13 @@ const initialState = {
   total: 0,
   isClearCartOpen: false,
   isCheckOutFormOpen: false,
+  isStartPaymentFormOpen: false,
   isFinalCheckOutButtonOpen: false,
   fullName: "",
-  address: "",
+
   phone: "",
   email: "",
   createdCarts: [],
-  // cartId: null,
 };
 
 const homeproductSlice = createSlice({
@@ -106,6 +106,14 @@ const homeproductSlice = createSlice({
       state.cartItems = [];
       state.cartAmount = 0;
       state.isClearCartOpen = false;
+      state.isCheckOutFormOpen = false;
+      state.isFinalCheckOutButtonOpen = false;
+      state.selectedProduct = null;
+      state.imagePreviewIndex = 0;
+      state.amount = 0;
+      state.total = 0;
+      state.isClearCartOpen = false;
+      state.createdCarts = [];
     },
     openClearCartModal: (state) => {
       state.isClearCartOpen = true;
@@ -130,11 +138,16 @@ const homeproductSlice = createSlice({
     closeFinalCheckOutButton: (state) => {
       state.isFinalCheckOutButtonOpen = false;
     },
+    openStartPaymentForm: (state) => {
+      state.isStartPaymentFormOpen = true;
+      state.isCheckOutFormOpen = false;
+      state.isFinalCheckOutButtonOpen = false;
+    },
+    closeStartPaymentForm: (state) => {
+      state.isStartPaymentFormOpen = false;
+    },
     setFullName: (state, action) => {
       state.fullName = action.payload;
-    },
-    setAddress: (state, action) => {
-      state.address = action.payload;
     },
     setPhone: (state, action) => {
       state.phone = action.payload;
@@ -145,9 +158,6 @@ const homeproductSlice = createSlice({
     setCreatedCarts: (state, action) => {
       state.createdCarts.push(action.payload);
     },
-    // setCartId: (state, action) => {
-    //   state.cartId = action.payload;
-    // },
   },
   extraReducers: {
     [getSelectedProduct.pending]: (state) => {
@@ -178,6 +188,8 @@ export const {
   closeCheckOutForm,
   openFinalCheckOutButton,
   closeFinalCheckOutButton,
+  openStartPaymentForm,
+  closeStartPaymentForm,
   setFullName,
   setAddress,
   setEmail,

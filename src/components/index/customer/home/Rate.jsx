@@ -7,11 +7,9 @@ import { setRating } from "../../../../features/home/ratingSlice";
 const Rate = () => {
   const dispatch = useDispatch();
   const ratingChanged = (newRating) => {
-    dispatch(setRating(newRating))
-  }
+    dispatch(setRating(newRating));
+  };
 
-  const {rating} = useSelector((store) => store.rating)
-console.log(rating)
   return (
     <ReactStars
       count={5}

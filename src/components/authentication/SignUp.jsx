@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Omniauth from "./form-helpers/Omniauth";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -6,16 +6,21 @@ import {
   emailChange,
   passwordChange,
   passwordConfirmationChange,
+  setError,
 } from "../../features/auth/customerSlice";
 import { customerSignUp } from "../../app/services/auth-services/auth-service";
 import { useNavigate } from "react-router-dom";
+import ErrorMessages from "../errors/ErrorMessages";
 
 function SignUp({ checkLoader }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { fullName, email, password, passwordConfirmation } = useSelector(
-    (store) => store.customer
-  );
+  const { fullName, email, password, passwordConfirmation, error } =
+    useSelector((store) => store.customer);
+
+  useEffect(() => {
+    dispatch(setError(JSON.parse(localStorage.getItem("signup_error"))));
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,6 +30,9 @@ function SignUp({ checkLoader }) {
   };
   return (
     <>
+      <br />
+      <br />
+      {error && <ErrorMessages error={error} />}
       <br />
       <br />
       <br />
@@ -38,7 +46,7 @@ function SignUp({ checkLoader }) {
           }}
         >
           <form className="ui form " onSubmit={handleSubmit}>
-            <div className="field ">
+            <div className="required field">
               <label style={{ textAlign: "left" }}>Full Name</label>
               <input
                 type="text"
@@ -49,7 +57,7 @@ function SignUp({ checkLoader }) {
                 }
               />
             </div>
-            <div className="field ">
+            <div className="required field">
               <label style={{ textAlign: "left" }}>Email</label>
               <input
                 type="email"
@@ -58,7 +66,7 @@ function SignUp({ checkLoader }) {
                 onChange={(event) => dispatch(emailChange(event.target.value))}
               />
             </div>
-            <div className="field">
+            <div className="required field">
               <label style={{ textAlign: "left" }}>Password</label>
               <input
                 type="password"
@@ -69,7 +77,7 @@ function SignUp({ checkLoader }) {
                 }
               />
             </div>
-            <div className="field ">
+            <div className="required field">
               <label style={{ textAlign: "left" }}>Confirm Password</label>
               <input
                 type="password"
@@ -85,13 +93,13 @@ function SignUp({ checkLoader }) {
             </button>
             <br />
           </form>
-          <br/>
-          <br/>
-          <Omniauth />
           <br />
           <br />
+          {/* <Omniauth />
           <br />
           <br />
+          <br /> */}
+          {/* <br /> */}
           <button
             className="ui blue button"
             onClick={() => navigate("/store/signup")}

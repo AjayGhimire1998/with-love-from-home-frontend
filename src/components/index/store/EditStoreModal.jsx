@@ -1,21 +1,27 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import StoreLogo from "../../authentication/form-helpers/StoreLogo";
-import { closeEditStoreModal } from "../../../features/dashboard/modalSlice";
+import {
+  closeEditStoreModal,
+  openConfirmDeleteStore,
+} from "../../../features/dashboard/modalSlice";
 import { nameChanger } from "../../../features/auth/storeSlice";
 import axios from "axios";
 import { authHeader } from "../../../app/services/auth-services/auth-header";
 import { setStore } from "../../../features/dashboard/dashboardSlice";
 import { getCurrentStore } from "../../../app/services/auth-services/auth-service";
 import "./product.css";
+import Dropdown from "../../authentication/form-helpers/Dropdown";
 
 function EditStoreModal({ checkLoader }) {
   const dispatch = useDispatch();
-  const { name, logo, storeId } = useSelector((store) => store.store);
+  const { name, logo, storeId, categoryItems, categoryId } = useSelector((store) => store.store);
 
   const data = {
     name: name,
     logo: logo,
+    category_id: categoryId
   };
 
   const headers = authHeader(getCurrentStore());
@@ -32,6 +38,7 @@ function EditStoreModal({ checkLoader }) {
         dispatch(setStore(data));
       });
   };
+
   return (
     <aside className="modal-container">
       <div className="modal">
@@ -51,7 +58,7 @@ function EditStoreModal({ checkLoader }) {
             <br />
             <br />
             <form className="ui form ">
-              <div className="field ">
+              <div className="required field ">
                 <label style={{ textAlign: "left" }}>Store Name</label>
                 <input
                   type="text"
@@ -62,6 +69,16 @@ function EditStoreModal({ checkLoader }) {
                 />
               </div>
               <br />
+              <div className="required field">
+                <label style={{ textAlign: "left" }}>
+                  Select Store's category
+                </label>
+                <Dropdown
+                  categoryItems={categoryItems}
+                  categoryId={categoryId}
+                />
+                <br />
+              </div>
               <br />
               <div className="actions">
                 <div
@@ -80,6 +97,14 @@ function EditStoreModal({ checkLoader }) {
                   Close
                 </div>
               </div>
+              <br />
+              <br />
+              <button
+                className="ui red button"
+                onClick={() => dispatch(openConfirmDeleteStore())}
+              >
+                Permanently Delete The Store
+              </button>
             </form>
           </div>
         </div>

@@ -1,30 +1,39 @@
 import React from "react";
-import { logOut } from "../../../../app/services/auth-services/auth-service";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import FilterContainer from "./FilterContainer";
 import { useEffect } from "react";
-import axios from "axios";
 import {
   getAllProducts,
   getAllStores,
+  getUserOrders
 } from "../../../../features/home/homeSlice";
 import StoreContainer from "./StoreContainer";
 import HomeProductContainer from "./HomeProductsContainer";
 import Footer from "../../../static_pages/Footer";
 import FilteredResults from "./FilteredResults";
 
+
+
 export default function Home({ checkLoader }) {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getAllStores());
-    dispatch(getAllProducts());
-  }, []);
 
   const { filteredStores, filteredProducts } = useSelector(
     (store) => store.home
   );
+  const { customerId } = useSelector((store) => store.customer);
+
+  useEffect(() => {
+    dispatch(getAllStores());
+    dispatch(getAllProducts());
+
+  }, []);
+
+
+
+  useEffect(() => {
+    dispatch(getUserOrders(customerId))
+  },[])
 
   return (
     <>

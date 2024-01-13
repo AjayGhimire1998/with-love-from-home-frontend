@@ -2,7 +2,10 @@ import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authHeader } from "../../../app/services/auth-services/auth-header";
-import { getStoreOrders, setStore } from "../../../features/dashboard/dashboardSlice";
+import {
+  getStoreOrders,
+  setStore,
+} from "../../../features/dashboard/dashboardSlice";
 import axios from "axios";
 import ProductsContainer from "./ProductsContainer";
 import EditStoreModal from "./EditStoreModal";
@@ -13,6 +16,7 @@ import { setAllStoreProducts } from "../../../features/dashboard/productSlice";
 import { ConfirmDeleteModal } from "./ConfirmDeleteModal";
 import EditProductImages from "./EditProductImages";
 import Footer from "../../static_pages/Footer";
+import ConfirmStoreDelete from "./ConfirmStoreDelete";
 
 function Dashboard({ checkLoader }) {
   const { store } = useSelector((store) => store.dashboard);
@@ -22,6 +26,7 @@ function Dashboard({ checkLoader }) {
     isNewProductOpen,
     isConfirmDeleteOpen,
     isEditImagesOpen,
+    isDeleteStoreOpen,
   } = useSelector((store) => store.modal);
 
   const dispatch = useDispatch();
@@ -47,8 +52,8 @@ function Dashboard({ checkLoader }) {
   }, []);
 
   useEffect(() => {
-    dispatch(getStoreOrders(storeId))
-  },[])
+    dispatch(getStoreOrders(storeId));
+  }, []);
 
   return (
     <>
@@ -56,11 +61,13 @@ function Dashboard({ checkLoader }) {
       {isNewProductOpen && <NewProductFormModal checkLoader={checkLoader} />}
       {isConfirmDeleteOpen && <ConfirmDeleteModal checkLoader={checkLoader} />}
       {isEditImagesOpen && <EditProductImages checkLoader={checkLoader} />}
+      {isDeleteStoreOpen && <ConfirmStoreDelete checkLoader={checkLoader} />}
       <div
         className="ui inverted vertical masthead center aligned segment"
         style={{
           backgroundImage: `url(${store?.store.current_store.logo})`,
-          backgroundSize: "cover ",
+          backgroundSize: "cover",
+          backgroundPositionY: "center",
         }}
       >
         <div className="ui text container">

@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { setImagePreviewIndex } from "../../../../features/home/homeproductSlice";
 import ProductsCarouselSlide from "../../store/ProductsCarouselSlide";
 
@@ -10,10 +10,18 @@ function HomeProduct({ product }) {
   return (
     <>
       <div className="card" style={{ margin: "25px" }}>
+        {product.in_stock === 0 ? (
+          <button id="show-products" className="ui tiny red button">
+            <span style={{ color: "white" }}>Out Of Stock</span>
+          </button>
+        ) : null}
         <div className="image">
           <ProductsCarouselSlide imagesToPreview={product.images} />
         </div>
-        <div className="content">
+        <div
+          className="content"
+          style={product.in_stock === 0 ? { filter: "blur(1px)" } : null}
+        >
           <div
             className="header"
             style={{
@@ -48,6 +56,11 @@ function HomeProduct({ product }) {
             onClick={() => {
               navigate(`/products/${product.id}`);
               dispatch(setImagePreviewIndex(0));
+              window.scroll({
+                top: 0,
+                left: 0,
+                behavior: "smooth",
+              });
             }}
           >
             <span style={{ color: "black" }}>View Details</span>

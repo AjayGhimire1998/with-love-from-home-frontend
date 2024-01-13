@@ -11,6 +11,7 @@ import staticReducer from "../features/static/staticSlice";
 import homeReducer from "../features/home/homeSlice";
 import ratingReducer from "../features/home/ratingSlice";
 import homeproductReducer from "../features/home/homeproductSlice";
+import cartFormReducer from "../features/cart/cartFormSlice";
 
 export const store = configureStore({
   reducer: {
@@ -25,7 +26,8 @@ export const store = configureStore({
     static: staticReducer,
     home: homeReducer,
     rating: ratingReducer,
-    homeproduct: homeproductReducer
+    homeproduct: homeproductReducer,
+    cartForm: cartFormReducer,
   },
   middleware: getDefaultMiddleware({
     serializableCheck: false,

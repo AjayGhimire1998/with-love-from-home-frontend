@@ -15,12 +15,13 @@ import {
   setNewProduct,
   setPrice,
   unshiftNewProduct,
+  setInStock,
 } from "../../../features/dashboard/productSlice";
 
 function NewProductFormModal({ checkLoader }) {
   const dispatch = useDispatch();
   const { storeId } = useSelector((store) => store.store);
-  const { name, description, price, productImages } = useSelector(
+  const { name, description, price, productImages, inStock } = useSelector(
     (store) => store.product
   );
 
@@ -31,8 +32,11 @@ function NewProductFormModal({ checkLoader }) {
       description: description,
       store_id: storeId,
       images: productImages.slice(1),
+      in_stock: inStock,
     },
   };
+
+  const options = Array.from(Array(31).keys());
 
   const headers = authHeader(getCurrentStore());
 
@@ -43,7 +47,6 @@ function NewProductFormModal({ checkLoader }) {
 
       .then((response) => {
         const data = response.data;
-        console.log(data);
         dispatch(setNewProduct(data.last_product));
         dispatch(unshiftNewProduct());
       });
@@ -56,13 +59,19 @@ function NewProductFormModal({ checkLoader }) {
   return (
     <aside className="modal-container">
       <div className="modal">
-        <div style={{ display: "table", height: "100%", margin: "0 auto" }}>
+        <div
+          style={{
+            // display: "table",
+            height: "100%",
+            margin: "0 auto",
+          }}
+        >
           <div
             style={{
-              display: "table-cell",
+              // display: "table-cell",
               verticalAlign: "middle",
               textAlign: "center",
-              padding: "50px",
+              padding: "40px",
             }}
           >
             <h3 className="header">Add New Product</h3>
@@ -72,7 +81,7 @@ function NewProductFormModal({ checkLoader }) {
             <br />
             <ProductImagesUpload checkLoader={checkLoader} />
             <form className="ui form ">
-              <div className="field ">
+              <div className="required field ">
                 <label style={{ textAlign: "left" }}>Name</label>
                 <input
                   type="text"
@@ -80,7 +89,7 @@ function NewProductFormModal({ checkLoader }) {
                   onChange={(event) => dispatch(setName(event.target.value))}
                 />
               </div>
-              <div className="field ">
+              <div className="required field ">
                 <label style={{ textAlign: "left" }}>Description</label>
                 <textarea
                   type="text"
@@ -92,16 +101,36 @@ function NewProductFormModal({ checkLoader }) {
                   }
                 />
               </div>
-              <div className="field ">
-                <label style={{ textAlign: "left" }}>Set Price</label>
-                <div className="ui right labeled input">
-                  <input
-                    type="text"
-                    placeholder="Amount"
-                    id="amount"
-                    onChange={(event) => dispatch(setPrice(event.target.value))}
-                  />
-                  <div className="ui basic label">AUD</div>
+              <div className="two fields">
+                <div className="required field ">
+                  <label style={{ textAlign: "left" }}>Set Price</label>
+                  <div className="ui right labeled input">
+                    <input
+                      type="text"
+                      placeholder="Amount"
+                      id="amount"
+                      onChange={(event) =>
+                        dispatch(setPrice(event.target.value))
+                      }
+                    />
+                    <div className="ui basic label">AUD</div>
+                  </div>
+                </div>
+                <div className="required field">
+                  <label style={{ textAlign: "left" }}>In-Stock</label>
+                  <select
+                    onChange={(event) =>
+                      dispatch(setInStock(event.target.value))
+                    }
+                  >
+                    {options.map((opt) => {
+                      return (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
               </div>
               <div className="actions">
@@ -136,7 +165,7 @@ function NewProductFormModal({ checkLoader }) {
     //   >
     //     <h2 className="header">Add New Product</h2>
     //     <br />
-    //     <div className="field ">
+    //     <div className="required field ">
     //       <label style={{ textAlign: "left" }}>Choose Upto 3 images</label>
     //     </div>
     //     <br />
@@ -144,7 +173,7 @@ function NewProductFormModal({ checkLoader }) {
     //     <br />
     //     <br />
     //     <form className="ui form ">
-    //       <div className="field ">
+    //       <div className="required field ">
     //         <label style={{ textAlign: "left" }}>Name</label>
     //         <input
     //           type="text"
@@ -152,7 +181,7 @@ function NewProductFormModal({ checkLoader }) {
     //           onChange={(event) => dispatch(setName(event.target.value))}
     //         />
     //       </div>
-    //       <div className="field ">
+    //       <div className="required field ">
     //         <label style={{ textAlign: "left" }}>Description</label>
     //         <textarea
     //           type="text"
@@ -162,7 +191,7 @@ function NewProductFormModal({ checkLoader }) {
     //           }
     //         />
     //       </div>
-    //       <div className="field ">
+    //       <div className="required field ">
     //         <label style={{ textAlign: "left" }}>Set Price</label>
     //         <div className="ui right labeled input">
     //           <input

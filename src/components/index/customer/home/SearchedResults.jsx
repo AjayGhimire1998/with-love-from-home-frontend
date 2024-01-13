@@ -39,6 +39,7 @@ function SearchedResults() {
                   <img
                     src={product.images[0]}
                     alt="store-logo"
+                    id="enlarge-on-hover-image"
                     style={{
                       height: "25px",
                       width: "25px",
@@ -80,6 +81,7 @@ function SearchedResults() {
                   <img
                     src={store.logo}
                     alt="store-logo"
+                    id="enlarge-on-hover-image"
                     style={{
                       height: "25px",
                       width: "25px",

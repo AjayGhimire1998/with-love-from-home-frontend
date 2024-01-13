@@ -5,7 +5,7 @@ export const getProductsImages = createAsyncThunk(
   "static/getProductsImages",
   async (name, thunkAPI) => {
     try {
-      const response = await axios("http://localhost:3001/api/v1/products");
+      const response = await axios("http://localhost:3004/api/v1/products");
       return response.data.products.map((product) => product.images);
     } catch (error) {
       return thunkAPI.rejectWithValue("Somthing went wrong");
@@ -16,7 +16,7 @@ export const getReviews = createAsyncThunk(
   "static/getReviews",
   async (name, thunkAPI) => {
     try {
-      const response = await axios("http://localhost:3001/api/v1/reviews");
+      const response = await axios("http://localhost:3004/api/v1/reviews");
       return response.data
         .filter((review) => review.content !== "")
         .slice(0, 9, 1);

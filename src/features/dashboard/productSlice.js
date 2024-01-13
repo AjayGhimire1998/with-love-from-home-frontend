@@ -4,12 +4,15 @@ const initialState = {
   name: "",
   description: "",
   price: "",
+  // isAvailable: null,
+  inStock: null,
   productImages: [],
   eachImage: "",
   newProduct: [],
   recentlyUpdatedProduct: [],
   allStoreProducts: [],
   id: null,
+  
 };
 
 const productSlice = createSlice({
@@ -24,6 +27,9 @@ const productSlice = createSlice({
     },
     setPrice: (state, action) => {
       state.price = action.payload;
+    },
+    setInStock: (state, action) => {
+      state.inStock = action.payload
     },
     pushToProductImages: (state, action) => {
       state.productImages = action.payload;
@@ -55,6 +61,7 @@ const productSlice = createSlice({
       state.name = productItem.name;
       state.description = productItem.description;
       state.price = productItem.price;
+    
     },
     setEditProductImages: (state, action) => {
       const productItem = state.allStoreProducts.find(
@@ -96,6 +103,7 @@ export const {
   setName,
   setDescription,
   setPrice,
+  setInStock,
   pushToProductImages,
   getEachImage,
   setNewProduct,

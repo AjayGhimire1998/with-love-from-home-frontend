@@ -1,19 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Dropdown from "./form-helpers/Dropdown";
 import StoreLogo from "./form-helpers/StoreLogo";
 import { useDispatch, useSelector } from "react-redux";
 import {
   nameChanger,
-  logoChanger,
-  categoryIdChanger,
   emailChanger,
   passwordChanger,
   passwordConfirmationChanger,
+  setError,
 } from "../../features/auth/storeSlice";
 import { storeSignUp } from "../../app/services/auth-services/auth-service";
 import { useNavigate } from "react-router-dom";
-import { setStoreId } from "../../features/dashboard/dashboardSlice";
-import Navbar from "../nav/Navbar";
+import ErrorMessages from "../errors/ErrorMessages";
 
 function RegisterStore({ checkLoader }) {
   const navigate = useNavigate();
@@ -26,7 +24,12 @@ function RegisterStore({ checkLoader }) {
     email,
     password,
     passwordConfirmation,
+    error,
   } = useSelector((store) => store.store);
+
+  useEffect(() => {
+    dispatch(setError(JSON.parse(localStorage.getItem("store_signup_error"))));
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -35,12 +38,16 @@ function RegisterStore({ checkLoader }) {
     storeSignUp(name, logo, categoryId, email, password, passwordConfirmation);
     navigate("/");
   };
-  console.log(logo);
+  // console.log(logo);
   return (
     <>
       <br />
       <br />
+      {error && <ErrorMessages error={error} />}
       <br />
+      <br />
+      <br />
+
       <div style={{ display: "table", height: "100%", margin: "0 auto" }}>
         <br />
         <div
@@ -51,7 +58,7 @@ function RegisterStore({ checkLoader }) {
           }}
         >
           <form className="ui form " onSubmit={handleSubmit}>
-            <div className="field ">
+            <div className="required field ">
               <label style={{ textAlign: "left" }}>Store Name</label>
               <input
                 type="text"
@@ -59,7 +66,7 @@ function RegisterStore({ checkLoader }) {
                 onChange={(event) => dispatch(nameChanger(event.target.value))}
               />
             </div>
-            <div className="field">
+            <div className="required field">
               <label style={{ textAlign: "left" }}>
                 Select Store's category
               </label>
@@ -69,7 +76,7 @@ function RegisterStore({ checkLoader }) {
             <StoreLogo checkLoader={checkLoader} />
 
             <br />
-            <div className="field ">
+            <div className="required field ">
               <label style={{ textAlign: "left" }}>Email</label>
               <input
                 type="email"
@@ -77,7 +84,7 @@ function RegisterStore({ checkLoader }) {
                 onChange={(event) => dispatch(emailChanger(event.target.value))}
               />
             </div>
-            <div className="field">
+            <div className="required field">
               <label style={{ textAlign: "left" }}>Password</label>
               <input
                 type="password"
@@ -87,7 +94,7 @@ function RegisterStore({ checkLoader }) {
                 }
               />
             </div>
-            <div className="field ">
+            <div className="required field ">
               <label style={{ textAlign: "left" }}>Confirm Password</label>
               <input
                 type="password"

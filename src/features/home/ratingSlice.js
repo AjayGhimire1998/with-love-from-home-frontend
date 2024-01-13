@@ -6,7 +6,7 @@ export const getStoreReviews = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const response = await axios(
-        `http://localhost:3001/api/v1/stores/${id}/reviews`
+        `http://localhost:3004/api/v1/stores/${id}/reviews`
       );
       return response.data;
     } catch (error) {
@@ -20,7 +20,7 @@ export const getSelectedProductReviews = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const response = await axios(
-        `http://localhost:3001/api/v1/products/${id}/reviews`
+        `http://localhost:3004/api/v1/products/${id}/reviews`
       );
       // console.log(response.data)
       return response.data;
@@ -37,6 +37,10 @@ const initialState = {
   newStoreReview: null,
   productReviews: null,
   newProductReview: null,
+  isReviewEditOpen: false,
+  recentlyUpdatedReview: [],
+  successfulMessage: null,
+  errorMessage: null,
 };
 
 const ratingSlice = createSlice({
@@ -45,9 +49,6 @@ const ratingSlice = createSlice({
   reducers: {
     setRating: (state, action) => {
       state.rating = action.payload;
-    },
-    setStoreReviews: (state, action) => {
-      state.storeReviews = action.payload;
     },
     setReviewContent: (state, action) => {
       state.reviewContent = action.payload;
@@ -64,6 +65,59 @@ const ratingSlice = createSlice({
       state.rating = 0;
       state.reviewContent = "";
     },
+    setIsReviewEditOpenToTrue: (state) => {
+      state.isReviewEditOpen = true;
+    },
+    setIsReviewEditOpenToFalse: (state) => {
+      state.isReviewEditOpen = false;
+    },
+    setRecentlyUpdatedReview: (state, action) => {
+      state.recentlyUpdatedReview = action.payload;
+    },
+    replaceRecentlyUpdatedReview: (state) => {
+      state.productReviews = state.productReviews
+        .flat(Infinity)
+        .map((review) =>
+          review.id !== state.recentlyUpdatedReview.id
+            ? review
+            : state.recentlyUpdatedReview
+        );
+      state.rating = 0;
+      state.reviewContent = "";
+    },
+    eraseDeletedReview: (state, action) => {
+      state.productReviews = state.productReviews
+        .flat(Infinity)
+        .filter((review) => review.id !== action.payload);
+    },
+    replaceRecentlyUpdatedStoreReview: (state) => {
+      state.storeReviews = state.storeReviews
+        .flat(Infinity)
+        .map((review) =>
+          review.id !== state.recentlyUpdatedReview.id
+            ? review
+            : state.recentlyUpdatedReview
+        );
+      state.rating = 0;
+      state.reviewContent = "";
+    },
+    eraseDeletedStoreReview: (state, action) => {
+      state.storeReviews = state.storeReviews
+        .flat(Infinity)
+        .filter((review) => review.id !== action.payload);
+    },
+    setSuccessfulMessage: (state, action) => {
+      state.successfulMessage = null;
+      state.successfulMessage = action.payload;
+    },
+    setErrorMessage: (state, action) => {
+      state.errorMessage = null;
+      state.errorMessage = action.payload;
+    },
+    clearMessages: (state) => {
+      state.successfulMessage = null;
+      state.errorMessage = null;
+    },
   },
   extraReducers: {
     [getStoreReviews.fulfilled]: (state, action) => {
@@ -76,9 +130,18 @@ const ratingSlice = createSlice({
 });
 export const {
   setRating,
-  setStoreReviews,
   setReviewContent,
   setNewStoreReview,
   setNewProductReview,
+  setIsReviewEditOpenToTrue,
+  setIsReviewEditOpenToFalse,
+  setRecentlyUpdatedReview,
+  replaceRecentlyUpdatedReview,
+  eraseDeletedReview,
+  replaceRecentlyUpdatedStoreReview,
+  eraseDeletedStoreReview,
+  setSuccessfulMessage,
+  setErrorMessage,
+  clearMessages
 } = ratingSlice.actions;
 export default ratingSlice.reducer;

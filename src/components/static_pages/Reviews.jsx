@@ -39,7 +39,7 @@ function Reviews() {
                         {allCustomers.length !== 0 ? (
                           allCustomers?.find(
                             (customer) => customer.id === review.user_id
-                          ).fullname
+                          )?.fullname
                         ) : (
                           <Loader />
                         )}

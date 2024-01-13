@@ -4,11 +4,14 @@ import { logOut } from "../../app/services/auth-services/auth-service";
 import { useDispatch, useSelector } from "react-redux";
 import { openViewOrder } from "../../features/dashboard/modalSlice";
 import "./nav.css";
-function Navbar() {
+import { isStoreLoggedInChangerToFalse } from "../../features/auth/storeSlice";
+import { isCustomerLoggedInChangerToFalse } from "../../features/auth/customerSlice";
+
+function Navbar({checkLoader}) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isStoreLoggedIn, storeId } = useSelector((store) => store.store);
-  const { isCustomerLoggedIn } = useSelector((store) => store.customer);
+  const { isCustomerLoggedIn, customerId } = useSelector((store) => store.customer);
   const { cartAmount } = useSelector((store) => store.homeproduct);
 
   return (
@@ -53,6 +56,12 @@ function Navbar() {
                           <p className="total-amount">{cartAmount}</p>
                         </div>
                       </div>
+                      <button
+                        className="ui inverted button"
+                        onClick={() => navigate(`users/${customerId}/orders`)}
+                      >
+                        Your Orders
+                      </button>
                     </>
                   ) : null}
                   {isStoreLoggedIn ? (
@@ -65,7 +74,13 @@ function Navbar() {
                   ) : null}
                   <button
                     className="ui inverted button"
-                    onClick={() => logOut()}
+                    onClick={() => {
+                      logOut();
+                      dispatch(isStoreLoggedInChangerToFalse());
+                      dispatch(isCustomerLoggedInChangerToFalse());
+                      checkLoader(1000)
+                      navigate("/with-love-from-home");
+                    }}
                   >
                     Logout
                   </button>

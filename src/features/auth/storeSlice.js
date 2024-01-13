@@ -5,7 +5,7 @@ export const getCategories = createAsyncThunk(
   "store/getCategories",
   async (name, thunkAPI) => {
     try {
-      const response = await axios("http://localhost:3001/api/v1/categories");
+      const response = await axios("http://localhost:304/api/v1/categories");
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong");
@@ -22,7 +22,9 @@ const initialState = {
   password: "",
   passwordConfirmation: "",
   isStoreLoggedIn: false,
-  storeId: null
+  storeId: null,
+  error: null,
+  tokken: "",
 };
 
 const storeSlice = createSlice({
@@ -50,15 +52,27 @@ const storeSlice = createSlice({
     isStoreLoggedInChanger: (state) => {
       state.isStoreLoggedIn = true;
     },
+    isStoreLoggedInChangerToFalse: (state) => {
+      state.isStoreLoggedIn = false;
+    },
     setStoreId: (state, action) => {
-      state.storeId = action.payload
+      state.storeId = action.payload;
+    },
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
+    setTokken: (state, action) => {
+      state.tokken = action.payload
+    },
+    clearStoreError: (state) => {
+      state.error = ""
     }
   },
   extraReducers: {
     [getCategories.fulfilled]: (state, action) => {
-        state.categoryItems = action.payload
-    }
-  }
+      state.categoryItems = action.payload;
+    },
+  },
 });
 
 export const {
@@ -69,7 +83,11 @@ export const {
   passwordChanger,
   passwordConfirmationChanger,
   isStoreLoggedInChanger,
-  setStoreId
+  setStoreId,
+  isStoreLoggedInChangerToFalse,
+  setError,
+  setTokken,
+  clearStoreError
 } = storeSlice.actions;
 
 export default storeSlice.reducer;

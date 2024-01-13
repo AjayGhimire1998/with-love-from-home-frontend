@@ -29,7 +29,7 @@ function ProductsContainer({ checkLoader }) {
             dispatch(openNewProductModal());
           }}
         >
-          <span style={{ color: "black", float: "center" }}>
+          <span style={{ color: "white", float: "center" }}>
             Add a new product
           </span>
         </button>

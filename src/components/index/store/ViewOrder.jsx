@@ -1,10 +1,27 @@
+import axios from "axios";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { authHeader } from "../../../app/services/auth-services/auth-header";
+import { getCurrentStore } from "../../../app/services/auth-services/auth-service";
+import { readableDate, setProperAddress } from "../../../app/services/other-services/service";
+import {
+  eraseDeletedOrder,
+  setOrderId,
+} from "../../../features/dashboard/dashboardSlice";
+import {
+  openApproveMesssageBox,
+  openRejectMessageBox,
+} from "../../../features/dashboard/modalSlice";
+import ApproveMesssageBox from "./ApproveMessageBox";
+import RejectMessageBox from "./RejectMessageBox";
 
 function ViewOrder({ item }) {
+  const dispatch = useDispatch();
   const { allStoreProducts } = useSelector((store) => store.product);
-  // const { allCustomers } = useSelector((store) => store.customer);
-  const { storeOrders } = useSelector((store) => store.dashboard);
+  const { isApproveMessageBoxOpen, isRejectMessageBoxOpen } = useSelector(
+    (store) => store.modal
+  );
+  const { storeOrders, orderId } = useSelector((store) => store.dashboard);
 
   const product = allStoreProducts?.find(
     (product) => product.id === item.product_id
@@ -13,6 +30,20 @@ function ViewOrder({ item }) {
   const customer = storeOrders?.carts.find(
     (order) => order.id === item.cart_id
   );
+
+  const headers = authHeader(getCurrentStore());
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+    axios
+      .delete(`http://localhost:3001/api/v1/cart_items/${item.id}`, {
+        headers,
+      })
+      .then((response) => {
+        console.log(response.data);
+        dispatch(eraseDeletedOrder(item.id));
+      });
+  };
 
   return (
     <div className="ui placeholder segment">
@@ -34,8 +65,7 @@ function ViewOrder({ item }) {
           <br />
 
           <p>
-            Order Id:{" "}
-            <span style={{ fontWeight: "bolder" }}>{customer.id}</span>
+            Order Id: <span style={{ fontWeight: "bolder" }}>{item.id}</span>
           </p>
           <p>
             Quantity:{" "}
@@ -49,14 +79,48 @@ function ViewOrder({ item }) {
               {item.total}
             </span>
           </p>
+
           <p>
             Status:{" "}
-            <span style={{ fontWeight: "bolder", color: "red" }}>
-              {item.status}
+            <span
+              style={
+                item.status === "pending"
+                  ? { fontWeight: "bolder", color: "blue" }
+                  : item.status === "approved"
+                  ? { fontWeight: "bolder", color: "green" }
+                  : { fontWeight: "bolder", color: "red" }
+              }
+            >
+              {item.status.toUpperCase()}
             </span>
           </p>
-          <br/>
-          <h4 style={{ fontSize: "20px" }}>Deliver To:</h4>
+          {item.approve_message ? (
+            <>
+            <p>
+              Delivering on:{" "}
+              <span style={{ fontWeight: "bolder" }}>
+                {readableDate(item.approve_message.date)}
+              </span>
+            </p>
+            <p>
+              Message:{" "}
+              <span style={{ fontWeight: "bolder" }}>
+                {item.approve_message.message}
+              </span>
+            </p>
+            </>
+          ) : null}
+          {item.reject_message ? (
+            <p>
+              Reason:{" "}
+              <span style={{ fontWeight: "bolder", color: "red" }}>
+                {item.reject_message}
+              </span>
+            </p>
+          ) : null}
+
+          <br />
+          <h4 style={{ fontSize: "20px" }}>Delivery Details:</h4>
           <hr />
           <br />
           <p>
@@ -68,34 +132,75 @@ function ViewOrder({ item }) {
           <p>
             Address:{" "}
             <span style={{ fontWeight: "bolder" }}>
-              {customer.delivery_address}
+              {setProperAddress(customer.delivery_address)}
+              {/* {customer.delivery_address.full_address} */}
             </span>
           </p>
           <p>
             Phone:{" "}
-            <span style={{ fontWeight: "bolder" }}>
+            <a
+              href={"tel:" + customer.phone_number}
+              style={{ fontWeight: "bolder" }}
+            >
               {customer.phone_number}
-            </span>
+            </a>
           </p>
           <p>
             Email:{" "}
-            <span style={{ fontWeight: "bolder" }}>
+            <a
+              href={"mailto:" + customer.recipient_email}
+              style={{ fontWeight: "bolder" }}
+            >
               {customer.recipient_email}
-            </span>
+            </a>
           </p>
           <p>
             Order Made On:{" "}
-            <span style={{ fontWeight: "bolder" }}>{customer.created_at}</span>
+            <span style={{ fontWeight: "bolder" }}>
+              {readableDate(customer.created_at)}
+            </span>
           </p>
-        
         </div>
       </div>
       <br />
       <br />
       <div className="inline">
-        <div className="ui tiny green button">Approve</div>
-        <div className="ui tiny red button">Reject</div>
+        {item.status === "approved" || item.status === "rejected" ? (
+          <div className="ui tiny red button" onClick={handleDelete}>
+            Delete
+          </div>
+        ) : (
+          <>
+            <button
+              className="ui tiny green button"
+              onClick={() => {
+                dispatch(setOrderId(item.id));
+                dispatch(openApproveMesssageBox());
+              }}
+              disabled={isApproveMessageBoxOpen && item.id === orderId}
+            >
+              Approve
+            </button>
+            <button
+              className="ui tiny red button"
+              onClick={() => {
+                dispatch(setOrderId(item.id));
+                dispatch(openRejectMessageBox());
+              }}
+              disabled={isRejectMessageBoxOpen && item.id === orderId}
+            >
+              Reject
+            </button>
+          </>
+        )}
       </div>
+      <br />
+      {isApproveMessageBoxOpen && item.id === orderId ? (
+        <ApproveMesssageBox />
+      ) : null}
+      {isRejectMessageBoxOpen && item.id === orderId ? (
+        <RejectMessageBox />
+      ) : null}
     </div>
   );
 }

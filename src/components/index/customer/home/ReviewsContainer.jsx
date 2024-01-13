@@ -6,7 +6,7 @@ import "../../../static_pages/review.css";
 
 function ReviewsContainer() {
   const { storeReviews } = useSelector((store) => store.rating);
-
+  
   const eachReview = storeReviews?.map((review) => {
     return <Review key={review.id} review={review} />;
   });

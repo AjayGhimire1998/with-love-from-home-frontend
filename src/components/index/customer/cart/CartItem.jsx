@@ -13,7 +13,11 @@ function CartItem({ item }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isCheckOutFormOpen } = useSelector((store) => store.homeproduct);
+  const {
+    isCheckOutFormOpen,
+    isStartPaymentFormOpen,
+    isFinalCheckOutButtonOpen,
+  } = useSelector((store) => store.homeproduct);
 
   return (
     <section className="cart-item">
@@ -44,7 +48,12 @@ function CartItem({ item }) {
       <div>
         <button
           className="amount-btn"
-          disabled={isCheckOutFormOpen}
+          disabled={
+            item.amount === item.product.in_stock ||
+            isCheckOutFormOpen ||
+            isStartPaymentFormOpen ||
+            isFinalCheckOutButtonOpen
+          }
           onClick={() => dispatch(increaseInCart(item.id))}
         >
           <ChevronUp />
@@ -52,7 +61,11 @@ function CartItem({ item }) {
         <p className="amount">{item.amount}</p>
         <button
           className="amount-btn"
-          disabled={isCheckOutFormOpen}
+          disabled={
+            isCheckOutFormOpen ||
+            isFinalCheckOutButtonOpen ||
+            isStartPaymentFormOpen
+          }
           onClick={() => {
             if (item.amount === 1) {
               dispatch(removeItem(item.id));

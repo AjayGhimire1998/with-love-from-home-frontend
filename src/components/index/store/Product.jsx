@@ -13,10 +13,12 @@ import {
   setName,
   setDescription,
   setPrice,
+  // setAvailable,
   clearBlankImages,
   replaceRecentlyUpdatedProduct,
   setRecentlyUpdatedProduct,
   clearForm,
+  setInStock,
 } from "../../../features/dashboard/productSlice";
 import ProductsCarouselSlide from "./ProductsCarouselSlide";
 import "./modal.css";
@@ -27,7 +29,7 @@ import axios from "axios";
 function Product({ product, checkLoader }) {
   const dispatch = useDispatch();
   const { isEditProductOpen } = useSelector((store) => store.modal);
-  const { name, id, description, price, storeId } = useSelector(
+  const { name, id, description, price, storeId, inStock } = useSelector(
     (store) => store.product
   );
 
@@ -36,6 +38,7 @@ function Product({ product, checkLoader }) {
     price: price,
     description: description,
     store_id: storeId,
+    in_stock: inStock,
   };
 
   const headers = authHeader(getCurrentStore());
@@ -58,8 +61,16 @@ function Product({ product, checkLoader }) {
     dispatch(clearForm());
     dispatch(clearBlankImages());
   };
+
+  const options = Array.from(Array(31).keys());
+
   return (
     <div className="card" style={{ margin: "25px" }}>
+      {product.in_stock === 0 ? (
+        <button id="show-products" className="ui tiny red button">
+          <span style={{ color: "white" }}>Out of Stock</span>
+        </button>
+      ) : null}
       <div className="image">
         <ProductsCarouselSlide imagesToPreview={product.images} />
         <button
@@ -114,7 +125,22 @@ function Product({ product, checkLoader }) {
               </div>
             </div>
             <br />
-            <div class="extra content">
+            <div className="field">
+              <label style={{ textAlign: "left" }}>In-Stock</label>
+              <select
+                onChange={(event) => dispatch(setInStock(event.target.value))}
+              >
+                {options.map((opt) => {
+                  return (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            <br />
+            <div className="extra content">
               <button className="ui green button" onClick={handleSubmit}>
                 Save
               </button>
@@ -132,7 +158,10 @@ function Product({ product, checkLoader }) {
         </div>
       ) : (
         <>
-          <div className="content">
+          <div
+            className="content"
+            style={product.in_stock === 0 ? { filter: "blur(1px)" } : null}
+          >
             <div className="header">{product.name}</div>
             <br />
             <div
@@ -146,6 +175,11 @@ function Product({ product, checkLoader }) {
               <small>
                 <i>AUD</i>
               </small>
+            </div>
+            <br />
+            <div style={{ fontWeight: "bold" }}>
+              In Stock:&nbsp;
+              <strong>{product.in_stock}</strong>
             </div>
             <br />
             <div

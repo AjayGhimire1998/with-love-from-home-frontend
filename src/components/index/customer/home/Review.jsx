@@ -1,13 +1,14 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import "../../../static_pages/review.css";
+import ReviewActions from "./ReviewActions";
 
 function Review({ review }) {
-  const { allCustomers } = useSelector((store) => store.customer);
-  const customerName = (allCustomers?.find(
+  const { allCustomers, customerId } = useSelector((store) => store.customer);
+  const customer = allCustomers?.find(
     (customer) => customer.id === review.user_id
-  )).fullname;
+  );
 
   return (
     <>
@@ -17,7 +18,9 @@ function Review({ review }) {
             <div className="profile">
               <div className="name-user">
                 <strong>
-                  {customerName === undefined ? "Customer" : customerName}
+                  {customer.fullname === undefined
+                    ? "Customer"
+                    : customer.fullname}
                 </strong>
               </div>
             </div>
@@ -32,6 +35,10 @@ function Review({ review }) {
           <div className="client-comment">
             <p>"{review.content || `${review.rating} stars`}"</p>
           </div>
+
+          {customerId === review.user_id ? (
+            <ReviewActions review={review} />
+          ) : null}
         </div>
       </div>
     </>

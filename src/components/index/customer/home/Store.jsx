@@ -71,7 +71,7 @@ function Store({ store, checkLoader }) {
             fontWeight: "bolder",
           }}
         >
-          {store.name}
+          {store?.name}
         </div>
         <br />
         <div className="description">
@@ -83,15 +83,9 @@ function Store({ store, checkLoader }) {
               fontWeight: "bolder",
             }}
           >
-            {categoryItems.find((cat) => cat.id === store.category_id).name}
+            {categoryItems?.find((cat) => cat.id === store.category_id)?.name}
           </span>
         </div>
-      </div>
-      <div className="extra content">
-        <span className="right floated">
-          <i className="star  yellow icon"></i>
-        </span>
-        <span>Ratings:</span>
       </div>
     </div>
   );

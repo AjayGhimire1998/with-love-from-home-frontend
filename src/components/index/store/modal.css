@@ -282,8 +282,8 @@
   
   .modal {
     background: var(--clr-white);
-    width: auto;
-    max-width: 400px;
+    width: 500px;
+    max-width: 600px;
     border-radius: var(--radius);
     padding: 2rem 1rem;
     text-align: center;
