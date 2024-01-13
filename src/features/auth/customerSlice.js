@@ -56,6 +56,8 @@ const customerSlice = createSlice({
       state.tokken = action.payload;
     },
     clearError: (state) => {
+      localStorage.removeItem("signup_error")
+      localStorage.removeItem("login_error")
       state.error = "";
     },
   },

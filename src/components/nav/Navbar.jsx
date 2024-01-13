@@ -100,7 +100,7 @@ function Navbar({checkLoader}) {
                     Login
                   </NavLink>
                   <NavLink className="ui inverted button" to="signup">
-                    Signup
+                    Sign Up
                   </NavLink>
                   <NavLink className="ui inverted button" to="store/signup">
                     Register Your Store

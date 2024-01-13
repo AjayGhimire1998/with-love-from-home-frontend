@@ -115,7 +115,7 @@ function RegisterStore({ checkLoader }) {
               className="ui blue button"
               onClick={() => navigate("/signup")}
             >
-              SignUp as a Customer
+              Sign Up as a Customer
             </button>
           </form>
         </div>

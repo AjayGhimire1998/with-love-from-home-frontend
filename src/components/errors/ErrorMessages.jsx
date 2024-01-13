@@ -1,10 +1,23 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { clearError } from "../../features/auth/customerSlice";
+import { clearStoreError } from "../../features/auth/storeSlice";
+import { clearMessages } from "../../features/home/ratingSlice";
 
 function ErrorMessages({ error }) {
+
+  const dispatch = useDispatch();
+
   const closePopUp = () => {
     const errorMessage = document.querySelector(".ui.error.message");
     errorMessage.classList.add("hidden");
+    dispatch(clearMessages()) && dispatch(clearError()) && dispatch(clearStoreError());
   };
+
+  // const closePopUp = () => {
+  //   const errorMessage = document.querySelector(".ui.error.message");
+  //   errorMessage.classList.add("hidden");
+  // };
   return (
     <div className="ui container">
       <div
