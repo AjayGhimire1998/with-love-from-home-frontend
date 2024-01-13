@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3004/api/v1";
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const customerSignUp = (
   fullName,
@@ -6,7 +6,7 @@ export const customerSignUp = (
   password,
   passwordConfirmation
 ) => {
-  fetch(API_URL + "/registrations", {
+  fetch( API_URL + "/auth/customer/register", {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
     body: JSON.stringify({
@@ -37,7 +37,7 @@ export const customerSignUp = (
 };
 
 export const customerLogin = (email, password) => {
-  fetch(API_URL + "/sessions", {
+  fetch(API_URL + "/auth/customer/login", {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
     body: JSON.stringify({
@@ -72,7 +72,7 @@ export const storeSignUp = (
   password,
   passwordConfirmation
 ) => {
-  fetch(API_URL + "/stores", {
+  fetch(API_URL + "/auth/store/register", {
     method: "POST",
     headers: {
       "Content-Type": ["application/json", "multipart/form-data"],
@@ -108,7 +108,7 @@ export const storeSignUp = (
 };
 
 export const storeLogin = (email, password) => {
-  fetch(API_URL + "/store_sessions", {
+  fetch(API_URL + "/auth/store/login", {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
     body: JSON.stringify({

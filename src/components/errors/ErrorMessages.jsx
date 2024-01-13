@@ -13,7 +13,7 @@ function ErrorMessages({ error }) {
       >
         <i className="close icon" onClick={closePopUp}></i>
         <div className="header">
-          {!!error?.map((err, index) => {
+          {error?.map((err, index) => {
             return (
               <li key={index} style={{ textAlign: "left" }}>
                 {err}
