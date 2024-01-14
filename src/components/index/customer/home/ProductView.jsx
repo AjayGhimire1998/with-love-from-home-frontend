@@ -67,7 +67,7 @@ function ProductView() {
   });
 
   const hasUserReviewedProduct = productReviews?.find(
-    (review) => review.user_id === customerId
+    (review) => review.customer_id === customerId
   );
 
   const headers = authHeader(getCurrentUser());
@@ -77,7 +77,7 @@ function ProductView() {
       content: reviewContent,
       rating: rating,
       product_id: parseInt(id),
-      user_id: customerId,
+      customer_id: customerId,
     },
   };
   const handleReviewSubmit = (e) => {

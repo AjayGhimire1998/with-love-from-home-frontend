@@ -7,7 +7,7 @@ import ReviewActions from "./ReviewActions";
 function Review({ review }) {
   const { allCustomers, customerId } = useSelector((store) => store.customer);
   const customer = allCustomers?.find(
-    (customer) => customer.id === review.user_id
+    (customer) => customer.id === review.customer_id
   );
 
   return (

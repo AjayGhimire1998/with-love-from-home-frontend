@@ -49,7 +49,7 @@ function StoreDetails() {
   const headers = authHeader(getCurrentUser());
 
   const hasUserReviewedStore = storeReviews?.find(
-    (review) => review.user_id === customerId
+    (review) => review.customer_id === customerId
   );
 
   const data = {
@@ -57,7 +57,7 @@ function StoreDetails() {
       content: reviewContent,
       rating: rating,
       store_id: parseInt(id),
-      user_id: customerId,
+      customer_id: customerId,
     },
   };
 
