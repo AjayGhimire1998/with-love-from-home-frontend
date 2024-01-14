@@ -25,6 +25,7 @@ import { v4 as uuidv4 } from "uuid";
 import ErrorMessage from "../../../errors/ErrorMessage";
 
 function StoreDetails() {
+  const API_URL = process.env.REACT_APP_API_URL;
   const { id } = useParams();
   useEffect(() => {
     dispatch(setSelectedStore(parseInt(id)));
@@ -63,7 +64,7 @@ function StoreDetails() {
   const handleReviewSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3004/api/v1/reviews", data, { headers })
+      .post(`${API_URL}review/store_reviews`, data, { headers })
       .then((response) => {
         dispatch(setNewStoreReview(response.data));
         dispatch(

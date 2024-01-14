@@ -18,10 +18,10 @@ function StoreProductsContainer() {
           <br />
 
           <div className="ui link cards centered row">
-            {storeProductsToDisplay ? (
+            {storeProductsToDisplay.length > 0 ? (
               storeProductsToDisplay?.slice(0, 6 + indexCounter)
             ) : (
-              <h3 style={{ textAlign: "center" }}>The Store has no products</h3>
+              <h5 style={{ textAlign: "center", marginTop: "20px" }}>The Store has no products</h5>
             )}
           </div>
         </div>

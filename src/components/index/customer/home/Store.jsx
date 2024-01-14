@@ -1,17 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router";
+import {  useNavigate } from "react-router";
 import {
   setIsDimmerOnHover,
   setHoveredStore,
   eraseSelectedStore,
-  setSelectedStore,
-  setViewingStore,
 } from "../../../../features/home/homeSlice";
 import "./home.css";
-import Rate from "./Rate";
 
-function Store({ store, checkLoader }) {
+function Store({ store}) {
   const { categoryItems } = useSelector((store) => store.store);
   const { isDimmerOnHover, hoveredStore } = useSelector((store) => store.home);
   const navigate = useNavigate();
@@ -83,7 +80,7 @@ function Store({ store, checkLoader }) {
               fontWeight: "bolder",
             }}
           >
-            {categoryItems?.find((cat) => cat.id === store.category_id)?.name}
+            {categoryItems?.find((cat) => cat.id === store.category_id)?.name || "Not set yet"}
           </span>
         </div>
       </div>

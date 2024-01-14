@@ -15,7 +15,7 @@ function ReviewsContainer() {
     <>
       <h2 style={{ textAlign: "center" }}>Reviews</h2>
       <br />
-      <section id="testimonials">{eachReview}</section>
+      <section id="testimonials">{eachReview && <span><i>No Reviews</i></span>}</section>
     </>
   );
 }

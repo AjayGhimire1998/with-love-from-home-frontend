@@ -13,7 +13,7 @@ function ProductReviewsContainer() {
     <>
       <h2 style={{ textAlign: "center" }}>Reviews</h2>
       <br />
-      <section id="testimonials">{eachProductReview}</section>
+      <section id="testimonials">{eachProductReview && "No Reviews"}</section>
     </>
   );
 }

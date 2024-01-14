@@ -12,7 +12,7 @@ function StoreContainer({ checkLoader }) {
   return (
     <div className="scrollable">
       <div id="scrollable-cards" className="ui link cards">
-        {eachStore}
+        {eachStore }
       </div>
     </div>
   );
