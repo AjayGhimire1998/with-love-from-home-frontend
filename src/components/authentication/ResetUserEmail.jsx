@@ -5,13 +5,13 @@ import { emailChange, setError } from "../../features/auth/customerSlice";
 import ErrorMessage from "../errors/ErrorMessage";
 
 function ResetUserEmail({ checkLoader }) {
+  const API_URL = process.env.REACT_APP_API_URL;
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { email, error } = useSelector((store) => store.customer);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:3001/api/v1/passwords/forgot_user_password", {
+    fetch(`${API_URL}passwords/forgot_user_password`, {
       mode: "cors",
       method: "post",
       headers: {

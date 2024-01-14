@@ -11,6 +11,7 @@ import {
 import ErrorMessage from "../errors/ErrorMessage";
 
 function ResetUserPasswordForm({ checkLoader }) {
+  const API_URL = process.env.REACT_APP_API_URL;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { tokken, email, password, passwordConfirmation, error } = useSelector(
@@ -28,7 +29,7 @@ function ResetUserPasswordForm({ checkLoader }) {
     if (password !== passwordConfirmation) {
       dispatch(setError("Password does not match."));
     } else {
-      fetch("http://localhost:3001/api/v1/passwords/reset_user_password", {
+      fetch(`${API_URL}passwords/reset_user_password`, {
         mode: "cors",
         method: "post",
         headers: {

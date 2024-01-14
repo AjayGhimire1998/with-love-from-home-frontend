@@ -6,13 +6,14 @@ import ErrorMessage from "../errors/ErrorMessage";
 import { emailChanger, setError } from "../../features/auth/storeSlice";
 
 function ResetStoreEmail({ checkLoader }) {
+  const API_URL = process.env.REACT_APP_API_URL;
   const dispatch = useDispatch();
-//   const navigate = useNavigate();
   const { email, error } = useSelector((store) => store.store);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:3001/api/v1/passwords/forgot_store_password", {
+    fetch(`${API_URL}passwords/forgot_store_password`, {
       mode: "cors",
       method: "post",
       headers: {

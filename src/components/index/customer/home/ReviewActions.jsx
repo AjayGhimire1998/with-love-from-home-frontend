@@ -18,6 +18,7 @@ import { authHeader } from "../../../../app/services/auth-services/auth-header";
 import { getCurrentUser } from "../../../../app/services/auth-services/auth-service";
 
 function ReviewActions({ review }) {
+  const API_URL = process.env.REACT_APP_API_URL;
   const dispatch = useDispatch();
   const { isReviewEditOpen, rating, reviewContent } = useSelector(
     (store) => store.rating
@@ -42,7 +43,7 @@ function ReviewActions({ review }) {
     e.preventDefault();
     axios
       .put(
-        `http://localhost:3004/api/v1/product_reviews/${review.id}`,
+        `${API_URL}review/product_reviews/${review.id}`,
         productReviewData,
         { headers }
       )
@@ -62,7 +63,7 @@ function ReviewActions({ review }) {
     e.preventDefault();
     axios
       .put(
-        `http://localhost:3004/api/v1/reviews/${review.id}`,
+        `${API_URL}review/store_reviews/${review.id}`,
         storeReviewData,
         { headers }
       )
@@ -82,7 +83,7 @@ function ReviewActions({ review }) {
   const handleProductReviewDelete = (e) => {
     e.preventDefault();
     axios
-      .delete(`http://localhost:3004/api/v1/product_reviews/${review.id}`, {
+      .delete(`${API_URL}review/product_reviews/${review.id}`, {
         headers,
       })
       .then(() => {
@@ -94,7 +95,7 @@ function ReviewActions({ review }) {
   const handleStoreReviewDelete = (e) => {
     e.preventDefault();
     axios
-      .delete(`http://localhost:3004/api/v1/reviews/${review.id}`, {
+      .delete(`${API_URL}review/store_reviews/${review.id}`, {
         headers,
       })
       .then(() => {

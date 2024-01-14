@@ -1,7 +1,7 @@
 import React from "react";
 
 import ReactStars from "react-rating-stars-component";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { setRating } from "../../../../features/home/ratingSlice";
 
 const Rate = () => {

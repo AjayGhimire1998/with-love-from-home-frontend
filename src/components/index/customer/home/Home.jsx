@@ -1,6 +1,5 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
 import FilterContainer from "./FilterContainer";
 import { useEffect } from "react";
 import {

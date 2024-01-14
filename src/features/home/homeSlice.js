@@ -161,6 +161,10 @@ const homeSlice = createSlice({
         state.searchedStores = [];
         state.isSearchLoading = false;
       }
+
+    },
+    setIsSearchLoading: (state, action) => {
+      state.isSearchLoading = action.payload
     },
     clearSearch: (state) => {
       state.searchedProducts = [];
@@ -226,6 +230,7 @@ export const {
   eraseSelectedStore,
   setFilteredProducts,
   setSearch,
+  setIsSearchLoading,
   clearSearch,
 } = homeSlice.actions;
 export default homeSlice.reducer;

@@ -29,6 +29,7 @@ import { calculateAverageRating } from "../../../../app/services/other-services/
 import ErrorMessage from "../../../errors/ErrorMessage";
 
 function ProductView() {
+  const API_URL = process.env.REACT_APP_API_URL;
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -82,7 +83,7 @@ function ProductView() {
   const handleReviewSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3001/api/v1/product_reviews", data, { headers })
+      .post(`${API_URL}review/product_reviews`, data, { headers })
       .then((response) => {
         dispatch(setNewProductReview(response.data));
         dispatch(
