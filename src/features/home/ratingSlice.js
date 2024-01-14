@@ -8,7 +8,7 @@ export const getStoreReviews = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const response = await axios(
-        `http://localhost:3004/api/v1/stores/${id}/reviews`
+        `${API_URL}stores/${id}/reviews`
       );
       return response.data;
     } catch (error) {
@@ -22,7 +22,7 @@ export const getSelectedProductReviews = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const response = await axios(
-        `http://localhost:3004/api/v1/products/${id}/reviews`
+        `${API_URL}products/${id}/reviews`
       );
       // console.log(response.data)
       return response.data;

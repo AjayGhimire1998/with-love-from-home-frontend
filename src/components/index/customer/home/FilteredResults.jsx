@@ -86,7 +86,7 @@ function FilteredResults({ checkLoader }) {
           </>
         ) : (
           <h3 style={{ textAlign: "center", color: "red" }}>
-            No Products with that category
+            No Products for {categoryName}
           </h3>
         )}
         {filteredStores.length !== 0 ? (
@@ -102,7 +102,7 @@ function FilteredResults({ checkLoader }) {
           </>
         ) : (
           <h3 style={{ textAlign: "center", color: "red" }}>
-            No Stores with that category
+            No Stores for {categoryName}
           </h3>
         )}
       </>
