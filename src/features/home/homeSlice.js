@@ -1,11 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export const getAllStores = createAsyncThunk(
   "home/getAllStores",
   async (name, thunkAPI) => {
     try {
-      const response = await axios("http://localhost:3004/api/v1/stores");
+      const response = await axios(`${API_URL}store/stores`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong.");
@@ -17,7 +19,7 @@ export const getAllProducts = createAsyncThunk(
   "home/getAllProducts",
   async (name, thunkAPI) => {
     try {
-      const response = await axios("http://localhost:3004/api/v1/products");
+      const response = await axios(`${API_URL}product/products`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong.");
@@ -30,7 +32,7 @@ export const setSelectedStore = createAsyncThunk(
   async (storeId, thunkAPI) => {
     try {
       const response = await axios(
-        `http://localhost:3004/api/v1/stores/${storeId}`
+        `${API_URL}store/stores/${storeId}`
       );
       return response.data;
     } catch (error) {
@@ -44,7 +46,7 @@ export const setSelectedStoreProducts = createAsyncThunk(
   async (storeId, thunkAPI) => {
     try {
       const response = await axios(
-        `http://localhost:3004/api/v1/stores/${storeId}/products`
+        `${API_URL}stores/${storeId}/products`
       );
       return response.data;
     } catch (error) {
@@ -58,7 +60,7 @@ export const getUserOrders = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const response = await axios(
-        `http://localhost:3004/api/v1/users/${id}/orders`
+        `${API_URL}customers/${id}/orders`
       );
       return response.data;
     } catch (error) {

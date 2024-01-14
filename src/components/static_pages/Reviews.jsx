@@ -3,10 +3,10 @@ import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 import "./review.css";
 import Loader from "./Loader";
-import { calculateAverageRating } from "../../app/services/other-services/service";
+// import { calculateAverageRating } from "../../app/services/other-services/service";
 
 function Reviews() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const { staticReviews } = useSelector((store) => store.static);
   const { allCustomers } = useSelector((store) => store.customer);

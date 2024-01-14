@@ -3,8 +3,9 @@ import { authHeader } from "../../app/services/auth-services/auth-header";
 import { getCurrentStore, getStore } from "../../app/services/auth-services/auth-service";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 
+const API_URL = process.env.REACT_APP_API_URL;
 
 const headers = authHeader(getCurrentStore());
 
@@ -13,7 +14,7 @@ export const getStoreOrders = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const response = await axios(
-        `http://localhost:3004/api/v1/stores/${id}/orders`, {headers}
+        `${API_URL}stores/${id}/orders`, {headers}
       );
       return response.data;
     } catch (error) {

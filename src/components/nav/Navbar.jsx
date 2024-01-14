@@ -79,7 +79,7 @@ function Navbar({checkLoader}) {
                       dispatch(isStoreLoggedInChangerToFalse());
                       dispatch(isCustomerLoggedInChangerToFalse());
                       checkLoader(1000)
-                      navigate("/with-love-from-home");
+                      navigate("/");
                     }}
                   >
                     Logout
@@ -90,7 +90,7 @@ function Navbar({checkLoader}) {
               <div className="ui large secondary inverted pointing menu">
                 <NavLink
                   className=" item ui label massive"
-                  to="/with-love-from-home"
+                  to="/"
                 >
                   WITH LOVE FROM HOME
                 </NavLink>

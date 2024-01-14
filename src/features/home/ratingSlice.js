@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export const getStoreReviews = createAsyncThunk(
   "rating/getStorereviews",
   async (id, thunkAPI) => {

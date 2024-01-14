@@ -56,6 +56,7 @@ function App() {
   const { isCustomerLoggedIn } = useSelector((store) => store.customer);
   const { isStoreLoggedIn } = useSelector((store) => store.store);
 
+
   const checkLoader = (time) => {
     dispatch(activateLoader());
     setTimeout(() => {
@@ -122,7 +123,7 @@ function App() {
         {isLoading || isHomeLoading ? <Loader /> : null}
 
         <Routes>
-          <Route path="/with-love-from-home" element={<StaticPages />} />
+          {/* <Route path="/with-love" element={<StaticPages />} /> */}
           <Route
             exact
             path="/"
@@ -137,8 +138,11 @@ function App() {
                 <RegisterStore checkLoader={checkLoader} />
               ) : JSON.parse(localStorage.getItem("store_login_error")) ? (
                 <StoreLogin checkLoader={checkLoader} />
-              ) : (
+              ) : JSON.parse(localStorage.getItem("login_error")) ? (
                 <Login checkLoader={checkLoader} />
+              ): (
+                <StaticPages />
+                // <Login checkLoader={checkLoader} />
               )
             }
           />

@@ -2,10 +2,12 @@ import React from "react";
 // import Carousel from 'react-responsive-carousel'
 import StaticCarouselSlide from "./StaticCarouselSlide";
 import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 
 
 function StaticHomePage2() {
   const navigate = useNavigate();
+  const { isDataReady } = useSelector((store) => store.static);
 
   return (
     <div className="ui vertical stripe segment">
@@ -65,9 +67,10 @@ function StaticHomePage2() {
               </strong>
             </p>
           </div>
+          { isDataReady &&
           <div className="six wide right floated column">
-            <StaticCarouselSlide />
-          </div>
+             <StaticCarouselSlide />
+          </div>}
         </div>
         <div className="row">
           <div className="center aligned column">

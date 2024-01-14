@@ -4,13 +4,13 @@ import { v4 as uuid } from "uuid";
 import { useSelector } from "react-redux";
 import Loader from "./Loader";
 
-function StaticCarouselSlide({ imagesToPreview }) {
+function StaticCarouselSlide() {
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
   const { staticImages } = useSelector((store) => store.static);
 
   return (
-    <div>
+    <div >
       {staticImages !== null ? (
         <ReactSimplyCarousel
           activeSlideIndex={activeSlideIndex}

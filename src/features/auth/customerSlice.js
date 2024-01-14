@@ -1,11 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export const getAllCustomers = createAsyncThunk(
   "customer/getAllCustomers",
   async (name, thunkAPi) => {
     try {
-      const response = await axios("http://localhost:3004/api/v1/users");
+      const response = await axios(`${API_URL}customer/customers`);
       return response.data;
     } catch (error) {
       thunkAPi.rejectWithValue("Something went wrong");
