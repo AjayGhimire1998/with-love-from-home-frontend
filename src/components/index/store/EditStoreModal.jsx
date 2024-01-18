@@ -15,6 +15,7 @@ import "./product.css";
 import Dropdown from "../../authentication/form-helpers/Dropdown";
 
 function EditStoreModal({ checkLoader }) {
+  const API_URL = process.env.REACT_APP_API_URL;
   const dispatch = useDispatch();
   const { name, logo, storeId, categoryItems, categoryId } = useSelector((store) => store.store);
 
@@ -29,7 +30,7 @@ function EditStoreModal({ checkLoader }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .put(`http://localhost:3001/api/v1/stores/${storeId}`, data, { headers })
+      .put(`${API_URL}stores/${storeId}`, data, { headers })
 
       .then((response) => {
         const data = response.data;

@@ -19,6 +19,7 @@ import {
 } from "../../../features/dashboard/productSlice";
 
 function NewProductFormModal({ checkLoader }) {
+  const API_URL = process.env.REACT_APP_API_URL;
   const dispatch = useDispatch();
   const { storeId } = useSelector((store) => store.store);
   const { name, description, price, productImages, inStock } = useSelector(
@@ -43,7 +44,7 @@ function NewProductFormModal({ checkLoader }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`http://localhost:3001/api/v1/products/`, data, { headers })
+      .post(`${API_URL}products/`, data, { headers })
 
       .then((response) => {
         const data = response.data;

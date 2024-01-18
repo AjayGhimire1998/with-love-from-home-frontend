@@ -13,6 +13,7 @@ import ProductImagesUpload from "./ProductImagesUpload";
 import "./modal.css";
 
 function EditProductImages({ checkLoader }) {
+  const API_URL = process.env.REACT_APP_API_URL;
   const { id, images, name, productImages } = useSelector(
     (store) => store.product
   );
@@ -25,7 +26,7 @@ function EditProductImages({ checkLoader }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .put(`http://localhost:3001/api/v1/products/${id}`, data, { headers })
+      .put(`${API_URL}products/${id}`, data, { headers })
       .then((response) => {
         console.log(response.data);
         dispatch(setRecentlyUpdatedProduct(response.data));

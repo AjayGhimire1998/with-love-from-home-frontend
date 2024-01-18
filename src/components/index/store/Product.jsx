@@ -27,6 +27,7 @@ import { getCurrentStore } from "../../../app/services/auth-services/auth-servic
 import axios from "axios";
 
 function Product({ product, checkLoader }) {
+  const API_URL = process.env.REACT_APP_API_URL;
   const dispatch = useDispatch();
   const { isEditProductOpen } = useSelector((store) => store.modal);
   const { name, id, description, price, storeId, inStock } = useSelector(
@@ -47,7 +48,7 @@ function Product({ product, checkLoader }) {
     e.preventDefault();
     try {
       await axios
-        .put(`http://localhost:3001/api/v1/products/${id}`, data, { headers })
+        .put(`${API_URL}products/${id}`, data, { headers })
         .then((response) => {
           console.log(response.data);
           dispatch(setRecentlyUpdatedProduct(response.data));

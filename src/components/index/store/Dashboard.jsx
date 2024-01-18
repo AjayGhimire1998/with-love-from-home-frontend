@@ -19,6 +19,7 @@ import Footer from "../../static_pages/Footer";
 import ConfirmStoreDelete from "./ConfirmStoreDelete";
 
 function Dashboard({ checkLoader }) {
+  const API_URL = process.env.REACT_APP_API_URL;
   const { store } = useSelector((store) => store.dashboard);
   const { storeId } = useSelector((store) => store.store);
   const {
@@ -34,7 +35,7 @@ function Dashboard({ checkLoader }) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/api/v1/stores/${storeId}`, { headers })
+      .get(`${API_URL}stores/${storeId}`, { headers })
       .then((response) => {
         const data = response.data;
         dispatch(setStore(data));
@@ -43,7 +44,7 @@ function Dashboard({ checkLoader }) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/api/v1/stores/${storeId}/products`, {
+      .get(`${API_URL}stores/${storeId}/products`, {
         headers,
       })
       .then((response) => {
