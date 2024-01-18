@@ -7,6 +7,7 @@ import { getCurrentStore } from "../../../app/services/auth-services/auth-servic
 import { closeConfirmDeleteStore } from "../../../features/dashboard/modalSlice";
 
 function ConfirmStoreDelete({ checkLoader }) {
+  const API_URL = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -16,7 +17,7 @@ function ConfirmStoreDelete({ checkLoader }) {
 
   const handleDelete = (e) => {
     e.preventDefault();
-    axios.delete(`http://localhost:3001/api/v1/stores/${storeId}`, { headers });
+    axios.delete(`${API_URL}stores/${storeId}`, { headers });
     checkLoader(2000);
     window.localStorage.clear();
     window.location.reload();

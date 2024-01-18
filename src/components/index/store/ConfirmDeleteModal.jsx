@@ -8,6 +8,7 @@ import { getCurrentStore } from "../../../app/services/auth-services/auth-servic
 import { eraseDeletedProduct } from "../../../features/dashboard/productSlice";
 
 export const ConfirmDeleteModal = ({ checkLoader }) => {
+  const API_URL = process.env.REACT_APP_API_URL;
   const dispatch = useDispatch();
   const { name, id } = useSelector((store) => store.product);
 
@@ -15,7 +16,7 @@ export const ConfirmDeleteModal = ({ checkLoader }) => {
 
   const handleConfirmDelete = (e) => {
     e.preventDefault();
-    axios.delete(`http://localhost:3001/api/v1/products/${id}`, { headers });
+    axios.delete(`${API_URL}products/${id}`, { headers });
     checkLoader(1000);
     dispatch(eraseDeletedProduct());
     dispatch(closeConfirmDeleteModal());
