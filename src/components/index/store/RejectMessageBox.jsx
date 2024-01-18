@@ -11,6 +11,7 @@ import {
 import { closeRejectMessageBox } from "../../../features/dashboard/modalSlice";
 
 function RejectMessageBox() {
+  const API_URL = process.env.REACT_APP_API_URL;
   const dispatch = useDispatch();
   const { orderId, rejectMessage } = useSelector((store) => store.dashboard);
 
@@ -19,7 +20,7 @@ function RejectMessageBox() {
     return new Promise((resolve, reject) => {
       axios
         .put(
-          `http://localhost:3001/api/v1/cart_items/${orderId}`,
+          `${API_URL}/cart_items/${orderId}`,
           {
             cart_item: {
               status: "rejected",
@@ -44,7 +45,7 @@ function RejectMessageBox() {
 
   const sendEmail = async () => {
     axios
-      .post(`http://localhost:3001/api/v1/order/${orderId}/mail_to_user`)
+      .post(`${API_URL}order/${orderId}/mail_to_user`)
       .then((response) => {
         console.log(response);
       });

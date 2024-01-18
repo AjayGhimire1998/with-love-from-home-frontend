@@ -16,6 +16,7 @@ import ApproveMesssageBox from "./ApproveMessageBox";
 import RejectMessageBox from "./RejectMessageBox";
 
 function ViewOrder({ item }) {
+  const API_URL = process.env.REACT_APP_API_URL;
   const dispatch = useDispatch();
   const { allStoreProducts } = useSelector((store) => store.product);
   const { isApproveMessageBoxOpen, isRejectMessageBoxOpen } = useSelector(
@@ -36,7 +37,7 @@ function ViewOrder({ item }) {
   const handleDelete = (e) => {
     e.preventDefault();
     axios
-      .delete(`http://localhost:3001/api/v1/cart_items/${item.id}`, {
+      .delete(`${API_URL}cart_items/${item.id}`, {
         headers,
       })
       .then((response) => {
