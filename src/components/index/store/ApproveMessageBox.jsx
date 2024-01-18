@@ -18,6 +18,7 @@ import { closeApproveMessageBox } from "../../../features/dashboard/modalSlice";
 import { fixTimezoneOffset } from "../../../app/services/other-services/service";
 
 function ApproveMesssageBox() {
+  const API_URL = process.env.REACT_APP_API_URL;
   const dispatch = useDispatch();
   const { dateTime, orderId, approveMessage } = useSelector(
     (store) => store.dashboard
@@ -35,7 +36,7 @@ function ApproveMesssageBox() {
     return new Promise((resolve, reject) => {
       axios
         .put(
-          `http://localhost:3001/api/v1/cart_items/${orderId}`,
+          `${API_URL}cart_items/${orderId}`,
           {
             cart_item: {
               status: "approved",
@@ -62,7 +63,7 @@ function ApproveMesssageBox() {
 
   const sendEmail = async () => {
     axios
-      .post(`http://localhost:3001/api/v1/order/${orderId}/mail_to_user`)
+      .post(`${API_URL}order/${orderId}/mail_to_user`)
       .then((response) => {
         console.log(response);
       });
