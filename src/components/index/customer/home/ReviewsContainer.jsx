@@ -11,11 +11,13 @@ function ReviewsContainer() {
     return <Review key={review.id} review={review} />;
   });
 
+  // console.log(eachReview);
+
   return (
     <>
       <h2 style={{ textAlign: "center" }}>Reviews</h2>
       <br />
-      <section id="testimonials">{eachReview && <span><i>No Reviews</i></span>}</section>
+      <section id="testimonials">{eachReview}</section>
     </>
   );
 }

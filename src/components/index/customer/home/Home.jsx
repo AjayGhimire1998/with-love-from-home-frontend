@@ -46,7 +46,7 @@ export default function Home({ checkLoader }) {
         {filteredProducts !== null || filteredStores !== null ? (
           <FilteredResults 
           checkLoader={checkLoader} 
-          />
+          />  
         ) : null}
         <br />
         <h3 style={{ textAlign: "center" }}>Top Products</h3>

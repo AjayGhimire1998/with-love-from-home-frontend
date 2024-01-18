@@ -36,7 +36,7 @@ function Search() {
             setIsTyping(true);
             dispatch(setSearch(e.target.value));
           }}
-          onKey={handleKeyUp}
+          // onKey={handleKeyUp}
           onBlur={handleBlur}
         />
         <i className="search icon"></i>
