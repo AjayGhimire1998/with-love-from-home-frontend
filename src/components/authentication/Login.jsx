@@ -53,7 +53,7 @@ function Login({ checkLoader }) {
         >
           <h3>Login as a customer</h3>
           <br />
-          <form className="ui form" onSubmit={handleSubmit}>
+          <form className="ui form" >
             <div className="required field">
               <label style={{ textAlign: "left" }}>Email</label>
               <input
@@ -72,8 +72,14 @@ function Login({ checkLoader }) {
                 }
               />
             </div>
-            <button className="ui green  button" type="submit">
+            <button className="ui green  button" type="submit" onClick={handleSubmit}>
               Login
+            </button>
+            <br/>
+                <small>or</small>
+            <br/>
+            <button className="ui purple button small" type="submit">
+              Quick Guest Login
             </button>
             <br />
             <br />

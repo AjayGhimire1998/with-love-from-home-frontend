@@ -46,9 +46,9 @@ function Login({ checkLoader }) {
             textAlign: "center",
           }}
         >
-          <h3>Login As a Store</h3>
+          <h3>Login as a store</h3>
           <br />
-          <form className="ui form" onSubmit={handleSubmit}>
+          <form className="ui form" >
             <div className=" required field ">
               <label style={{ textAlign: "left" }}>Email</label>
               <input
@@ -67,8 +67,14 @@ function Login({ checkLoader }) {
                 }
               />
             </div>
-            <button className="ui green  button" type="submit">
+            <button className="ui green  button" type="submit" onClick={handleSubmit}>
               Login
+            </button>
+            <br/>
+            <small>or</small>
+            <br/>
+            <button className="ui purple button small" type="submit">
+              Quick Guest Login
             </button>
             <br />
           <br />
