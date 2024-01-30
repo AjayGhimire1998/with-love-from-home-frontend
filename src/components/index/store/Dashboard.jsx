@@ -34,7 +34,7 @@ function Dashboard({ checkLoader }) {
   const headers = authHeader(getCurrentStore());
 
   async function getStoreDetails() {
-   await axios
+    await axios
       .get(`${API_URL}store/stores/${storeId}`, { headers })
       .then((response) => {
         const data = response.data;
@@ -76,9 +76,10 @@ function Dashboard({ checkLoader }) {
       <div
         className="ui inverted vertical masthead center aligned segment"
         style={{
-          backgroundImage: `url(${store?.store.current_store.logo})`,
-          backgroundSize: "cover",
-          backgroundPositionY: "center",
+          backgroundImage: `url(${store?.store.current_store.data.attributes.logo})`,
+          backgroundSize: "100% 100%",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
         }}
       >
         <div className="ui text container">
@@ -103,7 +104,7 @@ function Dashboard({ checkLoader }) {
                 WebkitTextStroke: "2px black",
               }}
             >
-              Welcome, {store?.store.current_store.name}
+              Welcome, {store?.store.current_store.data.attributes.name}
             </h1>
             <h3
               style={{

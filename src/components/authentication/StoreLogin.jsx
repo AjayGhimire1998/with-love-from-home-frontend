@@ -36,7 +36,7 @@ function Login({ checkLoader }) {
     if(localStorage.getItem("store")){
       navigate("/")
     } else {
-      navigate("/login")
+      navigate("/store/login")
     }
   }
   return (

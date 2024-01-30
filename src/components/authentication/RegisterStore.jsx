@@ -29,6 +29,7 @@ function RegisterStore({ checkLoader }) {
 
   useEffect(() => {
     dispatch(setError(JSON.parse(localStorage.getItem("store_signup_error"))));
+    console.log(logo);
   }, []);
 
   const handleSubmit = (event) => {
