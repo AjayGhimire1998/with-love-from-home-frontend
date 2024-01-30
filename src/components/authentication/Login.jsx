@@ -17,14 +17,20 @@ function Login({ checkLoader }) {
   const { email, password, error } = useSelector((store) => store.customer);
 
   useEffect(() => {
+   
     dispatch(setError(JSON.parse(localStorage.getItem("login_error"))));
   }, []);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    checkLoader(2000);
-    const loginRes = await customerLogin(email, password);
-    console.log(loginRes);
+    // checkLoader(2000);
+    customerLogin(email, password);
+
+    if(localStorage.getItem("user")){
+      navigate("/")
+    } else {
+      navigate("/login")
+    }
     // navigate("/");
   };
   return (

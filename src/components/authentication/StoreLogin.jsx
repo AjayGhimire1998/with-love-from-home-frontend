@@ -21,9 +21,13 @@ function Login({ checkLoader }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    checkLoader(2000);
+    // checkLoader(2000);
     storeLogin(email, password);
-    navigate("/");
+    if(localStorage.getItem("store")){
+      navigate("/")
+    } else {
+      navigate("/store/login")
+    }
   };
   return (
     <>

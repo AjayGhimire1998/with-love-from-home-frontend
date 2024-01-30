@@ -24,9 +24,14 @@ function SignUp({ checkLoader }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    checkLoader(2000);
+    // checkLoader(2000);
     customerSignUp(fullName, email, password, passwordConfirmation);
-    navigate("/");
+    if(localStorage.getItem("user")){
+      navigate("/")
+    } else {
+      navigate("/signup")
+    }
+    // navigate("/");
   };
   return (
     <>

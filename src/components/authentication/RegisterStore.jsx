@@ -33,10 +33,14 @@ function RegisterStore({ checkLoader }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    checkLoader(2000);
+    // checkLoader(2000);
     // console.log("after click:", logo)
     storeSignUp(name, logo, categoryId, email, password, passwordConfirmation);
-    navigate("/");
+    if(localStorage.getItem("store")){
+      navigate("/")
+    } else {
+      navigate("/store/signup")
+    }
   };
   // console.log(logo);
   return (
