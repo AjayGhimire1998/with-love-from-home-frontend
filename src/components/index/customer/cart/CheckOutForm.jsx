@@ -23,6 +23,7 @@ import PlacesAutoComplete from "./PlacesAutoComplete";
 import ErrorMessage from "../../../errors/ErrorMessage";
 
 function CheckOutForm() {
+  const API_URL = process.env.REACT_APP_API_URL;
   const dispatch = useDispatch();
   const { customerId } = useSelector((store) => store.customer);
   const { cartItems, fullName, address, phone, email } = useSelector(
@@ -44,14 +45,14 @@ function CheckOutForm() {
     e.preventDefault();
 
     uniqueStoresForCartCreation.forEach((item) => {
-      console.log(item.product.store_id)
+      console.log(item.product.store_id);
       axios
         .post(
-          `http://localhost:3004/api/v1/carts`,
+          `${API_URL}cart/carts`,
           {
             cart: {
               store_id: item.product.store_id,
-              user_id: customerId,
+              customer_id: customerId,
               customer_name: fullName,
               phone_number: phone,
               delivery_address: {
@@ -73,7 +74,7 @@ function CheckOutForm() {
             dispatch(setCreatedCarts(response.data));
             // dispatch(openStartPaymentForm())
             dispatch(openFinalCheckOutButton());
-          } else if(response.status === 422) {
+          } else if (response.status === 422) {
             dispatch(setError("All fields must have valid entries."));
           }
         })
@@ -140,7 +141,7 @@ function CheckOutForm() {
                 name="shipping[suburb]"
                 value={suburb}
                 onChange={(e) => dispatch(setSuburb(e.target.value))}
-                placeholder="Phone Number"
+                placeholder="Suburb"
               />
             </div>
           </div>
@@ -206,7 +207,7 @@ function CheckOutForm() {
                 style={{ height: "15px", width: "15px" }}
               />
               <input
-                type="number"
+                type="tel"
                 name="shipping[phone-number]"
                 onChange={(e) => dispatch(setPhone(e.target.value))}
                 placeholder="Phone Number"

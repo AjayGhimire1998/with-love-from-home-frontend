@@ -17,7 +17,6 @@ function Login({ checkLoader }) {
   const { email, password, error } = useSelector((store) => store.customer);
 
   useEffect(() => {
-   
     dispatch(setError(JSON.parse(localStorage.getItem("login_error"))));
   }, []);
 

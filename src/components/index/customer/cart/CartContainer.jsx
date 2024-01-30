@@ -23,6 +23,7 @@ import ErrorMessage from "../../../errors/ErrorMessage";
 // import { Elements } from "@stripe/react-stripe-js";
 
 function CartContainer({ checkLoader }) {
+  const API_URL = process.env.REACT_APP_API_URL;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -51,7 +52,7 @@ function CartContainer({ checkLoader }) {
       cartItems?.forEach((item) => {
         axios
           .post(
-            "http://localhost:3001/api/v1/cart_items",
+            `${API_URL}cart_item/cart_items`,
             {
               cart_item: {
                 product_id: item.product.id,
@@ -80,7 +81,7 @@ function CartContainer({ checkLoader }) {
     createdCarts?.forEach((cart) => {
       axios
         .post(
-          `http://localhost:3001/api/v1/orders/${cart.id}/mail_to_user_and_store`
+          `${API_URL}orders/${cart.id}/mail_to_user_and_store`,
         )
         .then((response) => {
           console.log(response);
