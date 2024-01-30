@@ -30,8 +30,17 @@ function Login({ checkLoader }) {
     } else {
       navigate("/login")
     }
-    // navigate("/");
   };
+
+  const handleGuestLogin = (event) => {
+    event.preventDefault();
+    customerLogin("iamguestcustomer@gmail.com", "Guest123")
+    if(localStorage.getItem("user")){
+      navigate("/")
+    } else {
+      navigate("/login")
+    }
+  }
   return (
     <>
       <br />
@@ -78,7 +87,7 @@ function Login({ checkLoader }) {
             <br/>
                 <small>or</small>
             <br/>
-            <button className="ui purple button small" type="submit">
+            <button className="ui purple button small" type="submit" onClick={handleGuestLogin}>
               Quick Guest Login
             </button>
             <br />
