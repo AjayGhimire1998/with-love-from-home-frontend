@@ -26,8 +26,10 @@ function EditStoreModal({ checkLoader }) {
   };
 
   const handleSubmit = async(e) => {
-    const headers = authHeader(getCurrentStore());
+   
     e.preventDefault();
+    const headers = authHeader(getCurrentStore());
+    console.log(headers);
     await axios
       .put(`${API_URL}store/stores/${storeId}`, data, { headers })
 
@@ -99,12 +101,12 @@ function EditStoreModal({ checkLoader }) {
               </div>
               <br />
               <br />
-              <button
+              {/* <button
                 className="ui red button"
                 onClick={() => dispatch(openConfirmDeleteStore())}
               >
                 Permanently Delete The Store
-              </button>
+              </button> */}
             </form>
           </div>
         </div>
