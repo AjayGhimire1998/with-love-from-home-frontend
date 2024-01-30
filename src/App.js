@@ -132,15 +132,17 @@ function App() {
                 <Dashboard checkLoader={checkLoader} />
               ) : currentUser ? (
                 <Home checkLoader={checkLoader} />
-              ) : JSON.parse(localStorage.getItem("signup_error")) ? (
-                <SignUp checkLoader={checkLoader} />
-              ) : JSON.parse(localStorage.getItem("store_signup_error")) ? (
-                <RegisterStore checkLoader={checkLoader} />
-              ) : JSON.parse(localStorage.getItem("store_login_error")) ? (
-                <StoreLogin checkLoader={checkLoader} />
-              ) : JSON.parse(localStorage.getItem("login_error")) ? (
-                <Login checkLoader={checkLoader} />
-              ): (
+              ) 
+              // : JSON.parse(localStorage.getItem("signup_error")) ? (
+              //   <SignUp checkLoader={checkLoader} />
+              // ) : JSON.parse(localStorage.getItem("store_signup_error")) ? (
+              //   <RegisterStore checkLoader={checkLoader} />
+              // ) : JSON.parse(localStorage.getItem("store_login_error")) ? (
+              //   <StoreLogin checkLoader={checkLoader} />
+              // ) : JSON.parse(localStorage.getItem("login_error")) ? (
+              //   <Login checkLoader={checkLoader} />
+              // )
+              : (
                 <StaticPages />
                 // <Login checkLoader={checkLoader} />
               )

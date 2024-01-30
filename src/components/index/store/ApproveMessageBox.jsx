@@ -36,7 +36,7 @@ function ApproveMesssageBox() {
     return new Promise((resolve, reject) => {
       axios
         .put(
-          `${API_URL}cart_items/${orderId}`,
+          `${API_URL}/cart_item/cart_items/${orderId}`,
           {
             cart_item: {
               status: "approved",

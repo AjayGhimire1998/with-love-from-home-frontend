@@ -22,9 +22,10 @@ function Login({ checkLoader }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    checkLoader(3000);
-    customerLogin(email, password);
-    navigate("/");
+    checkLoader(2000);
+    const loginRes = await customerLogin(email, password);
+    console.log(loginRes);
+    // navigate("/");
   };
   return (
     <>

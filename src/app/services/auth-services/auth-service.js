@@ -25,11 +25,11 @@ export const customerSignUp = (
         localStorage.clear();
         localStorage.setItem("user", JSON.stringify(data.accessToken));
         localStorage.setItem("id", data.user.data.id);
-        window.location.reload();
+        // window.location.reload();
       } else if (data?.error) {
         localStorage.clear();
         localStorage.setItem("signup_error", JSON.stringify(data.error));
-        window.location.reload();
+        // window.location.reload();
       }
       return data;
     })
@@ -53,11 +53,11 @@ export const customerLogin = (email, password) => {
 
         localStorage.setItem("user", JSON.stringify(data.accessToken));
         localStorage.setItem("id", data.user.data.id);
-        window.location.reload();
+        // window.location.reload();
       } else if (data?.error) {
         localStorage.clear();
         localStorage.setItem("login_error", JSON.stringify(data.error));
-        window.location.reload();
+        // window.location.reload();
       }
       return data;
     })
@@ -96,11 +96,11 @@ export const storeSignUp = (
         localStorage.clear();
         localStorage.setItem("store", JSON.stringify(data.accessToken));
         localStorage.setItem("id", data.store.data.id);
-        window.location.reload();
+        // window.location.reload();
       } else if (data?.error) {
         localStorage.clear();
         localStorage.setItem("store_signup_error", JSON.stringify(data.error));
-        window.location.reload();
+        // window.location.reload();
       }
       return data;
     })
@@ -123,11 +123,11 @@ export const storeLogin = (email, password) => {
         localStorage.clear();
         localStorage.setItem("store", JSON.stringify(data.accessToken));
         localStorage.setItem("id", data.store.data.id);
-        window.location.reload();
+        // window.location.reload();
       } else if (data?.error) {
         localStorage.clear();
         localStorage.setItem("store_login_error", JSON.stringify(data.error));
-        window.location.reload();
+        // window.location.reload();
       }
       return data;
     })

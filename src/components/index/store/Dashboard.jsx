@@ -33,13 +33,23 @@ function Dashboard({ checkLoader }) {
   const dispatch = useDispatch();
   const headers = authHeader(getCurrentStore());
 
-  useEffect(() => {
-    axios
-      .get(`${API_URL}stores/${storeId}`, { headers })
+  async function getStoreDetails() {
+   await axios
+      .get(`${API_URL}store/stores/${storeId}`, { headers })
       .then((response) => {
         const data = response.data;
         dispatch(setStore(data));
       });
+  }
+
+  useEffect(() => {
+    // axios
+    //   .get(`${API_URL}store/stores/${storeId}`, { headers })
+    //   .then((response) => {
+    //     const data = response.data;
+    //     dispatch(setStore(data));
+    //   });
+    getStoreDetails();
   }, []);
 
   useEffect(() => {

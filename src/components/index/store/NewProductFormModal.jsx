@@ -44,7 +44,7 @@ function NewProductFormModal({ checkLoader }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`${API_URL}products/`, data, { headers })
+      .post(`${API_URL}/product/products/`, data, { headers })
 
       .then((response) => {
         const data = response.data;

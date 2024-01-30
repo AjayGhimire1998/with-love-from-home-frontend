@@ -17,7 +17,7 @@ function ConfirmStoreDelete({ checkLoader }) {
 
   const handleDelete = (e) => {
     e.preventDefault();
-    axios.delete(`${API_URL}stores/${storeId}`, { headers });
+    axios.delete(`${API_URL}/store/stores/${storeId}`, { headers });
     checkLoader(2000);
     window.localStorage.clear();
     window.location.reload();

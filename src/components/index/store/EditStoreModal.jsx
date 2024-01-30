@@ -25,12 +25,11 @@ function EditStoreModal({ checkLoader }) {
     category_id: categoryId
   };
 
-  const headers = authHeader(getCurrentStore());
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
+    const headers = authHeader(getCurrentStore());
     e.preventDefault();
-    axios
-      .put(`${API_URL}stores/${storeId}`, data, { headers })
+    await axios
+      .put(`${API_URL}store/stores/${storeId}`, data, { headers })
 
       .then((response) => {
         const data = response.data;

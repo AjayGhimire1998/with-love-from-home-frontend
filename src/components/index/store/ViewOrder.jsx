@@ -37,7 +37,7 @@ function ViewOrder({ item }) {
   const handleDelete = (e) => {
     e.preventDefault();
     axios
-      .delete(`${API_URL}cart_items/${item.id}`, {
+      .delete(`${API_URL}/cart_item/cart_items/${item.id}`, {
         headers,
       })
       .then((response) => {

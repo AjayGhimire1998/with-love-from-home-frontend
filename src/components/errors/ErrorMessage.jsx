@@ -12,9 +12,9 @@ function ErrorMessage({ error, success, warning }) {
     errorMessage.classList.add("hidden");
     dispatch(clearMessages()) && dispatch(clearError()) && dispatch(clearStoreError());
     
-    setTimeout(() => {
-      errorMessage.classList.remove("hidden");
-    }, 1000);
+    // setTimeout(() => {
+    //   errorMessage.classList.remove("hidden");
+    // }, 1000);
   };
 
   return (

@@ -16,7 +16,7 @@ export const ConfirmDeleteModal = ({ checkLoader }) => {
 
   const handleConfirmDelete = (e) => {
     e.preventDefault();
-    axios.delete(`${API_URL}products/${id}`, { headers });
+    axios.delete(`${API_URL}/product/products/${id}`, { headers });
     checkLoader(1000);
     dispatch(eraseDeletedProduct());
     dispatch(closeConfirmDeleteModal());
