@@ -38,7 +38,7 @@ const ProductImagesUpload = ({ checkLoader }) => {
       choosefile.setAttribute("disabled", "");
       alert("Cannot choose more than 3 images");
     }
-  }, [eachImage, dispatch, productImages]);
+  }, [eachImage, dispatch]);
 
   return (
     <div className="ui middle aligned center aligned grid flex">
