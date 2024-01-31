@@ -36,9 +36,12 @@ function StaticHomePage() {
               textShadow: "2px 2px black",
               fontWeight: "bolder",
               WebkitTextStroke: "1px black",
+              backgroundColor: "rgba(33, 31, 31, 0.6)", // Adjust the alpha (fourth value) for transparency
+              padding: "15px",
+          
             }}
           >
-            Find nostalgia{" "}
+            Discover a piece of home, no matter where you are. We bring the essence of familiar products right to your doorstep.{" "}
           </h3>
           <br />
           <br />
