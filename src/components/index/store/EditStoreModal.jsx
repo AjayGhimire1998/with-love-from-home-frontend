@@ -57,6 +57,8 @@ function EditStoreModal({ checkLoader }) {
             justifyContent: "center",
             margin: "0 auto",
             overflowY: "scroll",
+            scrollbarWidth: "thin",
+            scrollbarColor: "transparent transparent",
           }}
           className="edit-store"
         >
