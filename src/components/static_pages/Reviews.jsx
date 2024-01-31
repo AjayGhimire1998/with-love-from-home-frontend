@@ -36,13 +36,15 @@ function Reviews() {
                   <div className="profile">
                     <div className="name-user">
                       <strong>
-                        {allCustomers.length !== 0 ? (
+
+                        {(allCustomers?.find((customer) => customer.id === review.customer_id)).fullname || "Customer"}
+                        {/* {allCustomers.length !== 0 ? (
                           allCustomers?.find(
-                            (customer) => customer.id === review.user_id
+                            (customer) => customer.id === review.customer_id
                           )?.fullname
                         ) : (
                           <Loader />
-                        )}
+                        )} */}
                       </strong>
                     </div>
                   </div>
