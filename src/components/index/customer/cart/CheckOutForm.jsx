@@ -26,7 +26,7 @@ function CheckOutForm() {
   const API_URL = process.env.REACT_APP_API_URL;
   const dispatch = useDispatch();
   const { customerId } = useSelector((store) => store.customer);
-  const { cartItems, fullName, address, phone, email } = useSelector(
+  const { cartItems, fullName, phone, email } = useSelector(
     (store) => store.homeproduct
   );
 

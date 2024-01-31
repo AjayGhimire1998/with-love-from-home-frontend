@@ -17,7 +17,7 @@ function Login({ checkLoader }) {
 
   useEffect(() => {
     dispatch(setError(JSON.parse(localStorage.getItem("store_login_error"))));
-  }, []);
+  }, [dispatch]);
 
   const handleSubmit = (event) => {
     event.preventDefault();

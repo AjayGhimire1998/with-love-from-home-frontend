@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import StoreLogo from "../../authentication/form-helpers/StoreLogo";
 import {
   closeEditStoreModal,
-  openConfirmDeleteStore,
 } from "../../../features/dashboard/modalSlice";
 import { nameChanger } from "../../../features/auth/storeSlice";
 import axios from "axios";

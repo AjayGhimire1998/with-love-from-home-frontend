@@ -1,4 +1,5 @@
 import React from "react";
+// import { useCallback } from 'react';
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authHeader } from "../../../app/services/auth-services/auth-header";
@@ -33,24 +34,31 @@ function Dashboard({ checkLoader }) {
   const dispatch = useDispatch();
   const headers = authHeader(getCurrentStore());
 
-  async function getStoreDetails() {
-    await axios
-      .get(`${API_URL}store/stores/${storeId}`, { headers })
-      .then((response) => {
-        const data = response.data;
-        dispatch(setStore(data));
-      });
-  }
+  // async function getStoreDetails() {
+  //   await axios
+  //     .get(`${API_URL}store/stores/${storeId}`, { headers })
+  //     .then((response) => {
+  //       const data = response.data;
+  //       dispatch(setStore(data));
+  //     });
+  // }
 
   useEffect(() => {
-    // axios
-    //   .get(`${API_URL}store/stores/${storeId}`, { headers })
-    //   .then((response) => {
-    //     const data = response.data;
-    //     dispatch(setStore(data));
-    //   });
-    getStoreDetails();
-  }, []);
+    const getStoreDetails = async () => {
+      try {
+        const response = await axios.get(`${API_URL}store/stores/${storeId}`, { headers });
+        const data = response.data;
+        dispatch(setStore(data));
+      } catch (error) {
+        // Handle errors
+        console.error('Error fetching store details:', error);
+      }
+    };
+
+    getStoreDetails(); // Call the function immediately if needed
+
+    // Rest of your useEffect code
+  }, [dispatch, storeId, headers, API_URL]);
 
   useEffect(() => {
     axios
@@ -60,11 +68,11 @@ function Dashboard({ checkLoader }) {
       .then((response) => {
         dispatch(setAllStoreProducts(response.data));
       });
-  }, []);
+  }, [API_URL, dispatch, headers, storeId]);
 
   useEffect(() => {
     dispatch(getStoreOrders(storeId));
-  }, []);
+  }, [dispatch, storeId]);
 
   return (
     <>

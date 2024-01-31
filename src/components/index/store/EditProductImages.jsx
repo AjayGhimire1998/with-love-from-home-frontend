@@ -14,7 +14,7 @@ import "./modal.css";
 
 function EditProductImages({ checkLoader }) {
   const API_URL = process.env.REACT_APP_API_URL;
-  const { id, images, name, productImages } = useSelector(
+  const { id, name, productImages } = useSelector(
     (store) => store.product
   );
   const dispatch = useDispatch();

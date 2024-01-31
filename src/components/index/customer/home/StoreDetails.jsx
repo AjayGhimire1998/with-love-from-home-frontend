@@ -26,18 +26,9 @@ import ErrorMessage from "../../../errors/ErrorMessage";
 
 function StoreDetails() {
   const API_URL = process.env.REACT_APP_API_URL;
-  const { id } = useParams();
-  useEffect(() => {
-    dispatch(setSelectedStore(parseInt(id)));
-    dispatch(setSelectedStoreProducts(parseInt(id)));
-    dispatch(getStoreReviews(parseInt(id)));
-  }, []);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const { selectedStore } = useSelector((store) => store.home);
-
   const {
     rating,
     reviewContent,
@@ -47,6 +38,13 @@ function StoreDetails() {
   } = useSelector((store) => store.rating);
   const { customerId } = useSelector((store) => store.customer);
   const headers = authHeader(getCurrentUser());
+  const { id } = useParams();
+
+  useEffect(() => {
+    dispatch(setSelectedStore(parseInt(id)));
+    dispatch(setSelectedStoreProducts(parseInt(id)));
+    dispatch(getStoreReviews(parseInt(id)));
+  }, [dispatch, id]);
 
   const hasUserReviewedStore = storeReviews?.find(
     (review) => review.customer_id === customerId
@@ -100,7 +98,7 @@ function StoreDetails() {
               className="left floated right aligned six wide column"
               style={{
                 backgroundImage: `url(${
-                  selectedStore && selectedStore?.store.current_store.logo
+                  selectedStore && selectedStore?.store.current_store.data.attributes.logo
                 })`,
                 height: "400px",
                 width: "400px",
@@ -113,7 +111,7 @@ function StoreDetails() {
               // style={{ textAlign: "center" }}
             >
               <h1>
-                {selectedStore && selectedStore?.store.current_store.name}
+                {selectedStore && selectedStore?.store.current_store.data.attributes.name}
               </h1>
               <span
                 style={{
@@ -144,7 +142,7 @@ function StoreDetails() {
                     <div className=" header">
                       Rate&nbsp;
                       {selectedStore &&
-                        selectedStore?.store.current_store.name}{" "}
+                        selectedStore?.store.current_store.data.attributes.name}{" "}
                       ?
                     </div>
                     <div className="description">
@@ -153,7 +151,9 @@ function StoreDetails() {
                       <textarea
                         placeholder="Give Review"
                         rows={5}
+                        cols={25}
                         value={reviewContent}
+                        style={{ resize: 'none' }}
                         onChange={(e) =>
                           dispatch(setReviewContent(e.target.value))
                         }

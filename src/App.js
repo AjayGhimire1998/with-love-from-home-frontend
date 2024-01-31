@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
-import { Routes, Route, Navigate, Link, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import StaticPages from "./components/static_pages/StaticPages";
 import Login from "./components/authentication/Login";
 import StoreLogin from "./components/authentication/StoreLogin";
@@ -71,7 +71,7 @@ function App() {
   useEffect(() => {
     dispatch(getProductsImages());
     dispatch(getReviews());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const user = getCurrentUser();
@@ -80,7 +80,7 @@ function App() {
       dispatch(isCustomerLoggedInChanger());
       dispatch(setCustomerId(JSON.parse(localStorage.getItem("id"))));
     }
-  }, [isCustomerLoggedIn]);
+  }, [isCustomerLoggedIn, dispatch]);
 
   useEffect(() => {
     const store = getCurrentStore();
@@ -89,15 +89,15 @@ function App() {
       dispatch(isStoreLoggedInChanger());
       dispatch(setStoreId(JSON.parse(localStorage.getItem("id"))));
     }
-  }, [isStoreLoggedIn]);
+  }, [isStoreLoggedIn, dispatch]);
 
   useEffect(() => {
     dispatch(getCategories());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(getAllCustomers());
-  }, []);
+  }, [dispatch]);
 
   const notAuthorized = () => {
     return (

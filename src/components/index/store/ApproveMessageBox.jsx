@@ -6,7 +6,7 @@ import {
 } from "../../../features/dashboard/dashboardSlice";
 import DateTimePicker from "react-datetime-picker";
 import { useEffect } from "react";
-import { readableDate } from "../../../app/services/other-services/service";
+// import { readableDate } from "../../../app/services/other-services/service";
 import axios from "axios";
 import { authHeader } from "../../../app/services/auth-services/auth-header";
 import { getCurrentStore } from "../../../app/services/auth-services/auth-service";
@@ -27,7 +27,7 @@ function ApproveMesssageBox() {
 
   useEffect(() => {
     dispatch(setDateTime(value));
-  }, [value]);
+  }, [value, dispatch]);
 
   console.log(dateTime)
 

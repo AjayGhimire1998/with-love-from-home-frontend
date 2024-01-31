@@ -37,7 +37,7 @@ function ProductView() {
   useEffect(() => {
     dispatch(getSelectedProduct(parseInt(id)));
     dispatch(getSelectedProductReviews(parseInt(id)));
-  }, []);
+  }, [dispatch, id]);
 
   const { selectedProduct, imagePreviewIndex, amount } = useSelector(
     (store) => store.homeproduct

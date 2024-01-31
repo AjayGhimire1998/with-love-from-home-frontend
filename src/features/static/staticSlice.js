@@ -8,7 +8,7 @@ export const getProductsImages = createAsyncThunk(
   async (name, thunkAPI) => {
     try {
       const response = await axios(`${API_URL}product/products`);
-      return response.data.products.map((product) => product.images);
+      return response.data.products.map((product) => product.images[0]);
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong");
     }

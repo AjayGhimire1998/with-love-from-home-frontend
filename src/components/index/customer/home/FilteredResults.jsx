@@ -15,11 +15,8 @@ function FilteredResults({ checkLoader }) {
     useSelector((store) => store.home);
   const { categoryItems } = useSelector((store) => store.store);
 
-  const categoryName = categoryItems?.map((item) => {
-    if (item.id === categoryId) {
-      return item.name;
-    }
-  });
+  const categoryName = categoryItems?.find((item) => item.id === categoryId)?.name;
+
 
   const eachFilteredProduct = filteredProducts?.map((product) => {
     return <HomeProduct key={product.id} product={product} />;

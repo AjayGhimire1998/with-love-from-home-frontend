@@ -1,5 +1,5 @@
 import React from "react";
-import Omniauth from "./form-helpers/Omniauth";
+// import Omniauth from "./form-helpers/Omniauth";
 import { useDispatch, useSelector } from "react-redux";
 import {
   emailChange,
@@ -18,7 +18,7 @@ function Login({ checkLoader }) {
 
   useEffect(() => {
     dispatch(setError(JSON.parse(localStorage.getItem("login_error"))));
-  }, []);
+  }, [dispatch]);
 
   const handleSubmit = (event) => {
     event.preventDefault();

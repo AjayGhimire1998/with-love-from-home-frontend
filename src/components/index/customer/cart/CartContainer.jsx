@@ -43,7 +43,7 @@ function CartContainer({ checkLoader }) {
 
   useEffect(() => {
     dispatch(calculateTotal());
-  }, [cartItems]);
+  }, [cartItems, dispatch]);
 
   const headers = authHeader(getCurrentUser());
 

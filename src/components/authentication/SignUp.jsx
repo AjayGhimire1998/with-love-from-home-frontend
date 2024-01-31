@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Omniauth from "./form-helpers/Omniauth";
+// import Omniauth from "./form-helpers/Omniauth";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fullNameChange,
@@ -20,7 +20,7 @@ function SignUp({ checkLoader }) {
 
   useEffect(() => {
     dispatch(setError(JSON.parse(localStorage.getItem("signup_error"))));
-  }, []);
+  }, [dispatch]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
