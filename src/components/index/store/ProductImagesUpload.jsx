@@ -8,7 +8,7 @@ import {
   pushToProductImages,
   getEachImage,
 } from "../../../features/dashboard/productSlice";
-import Loader from "../../static_pages/Loader";
+// import Loader from "../../static_pages/Loader";
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
 const ProductImagesUpload = ({ checkLoader }) => {
@@ -38,7 +38,7 @@ const ProductImagesUpload = ({ checkLoader }) => {
       choosefile.setAttribute("disabled", "");
       alert("Cannot choose more than 3 images");
     }
-  }, [eachImage]);
+  }, [eachImage, dispatch, productImages]);
 
   return (
     <div className="ui middle aligned center aligned grid flex">

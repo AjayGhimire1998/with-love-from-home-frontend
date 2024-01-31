@@ -74,12 +74,15 @@ function AllOrders() {
                 userOrders.cart_items.flat(Infinity)?.map((item) => {
                   if (item.status === viewOrderStatus) {
                     return <EachOrder key={item.id} item={item} />;
+                  } else {
+                    return null; // Return null if the condition is not met
                   }
                 })
               ) : (
                 <span style={{ textAlign: "center" }}>You have no orders</span>
               )}
             </div>
+
             <br />
             <br />
             <br />

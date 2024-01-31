@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+// import { useState } from "react";
 import {
   setSearch,
   setIsSearchLoading,
@@ -11,17 +11,17 @@ import SearchedResults from "./SearchedResults";
 function Search() {
   const dispatch = useDispatch();
   const { isSearchLoading } = useSelector((store) => store.home);
-  const [isTyping, setIsTyping] = useState(false);
+  // const [isTyping, setIsTyping] = useState(false);
 
-  const handleKeyUp = () => {
-    // Set isTyping to false when a key is released
-    setIsTyping(false);
+  // const handleKeyUp = () => {
+  //   // Set isTyping to false when a key is released
+  //   setIsTyping(false);
 
-    // If not typing, set isSearchLoading to false
-    if (!isTyping) {
-      dispatch(setIsSearchLoading(false));
-    }
-  };
+  //   // If not typing, set isSearchLoading to false
+  //   if (!isTyping) {
+  //     dispatch(setIsSearchLoading(false));
+  //   }
+  // };
   const handleBlur = () => {
     dispatch(setIsSearchLoading(false));
   };
@@ -33,7 +33,7 @@ function Search() {
           type="text"
           placeholder="Search products, stores..."
           onChange={(e) => {
-            setIsTyping(true);
+            // setIsTyping(true);
             dispatch(setSearch(e.target.value));
           }}
           // onKey={handleKeyUp}

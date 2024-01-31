@@ -1,7 +1,7 @@
 import React from "react";
 import image from "./hehe.jpeg";
 import { useNavigate } from "react-router";
-import Navbar from "../nav/Navbar";
+// import Navbar from "../nav/Navbar";
 
 function StaticHomePage() {
   const navigate = useNavigate();

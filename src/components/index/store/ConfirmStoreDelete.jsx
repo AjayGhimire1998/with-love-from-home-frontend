@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router";
+// import { useNavigate } from "react-router";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { authHeader } from "../../../app/services/auth-services/auth-header";
@@ -8,7 +8,7 @@ import { closeConfirmDeleteStore } from "../../../features/dashboard/modalSlice"
 
 function ConfirmStoreDelete({ checkLoader }) {
   const API_URL = process.env.REACT_APP_API_URL;
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { storeId } = useSelector((store) => store.store);

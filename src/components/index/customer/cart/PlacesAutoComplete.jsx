@@ -3,7 +3,7 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   setFullAddress,
   setState,
@@ -11,7 +11,7 @@ import {
   setSuburb,
   setZip,
 } from "../../../../features/cart/cartFormSlice";
-import { setAddress } from "../../../../features/home/homeproductSlice";
+// import { setAddress } from "../../../../features/home/homeproductSlice";
 import { v4 as uuidv4 } from "uuid";
 
 function PlacesAutoComplete() {
@@ -96,6 +96,8 @@ function PlacesAutoComplete() {
                     <span>{suggestion.description}</span>
                   </div>
                 );
+              } else {
+                return null;
               }
             })}
           </div>

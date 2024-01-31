@@ -26,13 +26,13 @@ export default function Home({ checkLoader }) {
     dispatch(getAllStores());
     dispatch(getAllProducts());
 
-  }, []);
+  }, [dispatch]);
 
 
 
   useEffect(() => {
     dispatch(getUserOrders(customerId))
-  },[])
+  },[dispatch, customerId])
 
   return (
     <>

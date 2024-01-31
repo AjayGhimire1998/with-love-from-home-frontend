@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logOut } from "../../app/services/auth-services/auth-service";
 import { useDispatch, useSelector } from "react-redux";
-import { openViewOrder } from "../../features/dashboard/modalSlice";
+// import { openViewOrder } from "../../features/dashboard/modalSlice";
 import "./nav.css";
 import { isStoreLoggedInChangerToFalse } from "../../features/auth/storeSlice";
 import { isCustomerLoggedInChangerToFalse } from "../../features/auth/customerSlice";

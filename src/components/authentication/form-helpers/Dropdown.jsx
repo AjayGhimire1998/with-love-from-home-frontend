@@ -3,7 +3,7 @@ import "./dropdown.css";
 import Select from "react-select";
 import { categoryIdChanger } from "../../../features/auth/storeSlice";
 import { setCategoryId } from "../../../features/home/homeSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { setFilteredProducts } from "../../../features/home/homeSlice";
 
 function Dropdown({ categoryItems }) {

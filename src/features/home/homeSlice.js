@@ -31,9 +31,7 @@ export const setSelectedStore = createAsyncThunk(
   "home/setSelectedStore",
   async (storeId, thunkAPI) => {
     try {
-      const response = await axios(
-        `${API_URL}store/stores/${storeId}`
-      );
+      const response = await axios(`${API_URL}store/stores/${storeId}`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong");
@@ -45,9 +43,7 @@ export const setSelectedStoreProducts = createAsyncThunk(
   "home/setSelectedStoreProducts",
   async (storeId, thunkAPI) => {
     try {
-      const response = await axios(
-        `${API_URL}stores/${storeId}/products`
-      );
+      const response = await axios(`${API_URL}stores/${storeId}/products`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong");
@@ -59,9 +55,7 @@ export const getUserOrders = createAsyncThunk(
   "cart/getUserOrders",
   async (id, thunkAPI) => {
     try {
-      const response = await axios(
-        `${API_URL}customers/${id}/orders`
-      );
+      const response = await axios(`${API_URL}customers/${id}/orders`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("Something went wrong.");
@@ -130,6 +124,8 @@ const homeSlice = createSlice({
         return state.allProducts.products?.filter((product) => {
           if (product.store_id === store.id) {
             return product;
+          } else {
+            return;
           }
         });
       });
@@ -145,6 +141,8 @@ const homeSlice = createSlice({
           product.name.toLowerCase().includes(state.searchQuery.toLowerCase())
         ) {
           return product;
+        } else {
+          return null;
         }
       });
 
@@ -153,6 +151,8 @@ const homeSlice = createSlice({
           store.name.toLowerCase().includes(state.searchQuery.toLowerCase())
         ) {
           return store;
+        } else {
+          return null;
         }
       });
 
@@ -161,10 +161,9 @@ const homeSlice = createSlice({
         state.searchedStores = [];
         state.isSearchLoading = false;
       }
-
     },
     setIsSearchLoading: (state, action) => {
-      state.isSearchLoading = action.payload
+      state.isSearchLoading = action.payload;
     },
     clearSearch: (state) => {
       state.searchedProducts = [];
@@ -214,7 +213,6 @@ const homeSlice = createSlice({
     },
     [getUserOrders.rejected]: (state) => {
       state.isHomeLoadingß = false;
-
     },
   },
 });
