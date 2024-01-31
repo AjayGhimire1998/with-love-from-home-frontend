@@ -36,7 +36,7 @@ function RegisterStore({ checkLoader }) {
 
     storeSignUp(name, logo, categoryId, email, password, passwordConfirmation);
     if(localStorage.getItem("store")){
-      navigate("/")
+      navigate("/store/login")
     } else {
       navigate("/store/signup")
     }

@@ -92,12 +92,10 @@ function App() {
   }, [isStoreLoggedIn, dispatch]);
 
   useEffect(() => {
+    dispatch(getAllCustomers());
     dispatch(getCategories());
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(getAllCustomers());
-  }, [dispatch]);
 
   const notAuthorized = () => {
     return (

@@ -75,11 +75,12 @@ function Navbar({checkLoader}) {
                   <button
                     className="ui inverted button"
                     onClick={() => {
+                      checkLoader(1000); 
+                      navigate("/");
                       logOut();
                       dispatch(isStoreLoggedInChangerToFalse());
                       dispatch(isCustomerLoggedInChangerToFalse());
-                      checkLoader(1000)
-                      navigate("/");
+                     
                     }}
                   >
                     Logout

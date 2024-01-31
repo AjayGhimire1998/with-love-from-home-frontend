@@ -35,17 +35,17 @@ function Reviews() {
                 <div className="box-top">
                   <div className="profile">
                     <div className="name-user">
-                      <strong>
-
-                        {(allCustomers?.find((customer) => customer.id === review.customer_id)).fullname || "Customer"}
-                        {/* {allCustomers.length !== 0 ? (
-                          allCustomers?.find(
-                            (customer) => customer.id === review.customer_id
-                          )?.fullname
-                        ) : (
-                          <Loader />
-                        )} */}
-                      </strong>
+                      {allCustomers?.length > 0 ? (
+                        <strong>
+                          {(
+                            allCustomers.find(
+                              (customer) => customer?.id === review?.customer_id
+                            ) || {}
+                          ).fullname || "Customer"}
+                        </strong>
+                      ) : (
+                        <strong>Customer</strong>
+                      )}
                     </div>
                   </div>
 
