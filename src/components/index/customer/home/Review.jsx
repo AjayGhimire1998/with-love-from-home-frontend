@@ -18,8 +18,9 @@ function Review({ review }) {
             <div className="profile">
               <div className="name-user">
                 <strong>
-
-                  {customer?.fullname || "Customer"}
+                  {allCustomers?.length > 0
+                    ? customer?.fullname || "Customer"
+                    : "Customer"}
                 </strong>
               </div>
             </div>
