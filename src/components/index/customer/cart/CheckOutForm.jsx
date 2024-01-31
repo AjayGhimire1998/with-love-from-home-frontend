@@ -48,7 +48,6 @@ function CheckOutForm() {
       !fullName ||
       !phone ||
       !email ||
-      !fullAddress ||
       !streetAddress ||
       !apt ||
       !suburb ||
