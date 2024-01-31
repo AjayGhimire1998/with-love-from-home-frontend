@@ -34,35 +34,34 @@ function Dashboard({ checkLoader }) {
   const dispatch = useDispatch();
   const headers = authHeader(getCurrentStore());
 
-  const getStoreDetails = async () => {
-    try {
-      await axios
-        .get(`${API_URL}store/stores/${storeId}`, {
-          headers,
-        })
-        .then((response) => {
-          dispatch(setStore(response.data));
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getStoreProducts = async () => {
-    try {
-      await axios
-        .get(`${API_URL}stores/${storeId}/products`, {
-          headers,
-        })
-        .then((response) => {
-          dispatch(setAllStoreProducts(response.data));
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
+    const getStoreDetails = async () => {
+      try {
+        await axios
+          .get(`${API_URL}store/stores/${storeId}`, {
+            headers,
+          })
+          .then((response) => {
+            dispatch(setStore(response.data));
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const getStoreProducts = async () => {
+      try {
+        await axios
+          .get(`${API_URL}stores/${storeId}/products`, {
+            headers,
+          })
+          .then((response) => {
+            dispatch(setAllStoreProducts(response.data));
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    };
     getStoreDetails();
     getStoreProducts();
   }, []);
