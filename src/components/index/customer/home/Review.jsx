@@ -18,9 +18,9 @@ function Review({ review }) {
             <div className="profile">
               <div className="name-user">
                 <strong>
-                  {customer.fullname === undefined
+                  {customer?.fullname === undefined
                     ? "Customer"
-                    : customer.fullname}
+                    : customer?.fullname}
                 </strong>
               </div>
             </div>

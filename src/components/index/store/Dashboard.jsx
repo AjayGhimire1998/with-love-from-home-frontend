@@ -1,5 +1,5 @@
 import React from "react";
-// import { useCallback } from 'react';
+// import { useCallback } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authHeader } from "../../../app/services/auth-services/auth-header";
@@ -34,45 +34,42 @@ function Dashboard({ checkLoader }) {
   const dispatch = useDispatch();
   const headers = authHeader(getCurrentStore());
 
-  // async function getStoreDetails() {
-  //   await axios
-  //     .get(`${API_URL}store/stores/${storeId}`, { headers })
-  //     .then((response) => {
-  //       const data = response.data;
-  //       dispatch(setStore(data));
-  //     });
-  // }
+  const getStoreDetails = async () => {
+    try {
+      await axios
+        .get(`${API_URL}store/stores/${storeId}`, {
+          headers,
+        })
+        .then((response) => {
+          dispatch(setStore(response.data));
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getStoreProducts = async () => {
+    try {
+      await axios
+        .get(`${API_URL}stores/${storeId}/products`, {
+          headers,
+        })
+        .then((response) => {
+          dispatch(setAllStoreProducts(response.data));
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    const getStoreDetails = async () => {
-      try {
-        const response = await axios.get(`${API_URL}store/stores/${storeId}`, { headers });
-        const data = response.data;
-        dispatch(setStore(data));
-      } catch (error) {
-        // Handle errors
-        console.error('Error fetching store details:', error);
-      }
-    };
-
-    getStoreDetails(); // Call the function immediately if needed
-
-    // Rest of your useEffect code
-  }, [dispatch, storeId, headers, API_URL]);
-
-  useEffect(() => {
-    axios
-      .get(`${API_URL}stores/${storeId}/products`, {
-        headers,
-      })
-      .then((response) => {
-        dispatch(setAllStoreProducts(response.data));
-      });
-  }, [API_URL, dispatch, headers, storeId]);
+    getStoreDetails();
+    getStoreProducts();
+  }, []);
 
   useEffect(() => {
     dispatch(getStoreOrders(storeId));
-  }, [dispatch, storeId]);
+  }, [storeId, dispatch]);
 
   return (
     <>
