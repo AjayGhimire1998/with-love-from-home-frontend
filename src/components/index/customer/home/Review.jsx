@@ -6,10 +6,6 @@ import ReviewActions from "./ReviewActions";
 
 function Review({ review }) {
   const { allCustomers, customerId } = useSelector((store) => store.customer);
-  const customer = allCustomers?.find(
-    (customer) => customer.id === review.customer_id
-  );
-
   return (
     <>
       <div className="testimonial-box-container">
@@ -17,7 +13,13 @@ function Review({ review }) {
           <div className="box-top">
             <div className="profile">
               <div className="name-user">
-                <strong>{customer?.fullname || "Customer"}</strong>
+                <strong>
+                  {(
+                    allCustomers.find(
+                      (customer) => customer?.id === review?.customer_id
+                    ) || {}
+                  ).fullname || "Customer"}
+                </strong>
               </div>
             </div>
 
