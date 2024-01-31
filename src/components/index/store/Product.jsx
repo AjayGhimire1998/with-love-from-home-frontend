@@ -195,7 +195,6 @@ function Product({ product, checkLoader }) {
             </div>
           </div>
           <br />
-          <br />
           <div className="extra content">
             <button
               className="ui button tiny right floated red"
