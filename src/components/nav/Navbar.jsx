@@ -24,9 +24,9 @@ function Navbar({checkLoader}) {
     <>
       <div className="pusher">
         <div className="ui inverted vertical masthead center aligned segment ">
-          <div className="ui sticky container ">
+          <div className="ui sticky container">
             {isStoreLoggedIn || isCustomerLoggedIn ? (
-              <div className="ui large secondary inverted pointing menu">
+              <div className="ui large secondary inverted pointing menu  media">
                 {isStoreLoggedIn ? (
                   <NavLink className=" item ui label massive" to="/">
                     WITH LOVE FROM HOME
@@ -94,7 +94,7 @@ function Navbar({checkLoader}) {
                 </div>
               </div>
             ) : (
-              <div className="ui large secondary inverted pointing menu">
+              <div className="ui large secondary inverted pointing menu media">
                 <NavLink
                   className=" item ui label massive"
                   to="/"
@@ -102,15 +102,15 @@ function Navbar({checkLoader}) {
                   WITH LOVE FROM HOME
                 </NavLink>
 
-                <div className="right item">
-                  <NavLink className="ui inverted button" to="/login">
+                <div className="right item menu">
+                  <NavLink className="ui inverted button " to="/login">
                     Login
                   </NavLink>
                   <NavLink className="ui inverted button" to="signup">
                     Sign Up
                   </NavLink>
                   <NavLink className="ui inverted button" to="store/signup">
-                    Register Your Store
+                    Register Store
                   </NavLink>
                 </div>
               </div>

@@ -4,27 +4,74 @@
   margin-right: 5px;
 }
 .h-6.w-6 {
-    width: 50px;
-    color: var(--clr-white);
+  width: 50px;
+  color: var(--clr-white);
+}
+.h-6.w-6:hover {
+  color: var(--clr-black);
+}
+.amount-container {
+  position: absolute;
+  top: -0.3rem;
+  right: -0.1rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.total-amount {
+  color: black;
+  margin-bottom: 0;
+  font-size: 1.25rem;
+}
+
+@media screen and (max-width: 770px) {
+  /* Styles for screens 770px and below */
+  .ui.secondary.pointing.menu .item {
+    align-self: center;
   }
-  .h-6.w-6:hover{
-    color: var(--clr-black)
+
+  .ui.menu:not(.vertical) .right.item, .ui.menu:not(.vertical) .right.menu {
+    display: flex;
+    margin-top: 10px;
+    margin-left: 0px !important;
   }
-  .amount-container {
-    position: absolute;
-    top: -0.3rem;
-    right: -0.1rem;
-    width: 1.75rem;
-    height: 1.75rem;
-    border-radius: 50%;
-    background: white;
+
+  .media {
+    flex-direction: column; /* Stack items vertically */
+    align-self: center;
+
+    text-align: center; /* Center-align text in the items */
+    font-size: 12px !important;
+  }
+
+  .media .item {
+    margin: 0.5em 0;
+   
+  }
+
+  .media .right.item.menu {
+
     display: flex;
     align-items: center;
     justify-content: center;
+    /* margin-left: auto!important; */
+    margin-left:0px !important;
   }
 
-  .total-amount {
-    color: black;
-    margin-bottom: 0;
-    font-size: 1.25rem;
-  }
+
+  /* Add any additional styles for responsiveness as needed */
+}
+
+
+/* .media {
+  display: flex  !important;
+  flex-direction: column  !important;
+  align-items: center !important;
+
+  font-size: 10px !important;
+} */
