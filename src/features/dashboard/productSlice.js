@@ -61,6 +61,7 @@ const productSlice = createSlice({
       state.name = productItem.name;
       state.description = productItem.description;
       state.price = productItem.price;
+      state.inStock = productItem.in_stock
     
     },
     setEditProductImages: (state, action) => {

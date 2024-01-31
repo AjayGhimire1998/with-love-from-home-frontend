@@ -144,7 +144,7 @@ function Product({ product, checkLoader }) {
               <label style={{ textAlign: "left" }}>In-Stock</label>
               <select
                 onChange={(event) => dispatch(setInStock(event.target.value))}
-                value={selectedValue}
+                value={selectedValue === "Sold Out" ? "Sold Out" : selectedValue}
               >
                 {options.map((opt) => {
                   return (
