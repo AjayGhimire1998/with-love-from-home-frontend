@@ -32,7 +32,7 @@ const productSlice = createSlice({
       state.inStock = action.payload
     },
     pushToProductImages: (state, action) => {
-      state.productImages = action.payload;
+      state.productImages.push(action.payload);
     },
     getEachImage: (state, action) => {
       state.eachImage = action.payload;

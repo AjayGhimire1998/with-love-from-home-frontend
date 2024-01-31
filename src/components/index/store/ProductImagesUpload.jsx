@@ -32,7 +32,7 @@ const ProductImagesUpload = ({ checkLoader }) => {
   };
 
   useEffect(() => {
-    dispatch(pushToProductImages([...productImages, eachImage]));
+    dispatch(pushToProductImages(eachImage));
     if (productImages.length === 3) {
       const choosefile = document.querySelector("#embedpollfileinput");
       choosefile.setAttribute("disabled", "");
