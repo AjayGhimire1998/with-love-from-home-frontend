@@ -25,6 +25,7 @@ function NewProductFormModal({ checkLoader }) {
   const { name, description, price, productImages, inStock } = useSelector(
     (store) => store.product
   );
+  console.log(storeId);
 
   const data = {
     product: {
