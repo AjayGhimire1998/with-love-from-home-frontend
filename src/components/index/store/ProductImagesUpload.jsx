@@ -26,13 +26,13 @@ const ProductImagesUpload = ({ checkLoader }) => {
     checkLoader(2000);
     await S3FileUpload.uploadFile(e.target.files[0], config)
       .then((data) => {
-        console.log(data.location);
+        // console.log(data.location);
         dispatch(getEachImage(data.location));
       })
       .catch((error) => console.log(error));
 
   };
-  console.log(productImages);
+  // console.log(productImages);
   useEffect(() => {
     dispatch(pushToProductImages(eachImage));
   }, [eachImage, dispatch]);

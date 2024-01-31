@@ -45,7 +45,7 @@ function CheckOutForm() {
     e.preventDefault();
 
     uniqueStoresForCartCreation.forEach((item) => {
-      console.log(item.product.store_id);
+      // console.log(item.product.store_id);
       axios
         .post(
           `${API_URL}cart/carts`,
@@ -69,7 +69,7 @@ function CheckOutForm() {
           { headers }
         )
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.status === 201) {
             dispatch(setCreatedCarts(response.data));
             // dispatch(openStartPaymentForm())

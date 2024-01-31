@@ -39,7 +39,7 @@ function ResetStorePasswordForm({ checkLoader }) {
       })
         .then((res) => res.json())
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.alert) {
             dispatch(setError(response.alert));
           } else {

@@ -29,7 +29,7 @@ function ApproveMesssageBox() {
     dispatch(setDateTime(value));
   }, [value, dispatch]);
 
-  console.log(dateTime)
+  // console.log(dateTime)
 
   const headers = authHeader(getCurrentStore());
   const handleApprove = async () => {
@@ -65,7 +65,7 @@ function ApproveMesssageBox() {
     axios
       .post(`${API_URL}order/${orderId}/mail_to_user`)
       .then((response) => {
-        console.log(response);
+        console.log("Email Sent!");
       });
   };
 

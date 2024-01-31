@@ -84,7 +84,7 @@ function CartContainer({ checkLoader }) {
           `${API_URL}orders/${cart.id}/mail_to_user_and_store`,
         )
         .then((response) => {
-          console.log(response);
+          console.log("Email Sent!");
         });
     });
   };

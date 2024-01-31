@@ -20,7 +20,7 @@ export const customerSignUp = (
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       if (data.accessToken) {
         localStorage.clear();
         localStorage.setItem("user", JSON.stringify(data.accessToken));
@@ -47,7 +47,7 @@ export const customerLogin = (email, password) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       if (data?.accessToken) {
         localStorage.clear();
 
@@ -91,7 +91,7 @@ export const storeSignUp = (
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       if (data.accessToken) {
         localStorage.clear();
         localStorage.setItem("store", JSON.stringify(data.accessToken));
@@ -118,7 +118,7 @@ export const storeLogin = (email, password) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       if (data?.accessToken) {
         localStorage.clear();
         localStorage.setItem("store", JSON.stringify(data.accessToken));

@@ -41,7 +41,7 @@ function ViewOrder({ item }) {
         headers,
       })
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         dispatch(eraseDeletedOrder(item.id));
       });
   };

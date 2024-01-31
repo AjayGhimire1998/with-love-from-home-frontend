@@ -68,7 +68,7 @@ function ReviewActions({ review }) {
         { headers }
       )
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         if (response.status === 200) {
           dispatch(setRecentlyUpdatedReview(response.data));
           dispatch(replaceRecentlyUpdatedStoreReview());

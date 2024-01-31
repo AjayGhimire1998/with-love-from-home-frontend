@@ -28,13 +28,13 @@ function EditStoreModal({ checkLoader }) {
    
     e.preventDefault();
     const headers = authHeader(getCurrentStore());
-    console.log(headers);
+    // console.log(headers);
     await axios
       .put(`${API_URL}store/stores/${storeId}`, data, { headers })
 
       .then((response) => {
         const data = response.data;
-        console.log(data);
+        // console.log(data);
         checkLoader(1000);
         dispatch(setStore(data));
       });

@@ -47,7 +47,8 @@ function RejectMessageBox() {
     axios
       .post(`${API_URL}order/${orderId}/mail_to_user`)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
+        console.log("Email Sent!");
       });
   };
 

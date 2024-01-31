@@ -50,7 +50,7 @@ function Product({ product, checkLoader }) {
       await axios
         .put(`${API_URL}/product/products/${id}`, data, { headers })
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           dispatch(setRecentlyUpdatedProduct(response.data));
           dispatch(replaceRecentlyUpdatedProduct());
         });

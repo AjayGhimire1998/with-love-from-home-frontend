@@ -36,7 +36,7 @@ function PlacesAutoComplete() {
           dispatch(setState(component[component.length - 3].short_name));
           dispatch(setZip(component[component.length - 1].short_name));
           dispatch(setSuburb(component[component.length - 5].long_name));
-          console.log(results);
+          // console.log(results);
           getLatLng(results[0]);
         }
       })
