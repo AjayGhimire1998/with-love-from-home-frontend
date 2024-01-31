@@ -36,7 +36,7 @@ function Review({ review }) {
             <p>"{review.content || `${review.rating} stars`}"</p>
           </div>
 
-          {customerId === review.user_id ? (
+          {customerId === review.customer_id ? (
             <ReviewActions review={review} />
           ) : null}
         </div>
