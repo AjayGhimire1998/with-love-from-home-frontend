@@ -23,7 +23,7 @@ import {
 import {
   getCategories,
   isStoreLoggedInChanger,
-  setStoreId,
+  // setStoreId,
 } from "./features/auth/storeSlice";
 import Dashboard from "./components/index/store/Dashboard";
 import {
@@ -87,7 +87,7 @@ function App() {
     if (store) {
       setCurrentStore(store);
       dispatch(isStoreLoggedInChanger());
-      dispatch(setStoreId(JSON.parse(localStorage.getItem("id"))));
+      // dispatch(setStoreId(JSON.parse(localStorage.getItem("id"))));
     }
   }, [isStoreLoggedIn, dispatch]);
 

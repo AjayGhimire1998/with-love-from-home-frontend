@@ -20,9 +20,10 @@ import Footer from "../../static_pages/Footer";
 import ConfirmStoreDelete from "./ConfirmStoreDelete";
 
 function Dashboard({ checkLoader }) {
-  const API_URL = process.env.REACT_APP_API_URL;
+  // const storeId = localStorage.getItem("id");
+  // const API_URL = process.env.REACT_APP_API_URL;
   const { store } = useSelector((store) => store.dashboard);
-  const { storeId } = useSelector((store) => store.store);
+  // const { storeId } = useSelector((store) => store.store);
   const {
     isEditStoreOpen,
     isNewProductOpen,
@@ -32,9 +33,13 @@ function Dashboard({ checkLoader }) {
   } = useSelector((store) => store.modal);
 
   const dispatch = useDispatch();
-  const headers = authHeader(getCurrentStore());
+ 
 
   useEffect(() => {
+    const storeId = localStorage.getItem("id");
+    const API_URL = process.env.REACT_APP_API_URL;
+    const headers = authHeader(getCurrentStore());
+
     const getStoreDetails = async () => {
       try {
         await axios
@@ -50,6 +55,7 @@ function Dashboard({ checkLoader }) {
     };
 
     const getStoreProducts = async () => {
+   
       try {
         await axios
           .get(`${API_URL}stores/${storeId}/products`, {
@@ -64,11 +70,12 @@ function Dashboard({ checkLoader }) {
     };
     getStoreDetails();
     getStoreProducts();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
+    const storeId = localStorage.getItem("id");
     dispatch(getStoreOrders(storeId));
-  }, [storeId, dispatch]);
+  }, [ dispatch]);
 
   return (
     <>
