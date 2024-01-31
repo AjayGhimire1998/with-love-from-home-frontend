@@ -209,10 +209,10 @@ const homeSlice = createSlice({
     },
     [getUserOrders.fulfilled]: (state, action) => {
       state.userOrders = action.payload;
-      state.isHomeLoadingß = false;
+      state.isHomeLoading = false;
     },
     [getUserOrders.rejected]: (state) => {
-      state.isHomeLoadingß = false;
+      state.isHomeLoading = false;
     },
   },
 });

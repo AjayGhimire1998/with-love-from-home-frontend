@@ -13,6 +13,12 @@ function Navbar({checkLoader}) {
   const { isStoreLoggedIn, storeId } = useSelector((store) => store.store);
   const { isCustomerLoggedIn, customerId } = useSelector((store) => store.customer);
   const { cartAmount } = useSelector((store) => store.homeproduct);
+  const { userOrders } = useSelector(
+    (store) => store.home
+  );
+  const { storeOrders } = useSelector(
+    (store) => store.dashboard
+  );
 
   return (
     <>
@@ -60,7 +66,7 @@ function Navbar({checkLoader}) {
                         className="ui inverted button"
                         onClick={() => navigate(`users/${customerId}/orders`)}
                       >
-                        Your Orders
+                        {`Your Orders [${userOrders?.cart_items ? userOrders.cart_items.length : '0'}]`}
                       </button>
                     </>
                   ) : null}
@@ -69,7 +75,7 @@ function Navbar({checkLoader}) {
                       className="ui inverted button"
                       onClick={() => navigate(`stores/${storeId}/orders`)}
                     >
-                      View Orders
+                       {`Your Orders [${storeOrders?.cart_items ? storeOrders.cart_items.length : '0'}]`}
                     </button>
                   ) : null}
                   <button
