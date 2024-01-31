@@ -22,12 +22,17 @@ function StoreLogo({ checkLoader }) {
   };
 
   const uploadToS3 = (e) => {
+    console.log("Uploading to S3...");
+    console.log("Config:", config);
+    console.log("Selected File:", e.target.files[0]);
     S3FileUpload.uploadFile(e.target.files[0], config)
       .then((data) => {
+        console.log("Upload successful:", data);
         dispatch(logoChanger(data.location));
       })
-      .catch((error) => console.log(error));
-    
+      .catch((error) => {
+        console.error("Upload error:", error);
+      });
   };
 
   return (
