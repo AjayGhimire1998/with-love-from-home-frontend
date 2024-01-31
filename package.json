@@ -2,6 +2,7 @@
   "name": "with-love-from-home",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://with-love-from-home.netlify.app/",
   "dependencies": {
     "@emailjs/browser": "^3.6.2",
     "@reduxjs/toolkit": "^1.8.3",
