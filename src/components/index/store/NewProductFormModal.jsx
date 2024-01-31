@@ -66,21 +66,27 @@ function NewProductFormModal({ checkLoader }) {
   };
 
   return (
-    <aside className="modal-container">
+    <aside className="modal-container ">
       <div className="modal">
         <div
           style={{
-            // display: "table",
-            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
             margin: "0 auto",
+            overflowY: "scroll",
           }}
+          className="edit-store"
         >
           <div
             style={{
-              // display: "table-cell",
+              display: "table-cell",
               verticalAlign: "middle",
               textAlign: "center",
-              padding: "40px",
+              padding: "30px",
+              minHeight: "60vh", // Set a minimum height to ensure content visibility
+              maxHeight: "80vh",
             }}
           >
             <h3 className="header">Add New Product</h3>
@@ -89,6 +95,7 @@ function NewProductFormModal({ checkLoader }) {
             </div>
             <br />
             <ProductImagesUpload checkLoader={checkLoader} />
+            <br />
             <form className="ui form ">
               <div className="required field ">
                 <label style={{ textAlign: "left" }}>Name</label>
@@ -164,6 +171,9 @@ function NewProductFormModal({ checkLoader }) {
                 </div>
               </div>
             </form>
+            <br />
+
+            <br />
           </div>
         </div>
       </div>

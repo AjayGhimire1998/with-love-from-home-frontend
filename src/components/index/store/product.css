@@ -1,39 +1,61 @@
-
 /* .ui.modal.dimmer.transition.visible.active {
   display:flex !important;
   } */
-  @media only screen and (min-width: 100px) {
-    .modal-forms {
-      /* position: absolute; */
-      top: 50%;
-      left: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-left: auto;
-      margin-right: auto;
-      z-index: 10;
-      overflow-y: scroll;
+@media only screen and (min-width: 100px) {
+  .modal-forms {
+    /* position: absolute; */
+    top: 50%;
+    left: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 10;
+    overflow-y: scroll;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .ui.modal {
+    position: absolute;
+    top: 30%;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .ui.modal {
+    position: absolute;
+    top: 30%;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .ui.modal {
+    position: absolute;
+    top: 30%;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .edit-store {
+    display: flex;
+    flex-direction: column;
+    height: 100vh !important;
+    overflow-y: scroll !important;
+
+    /* Hide the scrollbar bar */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: transparent transparent; /* Firefox */
+    
+
+    /* Webkit browsers (Chrome, Safari, etc.) */
+    &::-webkit-scrollbar {
+      width: 3px; /* Set the width of the scrollbar */
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent; /* Set the color of the scrollbar thumb */
     }
   }
-
-  @media only screen and (min-width: 992px){
-    .ui.modal {
-        position: absolute;
-        top:30%;
-    }
-}
-
-@media only screen and (min-width: 768px){
-    .ui.modal {
-        position: absolute;
-        top: 30%;
-    }
-}
-
-@media only screen and (max-width: 767px){
-    .ui.modal {
-        position: absolute;
-        top: 30%;
-    }
 }

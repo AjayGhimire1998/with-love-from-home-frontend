@@ -49,13 +49,25 @@ function EditStoreModal({ checkLoader }) {
   return (
     <aside className="modal-container">
       <div className="modal">
-        <div style={{ display: "table", height: "100%", margin: "0 auto" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            margin: "0 auto",
+            overflowY: "scroll",
+          }}
+          className="edit-store"
+        >
           <div
             style={{
               display: "table-cell",
               verticalAlign: "middle",
               textAlign: "center",
-              padding: "50px",
+              padding: "30px",
+              minHeight: "60vh", // Set a minimum height to ensure content visibility
+              maxHeight: "80vh",
             }}
           >
             <h2 className="header">Edit Store Details</h2>
