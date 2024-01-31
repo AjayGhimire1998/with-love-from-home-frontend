@@ -23,21 +23,18 @@ const ProductImagesUpload = ({ checkLoader }) => {
   };
 
   const uploadToS3 = async (e) => {
+    checkLoader(2000);
     await S3FileUpload.uploadFile(e.target.files[0], config)
       .then((data) => {
         console.log(data.location);
         dispatch(getEachImage(data.location));
       })
       .catch((error) => console.log(error));
-  };
 
+  };
+  console.log(productImages);
   useEffect(() => {
     dispatch(pushToProductImages(eachImage));
-    if (productImages.length === 3) {
-      const choosefile = document.querySelector("#embedpollfileinput");
-      choosefile.setAttribute("disabled", "");
-      alert("Cannot choose more than 3 images");
-    }
   }, [eachImage, dispatch]);
 
   return (
@@ -54,11 +51,11 @@ const ProductImagesUpload = ({ checkLoader }) => {
           name="image"
           accept="image/*"
           multiple={true}
+          disabled={productImages.length === 4}
           id="embedpollfileinput"
           style={{ display: "none" }}
           onChange={(event) => {
             uploadToS3(event);
-            checkLoader(3000);
           }}
         />
 
@@ -69,20 +66,20 @@ const ProductImagesUpload = ({ checkLoader }) => {
         <br />
         <br />
         {/* {eachImage !== "" ? ( */}
-          <div className="ui horizontal segments">
-            {productImages.slice(1).map((image) => {
-              return (
-                <div className="ui segment" key={uuidv4()}>
-                  <img
-                    className="image-preview"
-                    alt="logo"
-                    src={`${image}`}
-                    style={{ height: "150px", width: "160px" }}
-                  />
-                </div>
-              );
-            })}
-          </div>
+        <div className="ui horizontal segments">
+          {productImages.slice(1).map((image) => {
+            return (
+              <div className="ui segment" key={uuidv4()}>
+                <img
+                  className="image-preview"
+                  alt="logo"
+                  src={`${image}`}
+                  style={{ height: "150px", width: "160px" }}
+                />
+              </div>
+            );
+          })}
+        </div>
         {/* ) : (
           <Loader />
         )} */}
