@@ -35,11 +35,7 @@ function RegisterStore({ checkLoader }) {
     event.preventDefault();
 
     storeSignUp(name, logo, categoryId, email, password, passwordConfirmation);
-    if(localStorage.getItem("store")){
-      navigate("/store/login")
-    } else {
-      navigate("/store/signup")
-    }
+    navigate("/store/signup");
   };
   // console.log(logo);
   return (
