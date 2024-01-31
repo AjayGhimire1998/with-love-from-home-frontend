@@ -44,6 +44,21 @@ function CheckOutForm() {
   const handleSave = (e) => {
     e.preventDefault();
 
+    if (
+      !fullName ||
+      !phone ||
+      !email ||
+      !fullAddress ||
+      !streetAddress ||
+      !apt ||
+      !suburb ||
+      !state ||
+      !zip
+    ) {
+      dispatch(setError("All fields are required."));
+      return; // Prevent form submission
+    }
+
     uniqueStoresForCartCreation.forEach((item) => {
       // console.log(item.product.store_id);
       axios
@@ -85,6 +100,7 @@ function CheckOutForm() {
   return (
     <>
       {error && <ErrorMessage error={error} />}
+      <br/>
       <form className="ui form">
         <h2 style={{ textAlign: "center" }}>Check Out</h2>
         <hr />
@@ -190,27 +206,39 @@ function CheckOutForm() {
               name="shipping[zip-code]"
               placeholder="Zip Code"
               value={parseInt(zip)}
-              onChange={(e) => dispatch(setZip(e.target.value))}
+              onChange={(e) => {
+                const inputText = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+                const formattedZip = inputText.slice(0, 4); // Take only the first 4 digits
+                dispatch(setZip(formattedZip));
+              }}
+              maxLength="4"
             />
           </div>
         </div>
 
-        <div className=" required field">
+        <div className="required field">
           <label>Phone Number</label>
           <div className="two fields">
             <div className="field">
               <img
-                src={
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Flag_of_Australia_%28converted%29.svg/800px-Flag_of_Australia_%28converted%29.svg.png"
-                }
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Flag_of_Australia_%28converted%29.svg/800px-Flag_of_Australia_%28converted%29.svg.png"
                 alt="aus"
                 style={{ height: "15px", width: "15px" }}
               />
               <input
-                type="tel"
+                type="number"
                 name="shipping[phone-number]"
-                onChange={(e) => dispatch(setPhone(e.target.value))}
+                onChange={(e) => {
+                  const inputText = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+                  const formattedPhoneNumber = inputText.slice(0, 10); // Take only the first 10 digits
+                  dispatch(setPhone(formattedPhoneNumber));
+                }}
                 placeholder="Phone Number"
+                maxLength="10"
+                pattern="[0-9]*" // Only allow numeric input
+                // maxLength="10" // Maximum length for Australian phone numbers
+                title="Please enter a valid Australian phone number"
+                // required
               />
             </div>
           </div>
@@ -225,6 +253,9 @@ function CheckOutForm() {
             onChange={(e) => dispatch(setEmail(e.target.value))}
           />
         </div>
+        {error && <small style={{color: "red"}}>All fields must be filled.</small>}
+        <br/>
+        <br/>
         <div className="ui green button" tabIndex="0" onClick={handleSave}>
           Save and Proceed To Payment
         </div>

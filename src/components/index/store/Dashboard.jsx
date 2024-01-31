@@ -33,7 +33,6 @@ function Dashboard({ checkLoader }) {
   } = useSelector((store) => store.modal);
 
   const dispatch = useDispatch();
- 
 
   useEffect(() => {
     const storeId = localStorage.getItem("id");
@@ -55,7 +54,6 @@ function Dashboard({ checkLoader }) {
     };
 
     const getStoreProducts = async () => {
-   
       try {
         await axios
           .get(`${API_URL}stores/${storeId}/products`, {
@@ -75,7 +73,7 @@ function Dashboard({ checkLoader }) {
   useEffect(() => {
     const storeId = localStorage.getItem("id");
     dispatch(getStoreOrders(storeId));
-  }, [ dispatch]);
+  }, [dispatch]);
 
   return (
     <>
@@ -88,7 +86,6 @@ function Dashboard({ checkLoader }) {
         className="ui inverted vertical masthead center aligned segment"
         style={{
           backgroundImage: `url(${store?.store.current_store.data.attributes.logo})`,
-          backgroundSize: "100% 100%",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
         }}
@@ -124,6 +121,8 @@ function Dashboard({ checkLoader }) {
                 textShadow: "2px 2px black",
                 fontWeight: "bold",
                 WebkitTextStroke: "1px black",
+                backgroundColor: "rgba(33, 31, 31, 0.6)", // Adjust the alpha (fourth value) for transparency
+                padding: "15px",
               }}
             >
               You are Selling&nbsp;

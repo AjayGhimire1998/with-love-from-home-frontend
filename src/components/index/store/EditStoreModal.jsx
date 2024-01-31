@@ -2,9 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import StoreLogo from "../../authentication/form-helpers/StoreLogo";
-import {
-  closeEditStoreModal,
-} from "../../../features/dashboard/modalSlice";
+import { closeEditStoreModal } from "../../../features/dashboard/modalSlice";
 import { nameChanger } from "../../../features/auth/storeSlice";
 import axios from "axios";
 import { authHeader } from "../../../app/services/auth-services/auth-header";
@@ -16,17 +14,24 @@ import Dropdown from "../../authentication/form-helpers/Dropdown";
 function EditStoreModal({ checkLoader }) {
   const API_URL = process.env.REACT_APP_API_URL;
   const dispatch = useDispatch();
-  const { name, logo, storeId, categoryItems, categoryId } = useSelector((store) => store.store);
+  const { name, logo, storeId, categoryItems, categoryId } = useSelector(
+    (store) => store.store
+  );
+  const [error, setError] = React.useState(null);
 
   const data = {
     name: name,
     logo: logo,
-    category_id: categoryId
+    category_id: categoryId,
   };
 
-  const handleSubmit = async(e) => {
-   
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!data.name || !data.logo || !data.category_id) {
+      setError("All fields are required.");
+      return; // Prevent form submission
+    }
+
     const headers = authHeader(getCurrentStore());
     // console.log(headers);
     await axios
@@ -38,6 +43,7 @@ function EditStoreModal({ checkLoader }) {
         checkLoader(1000);
         dispatch(setStore(data));
       });
+    dispatch(closeEditStoreModal());
   };
 
   return (
@@ -80,13 +86,18 @@ function EditStoreModal({ checkLoader }) {
                 />
                 <br />
               </div>
+              {error && (
+                <small style={{ color: "red" }}>
+                  All fields must be filled.
+                </small>
+              )}
+              <br />
               <br />
               <div className="actions">
                 <div
                   className="ui green button"
                   onClick={(e) => {
                     handleSubmit(e);
-                    dispatch(closeEditStoreModal());
                   }}
                 >
                   Save

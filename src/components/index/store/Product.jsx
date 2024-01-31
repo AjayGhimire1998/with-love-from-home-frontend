@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   openEditProductModal,
@@ -33,19 +33,33 @@ function Product({ product, checkLoader }) {
   const { name, id, description, price, storeId, inStock } = useSelector(
     (store) => store.product
   );
+  const [error, setError] = React.useState(null);
+  const [selectedValue, setSelectedValue] = React.useState(1);
 
+  useEffect(() => {
+    setSelectedValue(inStock);
+  }, [inStock]);
+
+  console.log(inStock);
+  console.log(selectedValue);
   const data = {
     name: name,
     price: price,
     description: description,
     store_id: storeId,
-    in_stock: inStock,
+    in_stock: inStock === "Sold Out" ? 0 : inStock,
   };
 
+  console.log(data);
   const headers = authHeader(getCurrentStore());
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+   
+    if (!name || !price || !description || !inStock) {
+      setError("All fields are required.");
+      return; // Prevent form submission
+    }
     try {
       await axios
         .put(`${API_URL}/product/products/${id}`, data, { headers })
@@ -63,7 +77,7 @@ function Product({ product, checkLoader }) {
     dispatch(clearBlankImages());
   };
 
-  const options = Array.from(Array(31).keys());
+  const options = ["Sold Out"].concat(Array.from(Array(31).keys()).slice(1));
 
   return (
     <div className="card" style={{ margin: "25px" }}>
@@ -130,6 +144,7 @@ function Product({ product, checkLoader }) {
               <label style={{ textAlign: "left" }}>In-Stock</label>
               <select
                 onChange={(event) => dispatch(setInStock(event.target.value))}
+                value={selectedValue}
               >
                 {options.map((opt) => {
                   return (
@@ -140,6 +155,10 @@ function Product({ product, checkLoader }) {
                 })}
               </select>
             </div>
+            {error && (
+              <small style={{ color: "red" }}>All fields must be filled.</small>
+            )}
+            <br />
             <br />
             <div className="extra content">
               <button className="ui green button" onClick={handleSubmit}>

@@ -25,7 +25,8 @@ function NewProductFormModal({ checkLoader }) {
   const { name, description, price, productImages, inStock } = useSelector(
     (store) => store.product
   );
-  console.log(storeId);
+  const [error, setError] = React.useState(null);
+  // console.log(storeId);
 
   const data = {
     product: {
@@ -42,9 +43,15 @@ function NewProductFormModal({ checkLoader }) {
 
   const headers = authHeader(getCurrentStore());
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
+    const { name, price, description, images, in_stock } = data.product;
+    if (!name || !price || !description || !images || !in_stock) {
+      setError("All fields are required.");
+      return; // Prevent form submission
+    }
+
+    await axios
       .post(`${API_URL}/product/products/`, data, { headers })
 
       .then((response) => {
@@ -135,6 +142,13 @@ function NewProductFormModal({ checkLoader }) {
                   </select>
                 </div>
               </div>
+              {error && (
+                <small style={{ color: "red" }}>
+                  All fields must be filled.
+                </small>
+              )}
+              <br />
+              <br />
               <div className="actions">
                 <div className="ui green button" onClick={handleSubmit}>
                   Save
