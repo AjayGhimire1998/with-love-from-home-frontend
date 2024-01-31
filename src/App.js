@@ -155,7 +155,14 @@ function App() {
           />
           <Route
             path="/store/login"
-            element={<StoreLogin checkLoader={checkLoader} />}
+            element={
+              currentStore ? (
+                <Navigate replace to="/" />
+              ) : (
+                <StoreLogin checkLoader={checkLoader} />
+              )
+            }
+            
           />
           <Route
             path="/signup"
