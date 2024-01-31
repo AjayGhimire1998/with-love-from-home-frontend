@@ -87,6 +87,7 @@ function Dashboard({ checkLoader }) {
         style={{
           backgroundImage: `url(${store?.store.current_store.data.attributes.logo})`,
           backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
