@@ -62,7 +62,7 @@ function ApproveMesssageBox() {
   };
 
   const sendEmail = async () => {
-    axios
+    await axios
       .post(`${API_URL}order/${orderId}/mail_to_user`)
       .then((response) => {
         console.log("Email Sent!");
