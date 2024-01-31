@@ -40,8 +40,8 @@ function Product({ product, checkLoader }) {
     setSelectedValue(inStock);
   }, [inStock]);
 
-  console.log(inStock);
-  console.log(selectedValue);
+  // console.log(inStock);
+  // console.log(selectedValue);
   const data = {
     name: name,
     price: price,
@@ -50,7 +50,7 @@ function Product({ product, checkLoader }) {
     in_stock: inStock === "Sold Out" ? 0 : inStock,
   };
 
-  console.log(data);
+  // console.log(data);
   const headers = authHeader(getCurrentStore());
 
   const handleSubmit = async (e) => {
