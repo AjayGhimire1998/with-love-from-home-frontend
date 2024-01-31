@@ -17,11 +17,7 @@ function Review({ review }) {
           <div className="box-top">
             <div className="profile">
               <div className="name-user">
-                <strong>
-                  {allCustomers?.length > 0
-                    ? customer?.fullname || "Customer"
-                    : "Customer"}
-                </strong>
+                <strong>{customer?.fullname || "Customer"}</strong>
               </div>
             </div>
 
