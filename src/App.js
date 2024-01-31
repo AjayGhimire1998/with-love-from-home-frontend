@@ -56,7 +56,6 @@ function App() {
   const { isCustomerLoggedIn } = useSelector((store) => store.customer);
   const { isStoreLoggedIn } = useSelector((store) => store.store);
 
-
   const checkLoader = (time) => {
     dispatch(activateLoader());
     setTimeout(() => {
@@ -96,7 +95,6 @@ function App() {
     dispatch(getCategories());
   }, [dispatch]);
 
-
   const notAuthorized = () => {
     return (
       <div className="ui container" style={{ textAlign: "center" }}>
@@ -130,17 +128,16 @@ function App() {
                 <Dashboard checkLoader={checkLoader} />
               ) : currentUser ? (
                 <Home checkLoader={checkLoader} />
-              ) 
-              // : JSON.parse(localStorage.getItem("signup_error")) ? (
-              //   <SignUp checkLoader={checkLoader} />
-              // ) : JSON.parse(localStorage.getItem("store_signup_error")) ? (
-              //   <RegisterStore checkLoader={checkLoader} />
-              // ) : JSON.parse(localStorage.getItem("store_login_error")) ? (
-              //   <StoreLogin checkLoader={checkLoader} />
-              // ) : JSON.parse(localStorage.getItem("login_error")) ? (
-              //   <Login checkLoader={checkLoader} />
-              // )
-              : (
+              ) : (
+                // : JSON.parse(localStorage.getItem("signup_error")) ? (
+                //   <SignUp checkLoader={checkLoader} />
+                // ) : JSON.parse(localStorage.getItem("store_signup_error")) ? (
+                //   <RegisterStore checkLoader={checkLoader} />
+                // ) : JSON.parse(localStorage.getItem("store_login_error")) ? (
+                //   <StoreLogin checkLoader={checkLoader} />
+                // ) : JSON.parse(localStorage.getItem("login_error")) ? (
+                //   <Login checkLoader={checkLoader} />
+                // )
                 <StaticPages />
                 // <Login checkLoader={checkLoader} />
               )
@@ -158,13 +155,7 @@ function App() {
           />
           <Route
             path="/store/login"
-            element={
-              currentStore ? (
-                <Navigate replace to="/" />
-              ) : (
-                <StoreLogin checkLoader={checkLoader} />
-              )
-            }
+            element={<StoreLogin checkLoader={checkLoader} />}
           />
           <Route
             path="/signup"

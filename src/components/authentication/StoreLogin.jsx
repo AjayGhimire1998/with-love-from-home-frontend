@@ -5,6 +5,7 @@ import {
   emailChanger,
   passwordChanger,
   setError,
+  setSuccess
 } from "../../features/auth/storeSlice";
 import { useNavigate } from "react-router";
 import { storeLogin } from "../../app/services/auth-services/auth-service";
@@ -13,37 +14,45 @@ import ErrorMessage from "../errors/ErrorMessage";
 function Login({ checkLoader }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { email, password, error } = useSelector((store) => store.store);
+  const { email, password, error, success } = useSelector((store) => store.store);
 
   useEffect(() => {
-    dispatch(setError(JSON.parse(localStorage.getItem("store_login_error"))));
+    if (
+      localStorage.getItem("success") !== null &&
+      localStorage.getItem("success") !== undefined
+    ) {
+      dispatch(setSuccess(JSON.parse(localStorage.getItem("success"))));
+    } else {
+      dispatch(setError(JSON.parse(localStorage.getItem("store_login_error"))));
+    }
   }, [dispatch]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     // checkLoader(2000);
     storeLogin(email, password);
-    if(localStorage.getItem("store")){
-      navigate("/")
+    if (localStorage.getItem("store")) {
+      navigate("/");
     } else {
-      navigate("/store/login")
+      navigate("/store/login");
     }
   };
 
   const handleGuestLogin = (event) => {
     event.preventDefault();
-    storeLogin("iamgueststore@gmail.com", "Store123")
-    if(localStorage.getItem("store")){
-      navigate("/")
+    storeLogin("iamgueststore@gmail.com", "Store123");
+    if (localStorage.getItem("store")) {
+      navigate("/");
     } else {
-      navigate("/store/login")
+      navigate("/store/login");
     }
-  }
+  };
   return (
     <>
       <br />
       <br />
       {error && <ErrorMessage error={error} />}
+      {success &&  <ErrorMessage success={success} />}
       <br />
       <br />
       <br />
@@ -58,7 +67,7 @@ function Login({ checkLoader }) {
         >
           <h3>Login as a store</h3>
           <br />
-          <form className="ui form" >
+          <form className="ui form">
             <div className=" required field ">
               <label style={{ textAlign: "left" }}>Email</label>
               <input
@@ -77,21 +86,29 @@ function Login({ checkLoader }) {
                 }
               />
             </div>
-            <button className="ui green  button" type="submit" onClick={handleSubmit}>
+            <button
+              className="ui green  button"
+              type="submit"
+              onClick={handleSubmit}
+            >
               Login
             </button>
-            <br/>
+            <br />
             <small>or</small>
-            <br/>
-            <button className="ui purple button small" type="submit" onClick={handleGuestLogin}>
+            <br />
+            <button
+              className="ui purple button small"
+              type="submit"
+              onClick={handleGuestLogin}
+            >
               Quick Guest Login
             </button>
             <br />
-          <br />
-          <a href="/reset_store">Forgot Your Password?</a>
-          <br />
-          <br />
-          <br />
+            <br />
+            <a href="/reset_store">Forgot Your Password?</a>
+            <br />
+            <br />
+            <br />
             <button
               className="ui blue button"
               onClick={() => navigate("/login")}

@@ -8,6 +8,7 @@ import {
   passwordChanger,
   passwordConfirmationChanger,
   setError,
+  setSuccess
 } from "../../features/auth/storeSlice";
 import { storeSignUp } from "../../app/services/auth-services/auth-service";
 import { useNavigate } from "react-router-dom";
@@ -35,7 +36,12 @@ function RegisterStore({ checkLoader }) {
     event.preventDefault();
 
     storeSignUp(name, logo, categoryId, email, password, passwordConfirmation);
-    navigate("/store/signup");
+    if(localStorage.getItem("store_signup_error")){
+      navigate("/store/signup")
+    } else {
+      dispatch(setSuccess(localStorage.getItem("success")))
+      navigate("/store/login")
+    }
   };
   // console.log(logo);
   return (

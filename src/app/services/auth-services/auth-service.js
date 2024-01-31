@@ -94,9 +94,9 @@ export const storeSignUp = (
       // console.log(data);
       if (data.accessToken) {
         localStorage.clear();
-        localStorage.setItem("store", JSON.stringify(data.accessToken));
-        localStorage.setItem("id", data.store.data.id);
-        window.location.reload();
+        localStorage.setItem("success", JSON.stringify(data.message));
+        // localStorage.setItem("id", data.store.data.id);
+        // window.location.reload();
       } else if (data?.error) {
         localStorage.clear();
         localStorage.setItem("store_signup_error", JSON.stringify(data.error));

@@ -26,6 +26,7 @@ const initialState = {
   isStoreLoggedIn: false,
   storeId: null,
   error: null,
+  success: null,
   tokken: "",
 };
 
@@ -63,6 +64,9 @@ const storeSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
+    setSuccess: (state, action) => {
+      state.success = action.payload;
+    },
     setTokken: (state, action) => {
       state.tokken = action.payload
     },
@@ -90,6 +94,7 @@ export const {
   setStoreId,
   isStoreLoggedInChangerToFalse,
   setError,
+  setSuccess,
   setTokken,
   clearStoreError
 } = storeSlice.actions;
