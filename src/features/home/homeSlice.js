@@ -125,7 +125,7 @@ const homeSlice = createSlice({
           if (product.store_id === store.id) {
             return product;
           } else {
-            return;
+            return null;
           }
         });
       });
