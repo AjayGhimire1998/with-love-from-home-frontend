@@ -66,7 +66,7 @@ function Navbar({checkLoader}) {
                         className="ui inverted button"
                         onClick={() => navigate(`users/${customerId}/orders`)}
                       >
-                        {`Your Orders [${userOrders?.cart_items ? userOrders.cart_items.length : '0'}]`}
+                        {`Track Orders [${userOrders?.cart_items ? userOrders.cart_items.length : '0'}]`}
                       </button>
                     </>
                   ) : null}
