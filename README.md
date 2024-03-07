@@ -4,8 +4,8 @@
 
 With Love From Home is a full-stack E-commerce web application that enables users to register as a store, create and sell products, and register as a customer to browse and purchase products with ease. The front-end is developed using the React framework, while the back-end is handled by Ruby on Rails. Additionally, an email system is implemented to notify both stores and customers, enhancing communication throughout the platform.
 
-<br>
 [Demo](https://youtu.be/IEl0hS8OP2k?si=YD3s1IO9joqKyV2Y)
+
 [![Demo](./homepage.png)](https://youtu.be/IEl0hS8OP2k?si=YD3s1IO9joqKyV2Y "With Love From Home")
 
 ## Features
