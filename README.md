@@ -12,21 +12,31 @@ With Love From Home is a full-stack E-commerce web application that enables user
 
 - **Store Registration:** Stores can register on the platform to create and manage their product listings.
 
-[Register](./storereg.png)
+[![Register](./storereg.png)]
 
 - **Product Management:** Stores can add, edit, and delete products, providing a seamless way to showcase their offerings.
 
-[Products Management](./edit.png)
+[![Products Management](./edit.png)]1
 
-[Order Management](./order.png)
+[![Order Management](./order.png)]
 
 - **Customer Registration:** Customers can register on the platform, allowing them to browse and purchase products.
 
+[![Customer Login](./login.png)]
+
 - **Shopping Cart:** Customers can add products to their shopping cart, review selections, and proceed to checkout.
+
+[![Product](./product.png)]
+
+[![Cart](./checkout.png)]
 
 - **Order Processing:** The platform supports order processing, including payment integration for a complete shopping experience.
 
+[![Customer Order](./ordercus.png)]
+
 - **Email Notifications:** An email system is implemented to notify both stores and customers about important events, such as order confirmation and product updates.
+
+
 
 
 ## Tech Stack
