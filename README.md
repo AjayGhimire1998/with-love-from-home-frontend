@@ -37,7 +37,7 @@ With Love From Home is a full-stack E-commerce web application that enables user
 2.  Install dependencies: 
 
    ```bash
-   npm install 
+   npm install
 
 3. Open your browser and visit http://localhost:3000 to access the application.
 
