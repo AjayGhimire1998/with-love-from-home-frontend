@@ -29,17 +29,20 @@ With Love From Home is a full-stack E-commerce web application that enables user
 
 ## Installation
 
-1. Clone the repository:
+1. **Clone the Repository:**
 
    ```bash
    git clone https://github.com/yourusername/with-love-from-home.git
 
-2.  Install dependencies: 
+
+2. **Install Dependencies:**
 
    ```bash
    npm install
 
-3. Open your browser and visit http://localhost:3000 to access the application.
+
+3. **Open your browser and visit http://localhost:3000 to access the application.**
+
 
 
 ## Usage 
