@@ -63,29 +63,12 @@ function App() {
     }, time);
   };
 
-  // window.onbeforeunload = function () {
-  //   return "Data will be lost if you leave the page, are you sure?";
-  // };
 
   useEffect(() => {
     dispatch(getProductsImages());
     dispatch(getReviews());
   }, [dispatch]);
 
-  useEffect(() => {
-    const clearLocalStorage = () => {
-      localStorage.clear();
-      console.log("Local storage cleared.");
-    };
-
-    // Add event listener for beforeunload event
-    window.addEventListener("beforeunload", clearLocalStorage);
-
-    // Cleanup event listener on component unmount
-    return () => {
-      window.removeEventListener("beforeunload", clearLocalStorage);
-    };
-  }, []);
 
   useEffect(() => {
     const user = getCurrentUser();
