@@ -44,7 +44,7 @@ function StaticHomePage() {
             essence of familiar products right to your doorstep.{" "}
             
           </h3>
-          <p  style={{
+          {/* <p  style={{
               fontFamily: "monospace",
               fontSize: "18px",
               textShadow: "2px 2px black",
@@ -55,7 +55,7 @@ function StaticHomePage() {
             }}>
             I am using Render's free hosting service. It sleeps while inactive,
             so please give it few seconds to wake back up.
-          </p>
+          </p> */}
           
           <br />
           <br />
