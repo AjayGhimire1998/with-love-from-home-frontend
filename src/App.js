@@ -19,7 +19,6 @@ import { useEffect } from "react";
 import {
   getCurrentStore,
   getCurrentUser,
-  logOut,
 } from "./app/services/auth-services/auth-service";
 import {
   getCategories,
