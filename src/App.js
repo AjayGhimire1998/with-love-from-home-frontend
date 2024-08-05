@@ -73,6 +73,21 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
+    const clearLocalStorage = () => {
+      localStorage.clear();
+      console.log("Local storage cleared.");
+    };
+
+    // Add event listener for beforeunload event
+    window.addEventListener("beforeunload", clearLocalStorage);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener("beforeunload", clearLocalStorage);
+    };
+  }, []);
+
+  useEffect(() => {
     const user = getCurrentUser();
     if (user) {
       setCurrentUser(user);
@@ -162,7 +177,6 @@ function App() {
                 <StoreLogin checkLoader={checkLoader} />
               )
             }
-            
           />
           <Route
             path="/signup"

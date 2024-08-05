@@ -38,13 +38,28 @@ function StaticHomePage() {
               WebkitTextStroke: "1px black",
               backgroundColor: "rgba(33, 31, 31, 0.6)", // Adjust the alpha (fourth value) for transparency
               padding: "15px",
-          
             }}
           >
-            Discover a piece of home, no matter where you are. We bring the essence of familiar products right to your doorstep.{" "}
+            Discover a piece of home, no matter where you are. We bring the
+            essence of familiar products right to your doorstep.{" "}
+            
           </h3>
+          <p  style={{
+              fontFamily: "monospace",
+              fontSize: "18px",
+              textShadow: "2px 2px black",
+              fontWeight: "bolder",
+              WebkitTextStroke: "1px black",
+              backgroundColor: "rgba(33, 31, 31, 0.6)", // Adjust the alpha (fourth value) for transparency
+              padding: "15px",
+            }}>
+            I am using Render's free hosting service. It sleeps while inactive,
+            so please give it few seconds to wake back up.
+          </p>
+          
           <br />
           <br />
+         
           <button
             className="ui huge yellow button "
             onClick={() => navigate("/login")}
