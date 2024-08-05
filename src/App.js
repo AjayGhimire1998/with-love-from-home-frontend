@@ -63,17 +63,11 @@ function App() {
       dispatch(deactivateLoader());
     }, time);
   };
-  window.addEventListener('beforeunload', function (e) {
-    e.preventDefault();
-    dispatch(logOut());
-});
-
 
   useEffect(() => {
     dispatch(getProductsImages());
     dispatch(getReviews());
   }, [dispatch]);
-
 
   useEffect(() => {
     const user = getCurrentUser();
